@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   BarChart3, 
   Clock, 
@@ -17,7 +17,9 @@ import {
   ShieldAlert, 
   Search, 
   Filter, 
-  Download 
+  Download,
+  Heart,
+  Sparkles
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -27,6 +29,10 @@ import Footer from '@/components/layout/Footer';
 // Bg: #FAFAFA (Light) / #09090B (Dark)
 // Card: #FFFFFF (Light) / #18181B (Dark)
 // Text: #18181B (Light) / #FAFAFA (Dark)
+
+const FloatingOrb = ({ className }: { className?: string }) => (
+  <div className={`absolute rounded-full blur-3xl opacity-30 dark:opacity-20 ${className}`} />
+);
 
 const FeatureSection = ({ 
   id, 
@@ -109,27 +115,214 @@ const BulletList = ({ items, title }: { items: string[]; title?: string }) => (
 
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED]">
-    <Navbar/>
-      {/* --- HERO SECTION --- */}
-      <div className="relative isolate pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-4xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] sm:text-6xl mb-6 animate-fade-in">
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
+      <style jsx global>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(3deg);
+          }
+        }
+        
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+        
+        @keyframes pulse-glow {
+          0%, 100% {
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+          }
+          50% {
+            box-shadow: 0 0 40px rgba(124, 58, 237, 0.6);
+          }
+        }
+        
+        @keyframes gradient-shift {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
+        .shimmer-text {
+          background: linear-gradient(
+            90deg,
+            #7C3AED 0%,
+            #A78BFA 25%,
+            #7C3AED 50%,
+            #A78BFA 75%,
+            #7C3AED 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: shimmer 3s linear infinite;
+        }
+        
+        .gradient-bg {
+          background: linear-gradient(-45deg, #7C3AED, #8B5CF6, #6D28D9, #7C3AED);
+          background-size: 400% 400%;
+          animation: gradient-shift 8s ease infinite;
+        }
+        
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        
+        @keyframes slide-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes gradient {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        @keyframes gradient-x {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.6;
+          }
+        }
+        
+        @keyframes spin-slow {
+          from {
+            transform: rotate(-45deg);
+          }
+          to {
+            transform: rotate(315deg);
+          }
+        }
+        
+        @keyframes float-delayed {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+          }
+          50% {
+            transform: translateY(-15px) translateX(10px);
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out forwards;
+        }
+        
+        .animate-slide-up {
+          animation: slide-up 0.6s ease-out forwards;
+        }
+        
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+        
+        .animate-gradient-x {
+          background-size: 200% 100%;
+          animation: gradient-x 3s ease infinite;
+        }
+        
+        .animate-pulse-slow {
+          animation: pulse-slow 3s ease-in-out infinite;
+        }
+        
+        .animate-spin-slow {
+          animation: spin-slow 3s linear infinite;
+        }
+        
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+          animation: float-delayed 8s ease-in-out infinite;
+        }
+      `}</style>
+      
+      <Navbar/>
+      
+      {/* HERO SECTION - Adapted from About Page */}
+      <div className="relative pt-32 pb-12 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
+        {/* Background Effects */}
+        <FloatingOrb className="w-[600px] h-[600px] bg-violet-400 -top-64 -right-64 animate-pulse" />
+        <FloatingOrb className="w-[400px] h-[400px] bg-indigo-400 -bottom-32 -left-32 animate-pulse" />
+        <FloatingOrb className="w-[300px] h-[300px] bg-purple-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
+        
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8"
+            style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}
+          >
+            <Sparkles size={14} className="animate-pulse" />
+            Powerful features, thoughtfully designed
+          </div>
+          
+          <h1 
+            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
+          >
             Every Feature You Need to <br/>
-            <span className="bg-gradient-to-r from-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent animate-gradient">
-              Master Your Digital Life
-            </span>
+            <span className="shimmer-text">Master Your Digital Life</span>
           </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-8 text-[#52525B] dark:text-[#A1A1AA] animate-slide-up" style={{animationDelay: '200ms'}}>
+          
+          <p 
+            className="text-l md:text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
+          >
             TimeMark isn't just feature-rich—it's thoughtfully designed. Every capability serves a purpose: 
-            helping you understand your habits, optimize your time, and achieve your goals without feeling overwhelmed.
+            helping you understand your habits, optimize your time, and achieve your goals.
           </p>
         </div>
-        
-        {/* Abstract Background Glow with animation */}
-        <div className="absolute top-[-10%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] bg-[#7C3AED]/20 dark:bg-[#8B5CF6]/10 blur-[120px] rounded-full -z-10 animate-pulse-slow" />
-        <div className="absolute top-[5%] left-[20%] w-[300px] h-[300px] bg-[#C026D3]/15 dark:bg-[#C026D3]/8 blur-[100px] rounded-full -z-10 animate-float" />
-        <div className="absolute top-[10%] right-[15%] w-[400px] h-[400px] bg-[#7C3AED]/10 dark:bg-[#8B5CF6]/5 blur-[110px] rounded-full -z-10 animate-float-delayed" />
       </div>
 
       {/* --- FEATURE 1: SCREEN TIME ANALYTICS --- */}

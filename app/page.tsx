@@ -24,10 +24,16 @@ import {
   Moon,
   Sun,
   Activity,
-  Sparkles
+  Sparkles,
+  Heart
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
+
+// --- Floating Orb Component (from About page) ---
+const FloatingOrb = ({ className }: { className?: string }) => (
+  <div className={`absolute rounded-full blur-3xl opacity-30 dark:opacity-20 ${className}`} />
+);
 
 // --- UI Components ---
 
@@ -254,6 +260,14 @@ export default function TimeMarkLanding() {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
         }
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
         .animate-fade-in {
           animation: fade-in 0.8s ease-out;
         }
@@ -263,55 +277,70 @@ export default function TimeMarkLanding() {
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
+        .shimmer-text {
+          background: linear-gradient(
+            90deg,
+            #7C3AED 0%,
+            #A78BFA 25%,
+            #7C3AED 50%,
+            #A78BFA 75%,
+            #7C3AED 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: shimmer 3s linear infinite;
+        }
       `}</style>
       
       <Navbar/>
 
-      {/* Hero Section */}
-      <div className="relative pt-32 pb-40 overflow-hidden">
-      {/* Enhanced Background Gradients with parallax */}
-      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div 
-          className="absolute top-20 left-1/4 w-[600px] h-[600px] bg-violet-500/20 dark:bg-violet-500/10 rounded-full blur-[140px] animate-float"
-          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-        ></div>
-        <div 
-          className="absolute top-40 right-1/4 w-[500px] h-[500px] bg-teal-500/20 dark:bg-teal-500/10 rounded-full blur-[140px] animate-float"
-          style={{ animationDelay: '2s', transform: `translateY(${scrollY * 0.15}px)` }}
-        ></div>
-        <div 
-          className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-fuchsia-500/15 dark:bg-fuchsia-500/10 rounded-full blur-[120px] animate-float"
-          style={{ animationDelay: '4s', transform: `translateY(${scrollY * 0.1}px)` }}
-        ></div>
-      </div>
-
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="text-center space-y-8">
-          {/* Badge */}
-          <div className="animate-fade-in">
-            <Badge color="violet">v1.0 Now Available</Badge>
+      {/* ENHANCED HERO SECTION - From About Page */}
+      <div className="relative pt-32 pb-40 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
+        {/* Background Effects */}
+        <FloatingOrb className="w-[600px] h-[600px] bg-violet-400 -top-64 -right-64 animate-pulse" />
+        <FloatingOrb className="w-[400px] h-[400px] bg-indigo-400 -bottom-32 -left-32 animate-pulse" />
+        <FloatingOrb className="w-[300px] h-[300px] bg-purple-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
+        
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4"
+            style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}
+          >
+            <Sparkles size={14} className="animate-pulse" />
+            v1.0 Now Available
           </div>
-
-          {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] animate-fade-in">
-            Take Control of Your{" "}
-            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-fuchsia-600 to-violet-600 dark:from-violet-400 dark:via-fuchsia-400 dark:to-violet-400 animate-gradient bg-[length:200%_auto]">
-              Digital Life
-            </span>
+          
+          <h1 
+            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-4"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
+          >
+            Take Control of Your <span className="shimmer-text">Digital Life</span>
           </h1>
-
-          {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-300 max-w-3xl mx-auto animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          
+          <p 
+            className="text-lg md:text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-10"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
+          >
             Understand your habits, boost productivity, and reclaim your focus—without sacrificing privacy.
           </p>
 
-          {/* Description */}
-          <p className="text-base md:text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          {/* <p 
+            className="text-base md:text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-12"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.3s forwards', opacity: 0 }}
+          >
             Track every application, analyze your productivity patterns, set meaningful limits, and build better habits with powerful insights.
-          </p>
+          </p> */}
           
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.4s forwards', opacity: 0 }}
+          >
             <Button variant="primary" icon={Download} className="w-full sm:w-auto text-base px-8 py-3.5 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-shadow">
               Get from Microsoft Store
             </Button>
@@ -321,7 +350,10 @@ export default function TimeMarkLanding() {
           </div>
 
           {/* Feature Pills */}
-          <div className="flex flex-wrap justify-center gap-3 pt-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div 
+            className="flex flex-wrap justify-center gap-3"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.5s forwards', opacity: 0 }}
+          >
             {[
               { label: 'Free Forever', icon: Check },
               { label: 'Open Source', icon: Check },
@@ -339,15 +371,26 @@ export default function TimeMarkLanding() {
           </div>
         </div>
       </div>
-    </div>
-    <div className="absolute top-[0%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] bg-[#7C3AED]/20 dark:bg-[#8B5CF6]/10 blur-[120px] rounded-full z-10  pointer-events-none" />
 
-    {/* Visual Analytics Preview */}
-    <div className="px-4 mb-32 relative z-10">
-      <div className="max-w-7xl mx-auto -mt-32">
-        <DashboardPreview />
+      <style jsx global>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+
+      {/* Visual Analytics Preview */}
+      <div className="px-4 mb-32 relative z-10">
+        <div className="max-w-7xl mx-auto -mt-32">
+          <DashboardPreview />
+        </div>
       </div>
-    </div>
 
       {/* Problem Statement */}
       <Section>

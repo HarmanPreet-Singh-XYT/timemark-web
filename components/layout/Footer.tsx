@@ -159,11 +159,11 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3 text-sm text-[#52525B] dark:text-[#A1A1AA]">
                 {[
-                  { name: 'GitHub Repo', href: '#', external: true },
+                  { name: 'GitHub Repo', href: 'https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp', external: true },
                   { name: 'Contribute', href: '/community' },
-                  { name: 'Report Bug', href: '#', external: true },
-                  { name: 'Submit Feedback', href: '#', external: true },
-                  { name: 'Contact', href: '/about' },
+                  { name: 'Report Bug', href: '/report-bug', external: true },
+                  { name: 'Submit Feedback', href: '/feedback', external: true },
+                  { name: 'Contact', href: '/contact' },
                 ].map((link, i) => (
                   <li key={link.name} className="transform transition-all duration-300 hover:translate-x-2">
                     {link.external ? (
@@ -231,13 +231,13 @@ export default function Footer() {
                 Privacy Policy
                 <span className="absolute bottom-0 left-0 w-0 h-px bg-violet-600 group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link 
+              {/* <Link 
                 href="#" 
                 className="hover:text-[#18181B] dark:hover:text-[#FAFAFA] transition-colors duration-300 relative group"
               >
                 Terms
                 <span className="absolute bottom-0 left-0 w-0 h-px bg-violet-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
+              </Link> */}
             </div>
           </div>
 
