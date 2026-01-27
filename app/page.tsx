@@ -268,97 +268,138 @@ export default function TimeMarkLanding() {
       <Navbar/>
 
       {/* Hero Section */}
-      <div className="relative pt-24 pb-32 overflow-hidden">
-        {/* Enhanced Background Gradients with parallax */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
-          <div 
-            className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-violet-200/40 dark:bg-violet-900/10 rounded-full blur-[120px] animate-float"
-            style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-          ></div>
-          <div 
-            className="absolute top-40 right-1/4 w-[400px] h-[400px] bg-teal-200/40 dark:bg-teal-900/10 rounded-full blur-[120px] animate-float"
-            style={{ animationDelay: '2s', transform: `translateY(${scrollY * 0.15}px)` }}
-          ></div>
-          <div 
-            className="absolute top-60 left-1/2 w-[300px] h-[300px] bg-fuchsia-200/30 dark:bg-fuchsia-900/10 rounded-full blur-[100px] animate-float"
-            style={{ animationDelay: '4s', transform: `translateY(${scrollY * 0.1}px)` }}
-          ></div>
-        </div>
+      <div className="relative pt-32 pb-40 overflow-hidden">
+      {/* Enhanced Background Gradients with parallax */}
+      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+        <div 
+          className="absolute top-20 left-1/4 w-[600px] h-[600px] bg-violet-500/20 dark:bg-violet-500/10 rounded-full blur-[140px] animate-float"
+          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+        ></div>
+        <div 
+          className="absolute top-40 right-1/4 w-[500px] h-[500px] bg-teal-500/20 dark:bg-teal-500/10 rounded-full blur-[140px] animate-float"
+          style={{ animationDelay: '2s', transform: `translateY(${scrollY * 0.15}px)` }}
+        ></div>
+        <div 
+          className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-fuchsia-500/15 dark:bg-fuchsia-500/10 rounded-full blur-[120px] animate-float"
+          style={{ animationDelay: '4s', transform: `translateY(${scrollY * 0.1}px)` }}
+        ></div>
+      </div>
 
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="text-center space-y-8">
+          {/* Badge */}
+          <div className="animate-fade-in">
             <Badge color="violet">v1.0 Now Available</Badge>
-          <h1 className="mt-8 text-5xl md:text-7xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] animate-fade-in">
-            Take Control of Your <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-fuchsia-600 to-violet-600 dark:from-violet-400 dark:via-fuchsia-400 dark:to-violet-400 animate-gradient bg-[length:200%_auto]">
+          </div>
+
+          {/* Headline */}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] animate-fade-in">
+            Take Control of Your{" "}
+            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-fuchsia-600 to-violet-600 dark:from-violet-400 dark:via-fuchsia-400 dark:to-violet-400 animate-gradient bg-[length:200%_auto]">
               Digital Life
             </span>
           </h1>
-          <h2 className="mt-6 text-xl md:text-2xl font-medium text-zinc-700 dark:text-zinc-300 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+
+          {/* Subheadline */}
+          <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-300 max-w-3xl mx-auto animate-slide-up" style={{ animationDelay: '0.1s' }}>
             Understand your habits, boost productivity, and reclaim your focus—without sacrificing privacy.
-          </h2>
-          <p className="mt-6 text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.4s' }}>
-            Track every application, analyze your productivity patterns, set meaningful limits, and build better habits with powerful insights. No subscriptions. No data harvesting.
+          </p>
+
+          {/* Description */}
+          <p className="text-base md:text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            Track every application, analyze your productivity patterns, set meaningful limits, and build better habits with powerful insights.
           </p>
           
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up" style={{ animationDelay: '0.6s' }}>
-            <Button variant="primary" icon={Download} className="w-full sm:w-auto text-lg px-8 py-4 group">
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+            <Button variant="primary" icon={Download} className="w-full sm:w-auto text-base px-8 py-3.5 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-shadow">
               Get from Microsoft Store
             </Button>
-            <Button variant="secondary" icon={Github} className="w-full sm:w-auto text-lg px-8 py-4 group">
+            <Button variant="secondary" icon={Github} className="w-full sm:w-auto text-base px-8 py-3.5">
               View on GitHub
             </Button>
-            
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-semibold text-zinc-500 dark:text-zinc-500 animate-fade-in" style={{ animationDelay: '0.8s' }}>
-            <span className="flex items-center hover:text-teal-500 transition-colors duration-300 cursor-default">
-              <Check size={18} className="text-teal-500 dark:text-teal-400 mr-2" /> Free Forever
-            </span>
-            <span className="flex items-center hover:text-teal-500 transition-colors duration-300 cursor-default">
-              <Check size={18} className="text-teal-500 dark:text-teal-400 mr-2" /> Open Source
-            </span>
-            <span className="flex items-center hover:text-teal-500 transition-colors duration-300 cursor-default">
-              <Check size={18} className="text-teal-500 dark:text-teal-400 mr-2" /> Local Data
-            </span>
-            <span className="flex items-center hover:text-teal-500 transition-colors duration-300 cursor-default">
-              <Check size={18} className="text-teal-500 dark:text-teal-400 mr-2" /> No Account
-            </span>
+          {/* Feature Pills */}
+          <div className="flex flex-wrap justify-center gap-3 pt-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            {[
+              { label: 'Free Forever', icon: Check },
+              { label: 'Open Source', icon: Check },
+              { label: 'Local Data', icon: Check },
+              { label: 'No Account', icon: Check }
+            ].map((feature) => (
+              <span 
+                key={feature.label}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800/50 text-sm font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:border-teal-500/50 dark:hover:border-teal-400/50 transition-colors"
+              >
+                <feature.icon size={16} className="text-teal-500 dark:text-teal-400" />
+                {feature.label}
+              </span>
+            ))}
           </div>
         </div>
       </div>
+    </div>
+    <div className="absolute top-[0%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] bg-[#7C3AED]/20 dark:bg-[#8B5CF6]/10 blur-[120px] rounded-full z-10  pointer-events-none" />
 
-      {/* Visual Analytics Preview */}
-      <div className="-mt-20 px-4 mb-24 relative z-10">
+    {/* Visual Analytics Preview */}
+    <div className="px-4 mb-32 relative z-10">
+      <div className="max-w-7xl mx-auto -mt-32">
         <DashboardPreview />
       </div>
+    </div>
 
       {/* Problem Statement */}
-      <Section className="bg-white dark:bg-zinc-900 rounded-3xl my-12 border border-zinc-200 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-500 hover:shadow-xl hover:border-violet-200 dark:hover:border-violet-800">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-6">You're Spending More Time Than You Think</h2>
-            <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              We live in an age of endless notifications, infinite scrolling, and constant context-switching. The average person checks their phone 96 times per day, spends over 7 hours on screens, and loses 2.5 hours daily to digital distractions.
-            </p>
-            <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              But here's the problem: most of us have no idea where our time actually goes. We finish the day exhausted, feeling unproductive, wondering where the hours disappeared.
-            </p>
-            <p className="text-lg font-medium text-violet-700 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/10 p-4 rounded-xl border border-violet-100 dark:border-violet-800">
-              TimeMark changes that. By automatically tracking your application usage in real-time, TimeMark gives you the clarity you need to make informed decisions about your digital life.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-zinc-50 dark:bg-zinc-950 p-6 rounded-2xl text-center border border-zinc-100 dark:border-zinc-800 hover:border-violet-300 dark:hover:border-violet-700 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group">
-              <div className="text-4xl font-bold text-violet-600 dark:text-violet-400 mb-2 tabular-nums group-hover:scale-110 transition-transform duration-300">7h</div>
-              <div className="text-xs font-bold uppercase text-zinc-500 dark:text-zinc-500 tracking-wide">Daily Avg</div>
+      <Section>
+        <div className="bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm dark:shadow-none overflow-hidden">
+          <div className="grid lg:grid-cols-2 gap-0">
+            {/* Left Content */}
+            <div className="p-8 md:p-12 lg:p-16 space-y-6">
+              <div>
+                <Badge color="rose">The Reality</Badge>
+                <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mt-4 mb-6">
+                  You're Spending More Time Than You Think
+                </h2>
+              </div>
+              
+              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-lg">
+                We live in an age of endless notifications, infinite scrolling, and constant context-switching. The average person checks their phone 96 times per day, spends over 7 hours on screens, and loses 2.5 hours daily to digital distractions.
+              </p>
+              
+              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                But here's the problem: most of us have no idea where our time actually goes. We finish the day exhausted, feeling unproductive, wondering where the hours disappeared.
+              </p>
+              
+              <div className="bg-violet-500/10 dark:bg-violet-500/5 p-6 rounded-2xl border-l-4 border-violet-500">
+                <p className="text-base font-medium text-zinc-900 dark:text-white leading-relaxed">
+                  <span className="text-violet-600 dark:text-violet-400 font-bold">TimeMark changes that.</span> By automatically tracking your application usage in real-time, TimeMark gives you the clarity you need to make informed decisions about your digital life.
+                </p>
+              </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-950 p-6 rounded-2xl text-center border border-zinc-100 dark:border-zinc-800 hover:border-rose-300 dark:hover:border-rose-700 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group">
-              <div className="text-4xl font-bold text-rose-500 dark:text-rose-400 mb-2 tabular-nums group-hover:scale-110 transition-transform duration-300">2.5h</div>
-              <div className="text-xs font-bold uppercase text-zinc-500 dark:text-zinc-500 tracking-wide">Lost Daily</div>
-            </div>
-            <div className="bg-zinc-50 dark:bg-zinc-950 p-6 rounded-2xl text-center border border-zinc-100 dark:border-zinc-800 hover:border-teal-300 dark:hover:border-teal-700 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group">
-              <div className="text-4xl font-bold text-teal-600 dark:text-teal-400 mb-2 tabular-nums group-hover:scale-110 transition-transform duration-300">96</div>
-              <div className="text-xs font-bold uppercase text-zinc-500 dark:text-zinc-500 tracking-wide">Checks</div>
+
+            {/* Right Stats */}
+            <div className="bg-zinc-900 dark:bg-black p-8 md:p-12 lg:p-16 flex items-center justify-center relative overflow-hidden">
+              {/* Background decoration */}
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-fuchsia-600/10 pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/20 blur-3xl rounded-full pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-fuchsia-500/20 blur-3xl rounded-full pointer-events-none"></div>
+              
+              <div className="relative z-10 grid grid-cols-1 gap-6 w-full max-w-xs">
+                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-violet-400/50 transition-all duration-300 hover:scale-105 group text-center">
+                  <div className="text-5xl md:text-6xl font-bold text-white mb-2 tabular-nums group-hover:scale-110 transition-transform duration-300">7h</div>
+                  <div className="text-sm font-medium uppercase text-zinc-400 tracking-wider">Daily Screen Time</div>
+                </div>
+                
+                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-rose-400/50 transition-all duration-300 hover:scale-105 group text-center">
+                  <div className="text-5xl md:text-6xl font-bold text-rose-400 mb-2 tabular-nums group-hover:scale-110 transition-transform duration-300">2.5h</div>
+                  <div className="text-sm font-medium uppercase text-zinc-400 tracking-wider">Lost to Distractions</div>
+                </div>
+                
+                <div className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-teal-400/50 transition-all duration-300 hover:scale-105 group text-center">
+                  <div className="text-5xl md:text-6xl font-bold text-teal-400 mb-2 tabular-nums group-hover:scale-110 transition-transform duration-300">96</div>
+                  <div className="text-sm font-medium uppercase text-zinc-400 tracking-wider">Daily Phone Checks</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

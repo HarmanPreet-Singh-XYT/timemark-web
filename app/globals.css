@@ -1,5 +1,7 @@
 /* app/globals.css */
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 :root {
   /* Light Mode - Zinc & Violet */
   --bg-page: #FAFAFA;
