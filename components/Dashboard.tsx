@@ -10,8 +10,8 @@ const Dashboard = () => {
   ];
 
   const apps = [
+      { name: 'Microsoft Edge', category: 'Web Browsing', time: '2h 45m', progress: 41 },
     { name: 'Visual Studio Code', category: 'Development', time: '1h 52m', progress: 28 },
-    { name: 'Microsoft Edge', category: 'Web Browsing', time: '2h 45m', progress: 41 },
     { name: 'Slack', category: 'Communication', time: '58m', progress: 15 },
     { name: 'Spotify', category: 'Entertainment', time: '42m', progress: 10 },
     { name: 'Terminal', category: 'Development', time: '25m', progress: 6 },

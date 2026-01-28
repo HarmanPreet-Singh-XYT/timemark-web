@@ -312,9 +312,20 @@ export default function TimeMarkLanding() {
 
       {/* Visual Analytics Preview */}
       <div className="px-4 mb-32 relative z-10">
-        <div className="max-w-7xl mx-auto -mt-32">
-          {/* <DashboardPreview /> */}
+        {/* Dashboard for larger screens */}
+        <div className="max-w-7xl mx-auto -mt-32 hidden lg:block">
           <Dashboard/>
+        </div>
+        
+        {/* Hero image for smaller screens */}
+        <div className="max-w-7xl mx-auto -mt-32 lg:hidden">
+          <div className="rounded-2xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
+            <img 
+              src="/hero.png" 
+              alt="TimeMark Dashboard Preview" 
+              className="w-full h-auto"
+            />
+          </div>
         </div>
       </div>
 

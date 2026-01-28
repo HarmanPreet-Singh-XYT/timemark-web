@@ -4,6 +4,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { 
   CheckCircle2, 
   XCircle, 
+  Check,
+  X,
   AlertTriangle, 
   RefreshCw, 
   ShieldCheck, 
@@ -73,7 +75,7 @@ const StatusIcon = ({ status }: { status: 'yes' | 'no' | 'partial' | 'dev' }) =>
       return (
         <div className="flex items-center justify-center gap-1 text-[#14B8A6] font-medium">
           <div className="p-1 rounded-full bg-[#14B8A6]/10">
-            <CheckCircle2 size={16} />
+            <Check size={16} />
           </div>
         </div>
       );
@@ -81,7 +83,7 @@ const StatusIcon = ({ status }: { status: 'yes' | 'no' | 'partial' | 'dev' }) =>
       return (
         <div className="flex items-center justify-center gap-1 text-[#F43F5E] font-medium">
           <div className="p-1 rounded-full bg-[#F43F5E]/10">
-            <XCircle size={16} />
+            <X size={16} />
           </div>
         </div>
       );
@@ -123,6 +125,8 @@ const ComparisonRow = ({ feature, timemark, rescue, os, cold, focusme, isHeader 
     );
   }
 
+  const isStatusValue = (val: any) => ['yes', 'no', 'partial', 'dev'].includes(val);
+
   return (
     <div 
       className="grid grid-cols-6 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800/50 hover:bg-gradient-to-r hover:from-[#7C3AED]/5 hover:via-transparent hover:to-transparent dark:hover:from-[#7C3AED]/10 text-sm items-center text-center transition-all duration-300 group"
@@ -130,12 +134,12 @@ const ComparisonRow = ({ feature, timemark, rescue, os, cold, focusme, isHeader 
     >
       <div className="text-left font-medium text-[#18181B] dark:text-[#FAFAFA] pl-4 group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">{feature}</div>
       <div className="font-bold bg-gradient-to-br from-[#7C3AED]/10 to-[#7C3AED]/5 dark:from-[#7C3AED]/20 dark:to-[#7C3AED]/10 py-3 rounded-xl text-[#18181B] dark:text-[#FAFAFA] border border-[#7C3AED]/20 shadow-sm group-hover:shadow-[#7C3AED]/20 group-hover:border-[#7C3AED]/40 transition-all">
-        {typeof timemark === 'string' ? <span className="text-[#7C3AED] dark:text-[#8B5CF6] font-semibold">{timemark}</span> : <StatusIcon status={timemark} />}
+        {isStatusValue(timemark) ? <StatusIcon status={timemark} /> : <span className="text-[#7C3AED] dark:text-[#8B5CF6] font-semibold">{timemark}</span>}
       </div>
-      <div className="text-[#52525B] dark:text-[#A1A1AA]">{typeof rescue === 'string' ? rescue : <StatusIcon status={rescue} />}</div>
-      <div className="hidden md:block text-[#52525B] dark:text-[#A1A1AA]">{typeof os === 'string' ? os : <StatusIcon status={os} />}</div>
-      <div className="hidden lg:block text-[#52525B] dark:text-[#A1A1AA]">{typeof cold === 'string' ? cold : <StatusIcon status={cold} />}</div>
-      <div className="hidden lg:block text-[#52525B] dark:text-[#A1A1AA]">{typeof focusme === 'string' ? focusme : <StatusIcon status={focusme} />}</div>
+      <div className="text-[#52525B] dark:text-[#A1A1AA]">{isStatusValue(rescue) ? <StatusIcon status={rescue} /> : rescue}</div>
+      <div className="hidden md:block text-[#52525B] dark:text-[#A1A1AA]">{isStatusValue(os) ? <StatusIcon status={os} /> : os}</div>
+      <div className="hidden lg:block text-[#52525B] dark:text-[#A1A1AA]">{isStatusValue(cold) ? <StatusIcon status={cold} /> : cold}</div>
+      <div className="hidden lg:block text-[#52525B] dark:text-[#A1A1AA]">{isStatusValue(focusme) ? <StatusIcon status={focusme} /> : focusme}</div>
     </div>
   );
 };
