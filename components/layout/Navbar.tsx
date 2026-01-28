@@ -10,6 +10,8 @@ import {
   Download,
   Clock 
 } from 'lucide-react';
+import Image from "next/image";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,12 +104,13 @@ export default function Navbar() {
             
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group relative">
-              <div className="relative">
-                <div className="absolute inset-0 bg-violet-500 rounded-lg blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                <div className="relative p-2 rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white group-hover:scale-110 transition-all duration-300 group-hover:rotate-6 shadow-lg shadow-violet-500/30">
-                  <Clock size={20} className="relative z-10" />
-                </div>
-              </div>
+              <Image
+                src="/logo.svg"
+                alt="TimeMark Logo"
+                width={30}
+                height={30}
+                priority
+              />
               <span className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] tracking-tight group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300">
                 TimeMark
               </span>

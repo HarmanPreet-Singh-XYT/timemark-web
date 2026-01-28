@@ -31,6 +31,7 @@ import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Dashboard from '@/components/Dashboard';
 
 // --- Floating Orb Component (from About page) ---
 const FloatingOrb = ({ className }: { className?: string }) => (
@@ -121,89 +122,6 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
       </button>
       <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-96 pb-5 opacity-100' : 'max-h-0 opacity-0'}`}>
         <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm">{answer}</p>
-      </div>
-    </div>
-  );
-};
-
-// --- Mock Dashboard ---
-const DashboardPreview = () => {
-  const [animationComplete, setAnimationComplete] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setAnimationComplete(true), 500);
-  }, []);
-
-  return (
-    <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl shadow-zinc-200/50 dark:shadow-none border border-zinc-200 dark:border-zinc-800 overflow-hidden max-w-5xl mx-auto transition-all duration-700 hover:shadow-3xl hover:scale-[1.02] animate-slide-up">
-      {/* Header */}
-      <div className="border-b border-zinc-100 dark:border-zinc-800 p-4 flex items-center justify-between bg-zinc-50/50 dark:bg-zinc-800/50 backdrop-blur-sm">
-        <div className="flex gap-2">
-          <div className="w-3 h-3 rounded-full bg-rose-400 animate-pulse"></div>
-          <div className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-          <div className="w-3 h-3 rounded-full bg-teal-400 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-        </div>
-        <div className="text-xs font-mono text-zinc-400 animate-fade-in">TimeMark Dashboard v1.0</div>
-      </div>
-      
-      <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Productivity Score */}
-        <div className="bg-zinc-50 dark:bg-zinc-950 rounded-xl p-6 border border-zinc-100 dark:border-zinc-800 col-span-1 hover:shadow-lg transition-all duration-500 hover:scale-105">
-          <h4 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-4">Productivity Score</h4>
-          <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
-            {/* Conic Gradient - Violet/Teal Theme with animation */}
-            <div 
-              className={`w-full h-full rounded-full transition-all duration-1000 ${animationComplete ? 'rotate-0' : '-rotate-180 opacity-0'}`}
-              style={{ background: 'conic-gradient(#14b8a6 0% 72%, #f43f5e 72% 85%, #71717a 85% 100%)' }}>
-            </div>
-            <div className="absolute w-28 h-28 bg-zinc-50 dark:bg-zinc-950 rounded-full flex flex-col items-center justify-center shadow-inner">
-              <span className={`text-3xl font-bold text-zinc-900 dark:text-white tabular-nums transition-all duration-1000 ${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>72%</span>
-              <span className="text-xs text-zinc-500 uppercase tracking-wide font-bold">Productive</span>
-            </div>
-          </div>
-          <div className="mt-6 space-y-3">
-            <div className="flex justify-between text-sm group hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-lg p-2 transition-all duration-300">
-              <span className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-125 transition-transform duration-300"></span>
-                Productive
-              </span>
-              <span className="font-mono text-zinc-900 dark:text-zinc-200 tabular-nums">5h 12m</span>
-            </div>
-            <div className="flex justify-between text-sm group hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-lg p-2 transition-all duration-300">
-              <span className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                <span className="w-2 h-2 rounded-full bg-rose-500 group-hover:scale-125 transition-transform duration-300"></span>
-                Distracting
-              </span>
-              <span className="font-mono text-zinc-900 dark:text-zinc-200 tabular-nums">1h 45m</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Activity Graph */}
-        <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-100 dark:border-zinc-800 col-span-1 md:col-span-2 shadow-sm dark:shadow-none hover:shadow-lg transition-all duration-500 hover:scale-105">
-          <div className="flex justify-between items-center mb-6">
-            <h4 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Daily Activity</h4>
-            <div className="text-xs text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md font-medium">Last 7 Days</div>
-          </div>
-          <div className="h-48 flex items-end justify-between gap-2 md:gap-4">
-            {[65, 80, 45, 90, 75, 30, 60].map((h, i) => (
-              <div key={i} className="w-full flex flex-col items-center gap-2 group">
-                <div 
-                  className={`w-full rounded-md transition-all duration-700 hover:opacity-80 ${h > 70 ? 'bg-violet-500 dark:bg-violet-500 hover:bg-violet-600' : 'bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300'}`} 
-                  style={{ 
-                    height: `${h}%`,
-                    transitionDelay: `${i * 100}ms`,
-                    transform: animationComplete ? 'scaleY(1)' : 'scaleY(0)',
-                    transformOrigin: 'bottom'
-                  }}
-                ></div>
-                <span className="text-xs text-zinc-400 font-mono group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300 group-hover:scale-110">
-                  {['M','T','W','T','F','S','S'][i]}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -395,7 +313,8 @@ export default function TimeMarkLanding() {
       {/* Visual Analytics Preview */}
       <div className="px-4 mb-32 relative z-10">
         <div className="max-w-7xl mx-auto -mt-32">
-          <DashboardPreview />
+          {/* <DashboardPreview /> */}
+          <Dashboard/>
         </div>
       </div>
 
