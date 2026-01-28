@@ -334,20 +334,47 @@ const ContactPage: React.FC = () => {
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">Primary Contacts</h3>
               <div className="space-y-3">
-                <EmailRow email="support@timemark.app" label="General Inquiries" desc="Questions, help, general support" index={0} />
-                <EmailRow email="bugs@timemark.app" label="Bug Reports" desc="Report issues, crashes, errors" icon={<Bug className="w-4 h-4" />} index={1} />
-                <EmailRow email="feedback@timemark.app" label="Feature Feedback" desc="Suggestions, ideas, requests" icon={<Lightbulb className="w-4 h-4" />} index={2} />
-                <EmailRow email="security@timemark.app" label="Security Issues" desc="Vulnerabilities, privacy (Private)" icon={<Shield className="w-4 h-4" />} index={3} />
+                <EmailRow
+                email="support.timemark@harmanita.com"
+                label="General Inquiries"
+                desc="Questions, help, general support"
+                index={0}
+                />
+
+                <EmailRow
+                email="bugs.timemark@harmanita.com"
+                label="Bug Reports"
+                desc="Report issues, crashes, errors"
+                icon={<Bug className="w-4 h-4" />}
+                index={1}
+                />
+
+                <EmailRow
+                email="feedback.timemark@harmanita.com"
+                label="Feature Feedback"
+                desc="Suggestions, ideas, requests"
+                icon={<Lightbulb className="w-4 h-4" />}
+                index={2}
+                />
+
+                <EmailRow
+                email="security.timemark@harmanita.com"
+                label="Security Issues"
+                desc="Vulnerabilities, privacy (Private)"
+                icon={<Shield className="w-4 h-4" />}
+                index={3}
+                />
+
               </div>
             </div>
 
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3 mt-8">Special Contacts</h3>
               <div className="grid md:grid-cols-2 gap-3">
-                <EmailRow email="press@timemark.app" label="Press & Media" simple index={4} />
-                <EmailRow email="partners@timemark.app" label="Partnerships" simple index={5} />
-                <EmailRow email="conduct@timemark.app" label="Code of Conduct" simple index={6} />
-                <EmailRow email="contribute@timemark.app" label="Contributions" simple index={7} />
+                <EmailRow email="press.timemark@harmanita.com" label="Press & Media" simple index={4} />
+                <EmailRow email="partners.timemark@harmanita.com" label="Partnerships" simple index={5} />
+                <EmailRow email="conduct.timemark@harmanita.com" label="Code of Conduct" simple index={6} />
+                <EmailRow email="contribute.timemark@harmanita.com" label="Contributions" simple index={7} />
               </div>
             </div>
           </div>
