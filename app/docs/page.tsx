@@ -165,22 +165,29 @@ export default function DocumentationPage() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-[#8B5CF6]/5 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }}></div>
       </div>
 
-      {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-50 bg-[#FAFAFA]/80 dark:bg-[#09090B]/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 p-4 flex items-center justify-between shadow-sm">
-        <span className="font-bold text-[#18181B] dark:text-[#FAFAFA]">TimeMark Docs</span>
+      {/* Mobile Header - Docs Navigation Toggle */}
+      <div className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-[#FAFAFA]/95 dark:bg-[#09090B]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 p-4 flex items-center justify-between shadow-lg">
+        <span className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+          <Book size={18} className="text-[#7C3AED]" />
+          Documentation
+        </span>
         <button 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
           className="p-2 text-[#52525B] dark:text-[#A1A1AA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-colors duration-200 hover:bg-[#7C3AED]/5 rounded-lg"
+          aria-label="Toggle documentation navigation"
         >
-          {mobileMenuOpen ? <X className="transition-transform duration-200" /> : <Menu className="transition-transform duration-200" />}
+          {mobileMenuOpen ? <X size={20} className="transition-transform duration-200" /> : <Menu size={20} className="transition-transform duration-200" />}
         </button>
       </div>
 
-      <div className="max-w-7xl pt-16 mx-auto flex relative z-10">
+      <div className="max-w-7xl pt-32 lg:pt-16 mx-auto flex relative z-10">
         
         {/* --- SIDEBAR NAVIGATION --- */}
         <aside className={`
-          fixed inset-0 z-40 bg-[#FAFAFA]/95 dark:bg-[#09090B]/95 backdrop-blur-xl lg:static lg:block lg:w-64 lg:shrink-0 lg:border-r border-zinc-200 dark:border-zinc-800 lg:h-screen lg:sticky lg:top-0 overflow-y-auto p-6 transition-all duration-300 shadow-2xl lg:shadow-none
+          fixed top-32 lg:top-16 left-0 right-0 bottom-0 z-30 bg-[#FAFAFA]/98 dark:bg-[#09090B]/98 backdrop-blur-xl 
+          lg:static lg:block lg:w-64 lg:shrink-0 lg:border-r border-zinc-200 dark:border-zinc-800 
+          lg:h-[calc(100vh-4rem)] lg:sticky overflow-y-auto p-6 
+          transition-all duration-300 shadow-2xl lg:shadow-none
           ${mobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0 lg:translate-x-0 lg:opacity-100'}
         `}>
           <div className="mb-8 hidden lg:block">
@@ -232,6 +239,14 @@ export default function DocumentationPage() {
             </div>
           </nav>
         </aside>
+
+        {/* Overlay for mobile when sidebar is open */}
+        {mobileMenuOpen && (
+          <div 
+            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-20 top-32"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
 
         {/* --- MAIN CONTENT --- */}
         <main className="flex-1 min-w-0 py-12 px-6 lg:px-12">
@@ -580,8 +595,6 @@ export default function DocumentationPage() {
               <a href="/report-bug" className="hover:underline hover:scale-110 transition-transform duration-200">Report a Bug</a>
               <span className="text-zinc-300 dark:text-zinc-700">•</span>
               <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" className="hover:underline hover:scale-110 transition-transform duration-200">GitHub Issues</a>
-              {/* <span className="text-zinc-300 dark:text-zinc-700">•</span>
-              <a href="#" className="hover:underline hover:scale-110 transition-transform duration-200">Community Discussions</a> */}
             </div>
           </div>
 

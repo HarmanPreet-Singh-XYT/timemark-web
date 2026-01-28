@@ -315,7 +315,7 @@ export default function TimeMarkLanding() {
             style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}
           >
             <Sparkles size={14} className="animate-pulse" />
-            v1.0 Now Available
+            v1.2.2 Now Available
           </div>
           
           <h1 

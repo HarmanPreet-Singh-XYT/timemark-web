@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useRouter } from 'next/navigation';
 
 // --- Visual Identity Constants ---
 // Primary: #7C3AED (Violet 600)
@@ -92,6 +93,7 @@ const FloatingOrb = ({ className }: { className?: string }) => (
 export default function FAQPage() {
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
@@ -612,19 +614,19 @@ export default function FAQPage() {
             Can't find the answer you're looking for? We're here to help you get the most out of TimeMark.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
+            <button onClick={()=>router.push("/community")} className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
               <span className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-violet-100 dark:group-hover:bg-violet-900/50 transition-colors duration-300">
                 <MessageSquare size={20} className="group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300" />
               </span>
               Community Discussions
             </button>
-            <button className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
+            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues")} className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
               <span className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-violet-100 dark:group-hover:bg-violet-900/50 transition-colors duration-300">
                 <Github size={20} className="group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300" />
               </span>
               GitHub Issues
             </button>
-            <button className="group flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white rounded-2xl shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 transition-all duration-300 font-medium hover:-translate-y-1">
+            <button onClick={()=>router.push("/contact")} className="group flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white rounded-2xl shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 transition-all duration-300 font-medium hover:-translate-y-1">
               <span className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
                 <Mail size={20} />
               </span>
