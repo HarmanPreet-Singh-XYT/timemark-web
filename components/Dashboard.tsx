@@ -122,19 +122,19 @@ const Dashboard = () => {
 
           <section className="col-span-2 flex justify-center items-center bg-white dark:bg-[#1e1e1e] p-4 rounded-lg border border-gray-200 dark:border-gray-800/50">
             <div className="relative flex items-center justify-center">
-              <div className="w-40 h-40 rounded-full border-[30px] border-gray-200 dark:border-gray-700 border-t-purple-500 flex items-center justify-center">
+                <div className="w-40 h-40 rounded-full border-[30px] border-gray-200 dark:border-gray-700 border-t-purple-500 dark:border-t-purple-500 flex items-center justify-center">
                 <span className="text-sm text-center font-bold">Screen<br/>Time</span>
-              </div>
+                </div>
             </div>
-          </section>
+            </section>
 
-          <section className="col-span-2 flex justify-center items-center bg-white dark:bg-[#1e1e1e] p-4 rounded-lg border border-gray-200 dark:border-gray-800/50">
+            <section className="col-span-2 flex justify-center items-center bg-white dark:bg-[#1e1e1e] p-4 rounded-lg border border-gray-200 dark:border-gray-800/50">
             <div className="relative flex items-center justify-center">
-              <div className="w-40 h-40 rounded-full border-[30px] border-gray-200 dark:border-gray-700 border-r-purple-500 border-b-purple-500 flex items-center justify-center">
+                <div className="w-40 h-40 rounded-full border-[30px] border-gray-200 dark:border-gray-700 border-r-purple-500 dark:border-r-purple-500 border-b-purple-500 dark:border-b-purple-500 flex items-center justify-center">
                 <span className="text-sm text-center font-bold">Productive<br/>Score</span>
-              </div>
+                </div>
             </div>
-          </section>
+            </section>
         </div>
       </main>
     </div>
