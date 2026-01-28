@@ -575,13 +575,13 @@ export default function DocumentationPage() {
               <HelpCircle size={20} className="animate-pulse" style={{ animationDuration: '3s' }} /> Need More Help?
             </h3>
             <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-[#7C3AED] dark:text-[#8B5CF6]">
-              <a href="#" className="hover:underline hover:scale-110 transition-transform duration-200">Contact Support</a>
+              <a href="/contact" className="hover:underline hover:scale-110 transition-transform duration-200">Contact Support</a>
               <span className="text-zinc-300 dark:text-zinc-700">•</span>
-              <a href="#" className="hover:underline hover:scale-110 transition-transform duration-200">Report a Bug</a>
+              <a href="/report-bug" className="hover:underline hover:scale-110 transition-transform duration-200">Report a Bug</a>
               <span className="text-zinc-300 dark:text-zinc-700">•</span>
-              <a href="#" className="hover:underline hover:scale-110 transition-transform duration-200">GitHub Issues</a>
-              <span className="text-zinc-300 dark:text-zinc-700">•</span>
-              <a href="#" className="hover:underline hover:scale-110 transition-transform duration-200">Community Discussions</a>
+              <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" className="hover:underline hover:scale-110 transition-transform duration-200">GitHub Issues</a>
+              {/* <span className="text-zinc-300 dark:text-zinc-700">•</span>
+              <a href="#" className="hover:underline hover:scale-110 transition-transform duration-200">Community Discussions</a> */}
             </div>
           </div>
 

@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useRouter } from 'next/navigation';
 
 // --- Visual Identity Constants (for reference/consistency) ---
 // Primary: #7C3AED (Light) / #8B5CF6 (Dark)
@@ -114,6 +115,7 @@ const BulletList = ({ items, title }: { items: string[]; title?: string }) => (
 );
 
 export default function FeaturesPage() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
       <style jsx global>{`
@@ -831,7 +833,7 @@ export default function FeaturesPage() {
           <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-10 animate-slide-up" style={{animationDelay: '100ms'}}>
             Every feature works together to create a comprehensive productivity ecosystem. Download from the Microsoft Store and explore them all.
           </p>
-          <button className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-4 px-8 rounded-xl shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.5)] transition-all transform hover:-translate-y-1 text-lg animate-slide-up group" style={{animationDelay: '200ms'}}>
+          <button onClick={()=>router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")} className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-4 px-8 rounded-xl shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.5)] transition-all transform hover:-translate-y-1 text-lg animate-slide-up group" style={{animationDelay: '200ms'}}>
             Get it from Microsoft Store
             <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
           </button>

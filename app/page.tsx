@@ -29,6 +29,8 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 // --- Floating Orb Component (from About page) ---
 const FloatingOrb = ({ className }: { className?: string }) => (
@@ -210,33 +212,34 @@ const DashboardPreview = () => {
 // --- Main Component ---
 
 export default function TimeMarkLanding() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // const [isDark, setIsDark] = useState(false);
+  // const [scrollY, setScrollY] = useState(0);
 
   // Initialize theme based on system preference
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDark(isSystemDark);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  //     setIsDark(isSystemDark);
       
-      // Parallax scroll effect
-      const handleScroll = () => setScrollY(window.scrollY);
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
+  //     // Parallax scroll effect
+  //     const handleScroll = () => setScrollY(window.scrollY);
+  //     window.addEventListener('scroll', handleScroll);
+  //     return () => window.removeEventListener('scroll', handleScroll);
+  //   }
+  // }, []);
 
-  // Apply theme class to the HTML element
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
+  // // Apply theme class to the HTML element
+  // useEffect(() => {
+  //   if (isDark) {
+  //     document.documentElement.classList.add('dark');
+  //   } else {
+  //     document.documentElement.classList.remove('dark');
+  //   }
+  // }, [isDark]);
 
-  const toggleTheme = () => setIsDark(!isDark);
+  // const toggleTheme = () => setIsDark(!isDark);
+  const router = useRouter();
 
   return (
     // Main Wrapper
@@ -341,12 +344,16 @@ export default function TimeMarkLanding() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.4s forwards', opacity: 0 }}
           >
-            <Button variant="primary" icon={Download} className="w-full sm:w-auto text-base px-8 py-3.5 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-shadow">
-              Get from Microsoft Store
-            </Button>
-            <Button variant="secondary" icon={Github} className="w-full sm:w-auto text-base px-8 py-3.5">
-              View on GitHub
-            </Button>
+            <Link href="https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA">
+              <Button variant="primary" icon={Download} className="w-full sm:w-auto text-base px-8 py-3.5 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-shadow">
+                Get from Microsoft Store
+              </Button>
+            </Link>
+            <Link href={"https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp"}>
+              <Button variant="secondary" icon={Github} className="w-full sm:w-auto text-base px-8 py-3.5">
+                View on GitHub
+              </Button>
+            </Link>
           </div>
 
           {/* Feature Pills */}
@@ -542,7 +549,7 @@ export default function TimeMarkLanding() {
           {[
             { icon: Download, title: "1. Download & Install", text: "Download TimeMark from the Microsoft Store. The installation is automatic—no technical knowledge required.", color: "violet" },
             { icon: Play, title: "2. Automatic Tracking", text: "Launch TimeMark and it starts tracking instantly in the background. Intelligently monitoring usage with zero config.", color: "teal" },
-            { icon: BarChart3, title: "3. Review Insights", text: "Open dashboard to see total usage, most-used apps, productivity score, and visual breakdowns.", color: "fuchsia" },
+            { icon: BarChart3, title: "3. Review Insights", text: "Open dashboard to see total usage, most-used apps, productivity score, and visual breakdowns.", color: "green" },
             { icon: Zap, title: "4. Optimize & Improve", text: "Use insights to set goals. Batch communications, plan deep work, and enable Focus Mode to soar.", color: "amber" },
           ].map((step, i) => (
             <div key={i} className="flex flex-col items-center text-center group">
@@ -660,7 +667,7 @@ export default function TimeMarkLanding() {
           />
         </div>
         <div className="text-center mt-8">
-          <a href="#" className="text-violet-600 dark:text-violet-400 font-semibold hover:underline inline-flex items-center gap-2 group">
+          <a href="/faq" className="text-violet-600 dark:text-violet-400 font-semibold hover:underline inline-flex items-center gap-2 group">
             View All FAQs 
             <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
           </a>
@@ -683,29 +690,35 @@ export default function TimeMarkLanding() {
             </p>
             
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button variant="primary" icon={Github} className="bg-white text-zinc-900 hover:bg-zinc-100 hover:text-zinc-900 border-none shadow-none group">
-                View on GitHub
-              </Button>
-              <Button variant="ghost" className="text-zinc-300 hover:text-white hover:bg-white/10">
-                Contribute
-              </Button>
-              <Button variant="ghost" className="text-zinc-300 hover:text-white hover:bg-white/10">
-                Report Bug
-              </Button>
+              <Link href={"https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp"}>
+                <Button variant="primary" icon={Github} className="bg-white text-zinc-900 hover:bg-zinc-100 hover:text-zinc-900 border-none shadow-none group">
+                  View on GitHub
+                </Button>
+              </Link>
+              <Link href={"/community"}>
+                <Button variant="ghost" className="text-zinc-300 hover:text-white hover:bg-white/10">
+                  Contribute
+                </Button>
+              </Link>
+              <Link href={"/report-bug"}>
+                <Button variant="ghost" className="text-zinc-300 hover:text-white hover:bg-white/10">
+                  Report Bug
+                </Button>
+              </Link>
             </div>
 
             <div className="mt-8 pt-8 border-t border-zinc-700 grid grid-cols-3 gap-4">
               <div className="group hover:scale-110 transition-transform duration-300 cursor-default">
-                <div className="text-2xl font-bold text-white">12+</div>
-                <div className="text-xs text-zinc-400 uppercase">Contributors</div>
+                <div className="text-2xl font-bold text-white">100+</div>
+                <div className="text-xs text-zinc-400 uppercase">Hours Saved</div>
               </div>
               <div className="group hover:scale-110 transition-transform duration-300 cursor-default">
-                <div className="text-2xl font-bold text-white">450+</div>
+                <div className="text-2xl font-bold text-white">50+</div>
                 <div className="text-xs text-zinc-400 uppercase">Commits</div>
               </div>
               <div className="group hover:scale-110 transition-transform duration-300 cursor-default">
-                <div className="text-2xl font-bold text-white">1.2k</div>
-                <div className="text-xs text-zinc-400 uppercase">Stars</div>
+                <div className="text-2xl font-bold text-white">1k+</div>
+                <div className="text-xs text-zinc-400 uppercase">Users</div>
               </div>
             </div>
           </div>
@@ -761,10 +774,10 @@ export default function TimeMarkLanding() {
             <br />No credit card. No account. No catches.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-            <button className="bg-white text-violet-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 hover:scale-105 active:scale-95 group">
+            <button onClick={()=>router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")} className="bg-white text-violet-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 hover:scale-105 active:scale-95 group">
               <Download size={20} className="group-hover:animate-bounce" /> Get it from Microsoft Store
             </button>
-            <button className="bg-violet-900/30 backdrop-blur-md text-white border border-violet-400/50 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-900/50 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 group">
+            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp")} className="bg-violet-900/30 backdrop-blur-md text-white border border-violet-400/50 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-900/50 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 group">
               <Github size={20} className="group-hover:rotate-12 transition-transform duration-300" /> Star on GitHub
             </button>
           </div>

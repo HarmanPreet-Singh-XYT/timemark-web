@@ -357,7 +357,7 @@ export default function CommunityPage() {
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] opacity-0 group-hover:opacity-100 transition-opacity" />
             </a>
-            <a href="https://github.com" target="_blank" className="group px-8 py-4 bg-white dark:bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-200 dark:border-zinc-800 text-[#18181B] dark:text-[#FAFAFA] rounded-2xl font-bold hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-300 flex items-center gap-3 shadow-lg">
+            <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp" target="_blank" className="group px-8 py-4 bg-white dark:bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-200 dark:border-zinc-800 text-[#18181B] dark:text-[#FAFAFA] rounded-2xl font-bold hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-300 flex items-center gap-3 shadow-lg">
               <Github size={20} className="group-hover:rotate-12 transition-transform" />
               GitHub Repo
             </a>
@@ -782,12 +782,12 @@ export default function CommunityPage() {
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { title: "Contributing Guide", external: false },
-                { title: "Code Style Guide", external: false },
-                { title: "Flutter Docs", external: true },
-                { title: "Dart Language Tour", external: true },
+                // { title: "Contributing Guide", external: false, link:"#" },
+                // { title: "Code Style Guide", external: false,link:"#" },
+                { title: "Flutter Docs", external: true,link:"https://docs.flutter.dev/" },
+                { title: "Dart Language Tour", external: true,link:"https://dart.dev/overview" },
               ].map((item, idx) => (
-                <a key={idx} href="#" className="group p-5 bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 flex items-center justify-between">
+                <a key={idx} href={item.link} className="group p-5 bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 flex items-center justify-between">
                   <span className="text-[#18181B] dark:text-[#FAFAFA] font-medium group-hover:text-[#7C3AED] transition-colors">{item.title}</span>
                   {item.external ? (
                     <ExternalLink size={18} className="text-zinc-400 group-hover:text-[#7C3AED] group-hover:scale-110 transition-all" />
@@ -825,17 +825,17 @@ export default function CommunityPage() {
             Whether you contribute code, fix a typo, or report a bug—every contribution matters. Start small, learn as you go, and become part of the TimeMark community.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-5">
-            <a href="#" className="group relative px-10 py-5 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl shadow-violet-500/20 dark:shadow-violet-900/40 overflow-hidden">
+            <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" target='_blank' className="group relative px-10 py-5 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl shadow-violet-500/20 dark:shadow-violet-900/40 overflow-hidden">
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Browse Open Issues
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 animate-shimmer" />
             </a>
-            <a href="#" className="group px-10 py-5 bg-zinc-900/5 dark:bg-white/5 backdrop-blur-sm border border-zinc-300 dark:border-zinc-700 hover:border-[#7C3AED]/50 hover:bg-[#7C3AED]/10 rounded-2xl font-bold text-zinc-900 dark:text-white transition-all duration-300 flex items-center justify-center gap-2">
+            {/* <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" target='_blank' className="group px-10 py-5 bg-zinc-900/5 dark:bg-white/5 backdrop-blur-sm border border-zinc-300 dark:border-zinc-700 hover:border-[#7C3AED]/50 hover:bg-[#7C3AED]/10 rounded-2xl font-bold text-zinc-900 dark:text-white transition-all duration-300 flex items-center justify-center gap-2">
               <MessageCircle size={18} className="group-hover:scale-110 transition-transform" />
               Join the Discussion
-            </a>
+            </a> */}
           </div>
         </div>
       </section>

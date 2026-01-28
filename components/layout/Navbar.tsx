@@ -23,16 +23,31 @@ export default function Navbar() {
 
   // Handle scroll effect
   useEffect(() => {
+    const isDark =
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    setIsDark(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
 
   // Toggle Theme
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
+    setIsDark((prev) => {
+      const next = !prev;
+      document.documentElement.classList.toggle("dark", next);
+      localStorage.theme = next ? "dark" : "light";
+      return next;
+    });
   };
+
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -124,7 +139,7 @@ export default function Navbar() {
               ))}
               
               <a 
-                href="https://github.com/your-repo" 
+                href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp" 
                 target="_blank" 
                 rel="noreferrer"
                 className="ml-2 p-2 rounded-lg text-[#52525B] dark:text-[#A1A1AA] hover:text-[#18181B] dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-300 hover:scale-110 hover:rotate-6 group"
@@ -150,7 +165,7 @@ export default function Navbar() {
                 </div>
               </button>
 
-              <Link 
+              {/* <Link 
                 href="/download"
                 className="relative bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-violet-500/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/40 group overflow-hidden"
               >
@@ -159,7 +174,7 @@ export default function Navbar() {
                   <Download size={16} className="group-hover:animate-bounce" />
                   Get TimeMark
                 </span>
-              </Link>
+              </Link> */}
             </div>
 
             {/* Mobile Menu Button */}

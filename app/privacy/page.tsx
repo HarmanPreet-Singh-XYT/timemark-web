@@ -92,10 +92,10 @@ export default function PrivacyPolicyPage() {
             If you have any questions about this Privacy Policy, please contact us at:
           </p>
           <a 
-            href="mailto:harmanpreetsingh@programmer.net" 
+            href="mailto:privacy.timemark@harmanita.com" 
             className="inline-flex items-center gap-2 text-[#7C3AED] hover:text-[#6D28D9] font-bold text-lg hover:underline transition-colors"
           >
-            harmanpreetsingh@programmer.net
+            privacy.timemark@harmanita.com
           </a>
         </PolicySection>
 

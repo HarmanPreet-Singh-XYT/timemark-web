@@ -20,8 +20,10 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useRouter } from 'next/navigation';
 
 const DownloadPage: React.FC = () => {
+  const router = useRouter();
   return (
     // Theme Wrapper - In a real app, these variables would be in global.css
     <div className="font-sans antialiased text-[var(--text-main)] bg-[var(--bg-page)] min-h-screen selection:bg-[var(--primary)] selection:text-white overflow-x-hidden">
@@ -50,7 +52,7 @@ const DownloadPage: React.FC = () => {
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current relative z-10 group-hover:scale-110 transition-transform" aria-hidden="true">
                 <path d="M0 0h11.377v11.372H0zM12.623 0H24v11.372H12.623zM0 12.623h11.377V24H0zM12.623 12.623H24V24H12.623z"/>
               </svg>
-              <span className="relative z-10">Get it from Microsoft Store</span>
+              <span onClick={()=>router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")} className="relative z-10">Get it from Microsoft Store</span>
             </button>
             <div className="flex items-center gap-2 text-sm text-[var(--text-muted)] font-medium">
               <Shield className="w-4 h-4 text-[var(--success)] animate-[pulse_2s_ease-in-out_infinite]" />
@@ -105,7 +107,7 @@ const DownloadPage: React.FC = () => {
                 </li>
                 <li className="flex justify-between border-b border-[var(--border)] pb-2 hover:border-[var(--primary)]/50 transition-colors group/item">
                   <span className="group-hover/item:text-[var(--text-main)] transition-colors">RAM</span> 
-                  <span className="font-medium text-[var(--text-main)] tabular-nums">8 GB+</span>
+                  <span className="font-medium text-[var(--text-main)] tabular-nums">6 GB+</span>
                 </li>
                 <li className="flex justify-between border-b border-[var(--border)] pb-2 hover:border-[var(--primary)]/50 transition-colors group/item">
                   <span className="group-hover/item:text-[var(--text-main)] transition-colors">Storage</span> 
@@ -113,7 +115,7 @@ const DownloadPage: React.FC = () => {
                 </li>
                 <li className="flex justify-between hover:border-[var(--primary)]/50 transition-colors group/item">
                   <span className="group-hover/item:text-[var(--text-main)] transition-colors">Display</span> 
-                  <span className="font-medium text-[var(--text-main)] tabular-nums">1920×1080+</span>
+                  <span className="font-medium text-[var(--text-main)] tabular-nums">1920×1080</span>
                 </li>
               </ul>
             </div>
@@ -287,45 +289,52 @@ const DownloadPage: React.FC = () => {
       </section>
 
       {/* Footer / Community */}
-      <footer className="px-6 py-16 text-center">
-        <div className="max-w-2xl mx-auto mb-16 animate-[fadeInUp_0.6s_ease-out]">
-          <h2 className="text-2xl font-bold mb-6">Need Help?</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            <FooterLink icon={<Monitor className="w-4 h-4" />} label="Documentation" />
-            <FooterLink icon={<HelpCircle className="w-4 h-4" />} label="FAQ" />
-            <FooterLink icon={<Github className="w-4 h-4" />} label="Report Issue" />
+      <section className="px-6 py-20">
+        <div className="max-w-4xl mx-auto">
+          {/* Help Links */}
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            <FooterLink link='/docs' icon={<Monitor className="w-4 h-4" />} label="Documentation" />
+            <FooterLink link='/faq' icon={<HelpCircle className="w-4 h-4" />} label="FAQ" />
+            <FooterLink link='/report-bug' icon={<Github className="w-4 h-4" />} label="Report Issue" />
           </div>
-        </div>
 
-        <div className="max-w-3xl mx-auto bg-gradient-to-b from-[var(--bg-card)] to-[var(--bg-page)] border border-[var(--border)] rounded-3xl p-10 md:p-16 shadow-2xl hover:shadow-[0_0_80px_rgba(124,58,237,0.15)] hover:border-[var(--primary)]/50 transition-all duration-500 animate-[fadeInUp_0.8s_ease-out_0.2s_both] relative overflow-hidden group/cta">
-          {/* Animated gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/5 via-fuchsia-500/5 to-[var(--primary)]/5 bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite] opacity-0 group-hover/cta:opacity-100 transition-opacity" />
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 group-hover/cta:scale-105 transition-transform">Ready to Take Control?</h2>
-            <button className="group/btn relative bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-[var(--shadow-glow)] hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] hover:-translate-y-1 mb-4 overflow-hidden hover:scale-105">
-              {/* Shine effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              <span className="relative z-10">Get it from Microsoft Store</span>
+          {/* CTA Section */}
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--primary)] to-fuchsia-500 mb-6">
+              <CheckCircle2 className="w-6 h-6 text-white" />
+            </div>
+            
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-main)]">
+              Ready to Take Control?
+            </h2>
+            
+            <p className="text-lg text-[var(--text-secondary)] mb-8 max-w-2xl mx-auto">
+              Start managing your time more effectively with TimeMark
+            </p>
+            
+            <button onClick={()=>router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")} className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 hover:from-[var(--primary-hover)] hover:to-fuchsia-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:shadow-lg hover:shadow-[var(--primary)]/25 hover:-translate-y-0.5 mb-6">
+              Get it from Microsoft Store
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </button>
-            <p className="text-sm font-medium text-[var(--text-muted)] flex items-center justify-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-[var(--success)]" />
+            
+            {/* Features */}
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-[var(--text-secondary)]">
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
                 100% Free
-              </span> 
-              <span>•</span> 
-              <span className="inline-flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-[var(--success)]" />
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
                 No Account Required
-              </span> 
-              <span>•</span> 
-              <span className="inline-flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-[var(--success)]" />
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
                 Privacy First
               </span>
-            </p>
+            </div>
           </div>
         </div>
-      </footer>
+      </section>
       <Footer/>
 
       <style jsx>{`
@@ -433,8 +442,8 @@ const PlatformCard = ({ icon, title, desc, delay }: { icon: React.ReactNode, tit
   </div>
 );
 
-const FooterLink = ({ icon, label }: { icon: React.ReactNode, label: string }) => (
-  <a href="#" className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--primary)] text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 group">
+const FooterLink = ({ icon, label,link }: { icon: React.ReactNode, label: string,link:string }) => (
+  <a href={link} className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--primary)] text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 group">
     <span className="group-hover:scale-110 transition-transform">{icon}</span>
     {label}
   </a>

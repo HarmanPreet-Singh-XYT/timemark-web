@@ -66,21 +66,21 @@ export default function Footer() {
               
               <div className="flex gap-3">
                 <a 
-                  href="#" 
+                  href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp" 
                   className="group relative p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:border-violet-500 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-500/20 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-violet-500/0 via-violet-500/10 to-violet-500/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                   <Github size={18} className="relative z-10 group-hover:rotate-12 transition-transform duration-300" />
                 </a>
                 <a 
-                  href="#" 
+                  href="https://x.com/harmanpreet277" 
                   className="group relative p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/20 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-teal-500/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                   <Twitter size={18} className="relative z-10 group-hover:rotate-12 transition-transform duration-300" />
                 </a>
                 <a 
-                  href="#" 
+                  href="mailto:timemark@harmanita.com" 
                   className="group relative p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:border-rose-500 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:shadow-lg hover:shadow-rose-500/20 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-rose-500/0 via-rose-500/10 to-rose-500/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
@@ -214,7 +214,7 @@ export default function Footer() {
           <div className="pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-[#52525B] dark:text-[#A1A1AA]">
             <div className="flex items-center gap-2">
               &copy; {currentYear} TimeMark. Open source under 
-              <a href="#" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">MIT License</a>
+              <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/blob/main/LICENSE" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">LGPL-2.1 License</a>
             </div>
             
             <div className="flex items-center gap-2 group cursor-default">

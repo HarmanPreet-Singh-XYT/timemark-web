@@ -637,29 +637,29 @@ export default function ComparisonPage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-32 px-6 text-center bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 text-white overflow-hidden">
+      <section className="relative py-32 px-6 text-center bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 text-zinc-900 dark:text-white overflow-hidden">
         {/* Animated background */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#7C3AED]/30 rounded-full blur-[150px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#14B8A6]/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#7C3AED]/10 dark:bg-[#7C3AED]/30 rounded-full blur-[150px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#14B8A6]/10 dark:bg-[#14B8A6]/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
         
         {/* Grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
         
         <div className="max-w-3xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/5 dark:bg-white/5 border border-zinc-900/10 dark:border-white/10 backdrop-blur-sm mb-8">
             <Download size={16} className="text-[#7C3AED]" />
-            <span className="text-sm text-zinc-400">Free Download</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">Free Download</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-white via-[#8B5CF6] to-white bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-zinc-900 via-[#7C3AED] to-zinc-900 dark:from-white dark:via-[#8B5CF6] dark:to-white bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
             Ready to Try TimeMark?
           </h2>
-          <p className="text-zinc-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
             Download for free from Microsoft Store and see the difference for yourself.
           </p>
-          <button className="group relative flex items-center justify-center gap-3 mx-auto bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-5 px-10 rounded-2xl shadow-2xl shadow-violet-900/40 transition-all duration-300 overflow-hidden">
+          <button className="group relative flex items-center justify-center gap-3 mx-auto bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-5 px-10 rounded-2xl shadow-2xl shadow-violet-500/30 dark:shadow-violet-900/40 transition-all duration-300 overflow-hidden">
             <span className="relative z-10 flex items-center gap-3">
               <Download size={22} />
               Get TimeMark Free

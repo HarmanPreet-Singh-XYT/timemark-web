@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useRouter } from 'next/navigation';
 
 // --- Visual Identity Constants ---
 // Primary: #7C3AED (Violet 600)
@@ -206,9 +207,9 @@ const TechCard = ({ icon: Icon, title, description, index }: { icon: any, title:
   </div>
 );
 
-const ContactCard = ({ icon: Icon, title, subtitle, index }: { icon: any, title: string, subtitle: string, index: number }) => (
+const ContactCard = ({ icon: Icon, title, subtitle, index,link="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" }: { icon: any, title: string, subtitle: string, index: number,link?:string }) => (
   <a 
-    href="#" 
+    href={link} 
     className="group p-6 text-center rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 hover:border-violet-300 dark:hover:border-violet-700 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-2"
     style={{ 
       animationDelay: `${index * 100}ms`,
@@ -225,6 +226,7 @@ const ContactCard = ({ icon: Icon, title, subtitle, index }: { icon: any, title:
 );
 
 export default function AboutPage() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
       <style jsx global>{`
@@ -547,14 +549,14 @@ export default function AboutPage() {
             />
           </div>
           
-          <div className="mt-16 text-center">
+          {/* <div className="mt-16 text-center">
             <div className="inline-block p-6 rounded-2xl bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-950/50 dark:to-purple-950/50 border border-violet-200 dark:border-violet-800">
               <p className="text-[#52525B] dark:text-[#A1A1AA] mb-4">Have an idea? We prioritize based on community demand.</p>
               <a href="#" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-medium hover:shadow-lg hover:shadow-violet-500/30 transition-all duration-300 hover:-translate-y-1">
                 Vote on Features <ArrowRight size={16} />
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </SectionWrapper>
 
@@ -594,13 +596,13 @@ export default function AboutPage() {
       <SectionWrapper className="bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800">
         <SectionHeader 
           title="The Team" 
-          subtitle="Built by developers, designers, and digital citizens from around the world."
+          subtitle="Built by developer for community."
           badge="Our People"
           center 
         />
         
-        <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-          <div 
+        <div className="grid md:grid-cols-1 gap-12 max-w-xl mx-auto">
+          {/* <div 
             className="p-8 rounded-2xl bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900/50 border border-zinc-200 dark:border-zinc-800"
             style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}
           >
@@ -622,7 +624,7 @@ export default function AboutPage() {
                 Supported by <strong className="text-[#18181B] dark:text-[#FAFAFA]">50+ code contributors</strong>, <strong className="text-[#18181B] dark:text-[#FAFAFA]">30+ translators</strong>, and hundreds of community testers.
               </p>
             </div>
-          </div>
+          </div> */}
           
           <div 
             className="p-8 rounded-2xl bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-zinc-900/50 border border-rose-200 dark:border-rose-900/50"
@@ -649,7 +651,7 @@ export default function AboutPage() {
               ))}
             </ul>
             <div className="mt-6">
-              <a href="#" className="inline-flex items-center gap-2 text-sm font-bold text-[#7C3AED] hover:text-[#6D28D9] transition-colors">
+              <a href="/community" className="inline-flex items-center gap-2 text-sm font-bold text-[#7C3AED] hover:text-[#6D28D9] transition-colors">
                 Read Contributing Guide <ArrowRight size={14} />
               </a>
             </div>
@@ -718,8 +720,8 @@ export default function AboutPage() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
           <ContactCard icon={Github} title="GitHub" subtitle="Bug Reports & Code" index={0} />
           <ContactCard icon={MessageSquare} title="Discussions" subtitle="Feature Requests" index={1} />
-          <ContactCard icon={Mail} title="Email" subtitle="General Inquiries" index={2} />
-          <ContactCard icon={Twitter} title="Social" subtitle="Updates & News" index={3} />
+          <ContactCard link='mailto:general.timemark@harmanita.com' icon={Mail} title="Email" subtitle="General Inquiries" index={2} />
+          <ContactCard link='https://x.com/harmanpreet277' icon={Twitter} title="Social" subtitle="Updates & News" index={3} />
         </div>
       </SectionWrapper>
 
@@ -750,10 +752,10 @@ export default function AboutPage() {
             className="flex flex-col sm:flex-row gap-4 justify-center mb-10"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
           >
-            <button className="group flex items-center justify-center gap-3 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/40 transition-all duration-300 hover:-translate-y-1">
+            <button onClick={()=>router.push("/download")} className="group flex items-center justify-center gap-3 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/40 transition-all duration-300 hover:-translate-y-1">
               <Download size={20} className="group-hover:animate-bounce" /> Download TimeMark
             </button>
-            <button className="group flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] text-[#18181B] dark:text-[#FAFAFA] font-bold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
+            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp")} className="group flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] text-[#18181B] dark:text-[#FAFAFA] font-bold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
               <Github size={20} /> View on GitHub
             </button>
           </div>
