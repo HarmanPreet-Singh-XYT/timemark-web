@@ -319,7 +319,7 @@ export default function TimeMarkLanding() {
         
         {/* Hero image for smaller screens */}
         <div className="max-w-7xl mx-auto -mt-32 lg:hidden">
-          <div className="rounded-2xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
+          <div className="overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
             <img 
               src="/hero.png" 
               alt="TimeMark Dashboard Preview" 
