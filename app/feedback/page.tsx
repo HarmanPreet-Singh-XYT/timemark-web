@@ -20,7 +20,12 @@ import {
   ArrowRight,
   ClipboardList,
   Sparkles,
-  Star
+  Star,
+  AlertTriangle,
+  X,
+  Send,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -29,6 +34,354 @@ import Footer from '@/components/layout/Footer';
 // Primary: #7C3AED (Violet 600)
 // Background: #FAFAFA (Zinc 50) / #09090B (Zinc 950)
 // Text: #18181B (Zinc 900) / #FAFAFA (Zinc 50)
+
+// --- Feedback Form Modal Component ---
+interface FeedbackFormProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+type FeedbackType = 'feature' | 'ux' | 'content' | 'performance' | 'praise' | 'other';
+
+const FeedbackFormModal = ({ isOpen, onClose }: FeedbackFormProps) => {
+  const [formData, setFormData] = useState({
+    type: '' as FeedbackType | '',
+    title: '',
+    description: '',
+    email: '',
+    name: ''
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+  const feedbackTypes = [
+    { value: 'feature', label: 'Feature Request', icon: '💡' },
+    { value: 'ux', label: 'UI/UX Improvement', icon: '🎨' },
+    { value: 'content', label: 'Content Suggestion', icon: '📝' },
+    { value: 'performance', label: 'Performance Issue', icon: '⚡' },
+    { value: 'praise', label: 'General Praise', icon: '❤️' },
+    { value: 'other', label: 'Other', icon: '💬' }
+  ];
+
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+    
+    if (!formData.type) {
+      newErrors.type = 'Please select a feedback type';
+    }
+    if (!formData.title.trim()) {
+      newErrors.title = 'Title is required';
+    } else if (formData.title.length < 5) {
+      newErrors.title = 'Title must be at least 5 characters';
+    }
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+    } else if (formData.description.length < 20) {
+      newErrors.description = 'Please provide more detail (at least 20 characters)';
+    }
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    
+    try {
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to submit feedback');
+      }
+      
+      setSubmitStatus('success');
+      
+      setTimeout(() => {
+        setFormData({
+          type: '',
+          title: '',
+          description: '',
+          email: '',
+          name: ''
+        });
+        setSubmitStatus('idle');
+        onClose();
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Feedback submission error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity duration-300"
+        onClick={onClose}
+      />
+      
+      {/* Modal */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+        <div 
+          className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto border border-zinc-200 dark:border-zinc-800 animate-slide-up"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="sticky top-0 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-6 py-4 flex items-center justify-between z-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[#7C3AED]/10 text-[#7C3AED]">
+                <MessageSquarePlus size={24} />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA]">Submit Feedback</h2>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Help us improve TimeMark</p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
+              disabled={isSubmitting}
+            >
+              <X size={20} className="text-[#52525B] dark:text-[#A1A1AA]" />
+            </button>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* Feedback Type */}
+            <div>
+              <label className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-3">
+                Feedback Type <span className="text-red-500">*</span>
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                {feedbackTypes.map((type) => (
+                  <button
+                    key={type.value}
+                    type="button"
+                    onClick={() => handleChange('type', type.value)}
+                    className={`p-3 rounded-xl border-2 transition-all duration-200 text-left ${
+                      formData.type === type.value
+                        ? 'border-[#7C3AED] bg-[#7C3AED]/5 shadow-sm'
+                        : 'border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{type.icon}</span>
+                      <span className="text-sm font-medium text-[#18181B] dark:text-[#FAFAFA]">
+                        {type.label}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+              {errors.type && (
+                <p className="mt-2 text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle size={14} />
+                  {errors.type}
+                </p>
+              )}
+            </div>
+
+            {/* Title */}
+            <div>
+              <label htmlFor="title" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Title <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="title"
+                type="text"
+                value={formData.title}
+                onChange={(e) => handleChange('title', e.target.value)}
+                placeholder="Brief summary of your feedback"
+                className={`w-full px-4 py-3 rounded-xl border-2 bg-white dark:bg-zinc-950 text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 transition-all duration-200 ${
+                  errors.title 
+                    ? 'border-red-500' 
+                    : 'border-zinc-200 dark:border-zinc-800 focus:border-[#7C3AED]'
+                }`}
+                disabled={isSubmitting}
+              />
+              {errors.title && (
+                <p className="mt-2 text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle size={14} />
+                  {errors.title}
+                </p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Description <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => handleChange('description', e.target.value)}
+                placeholder="Please provide as much detail as possible:&#10;• What problem are you trying to solve?&#10;• How would this improve your experience?&#10;• Any specific ideas for implementation?"
+                rows={6}
+                className={`w-full px-4 py-3 rounded-xl border-2 bg-white dark:bg-zinc-950 text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 transition-all duration-200 resize-none ${
+                  errors.description 
+                    ? 'border-red-500' 
+                    : 'border-zinc-200 dark:border-zinc-800 focus:border-[#7C3AED]'
+                }`}
+                disabled={isSubmitting}
+              />
+              {errors.description && (
+                <p className="mt-2 text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle size={14} />
+                  {errors.description}
+                </p>
+              )}
+              <p className="mt-2 text-xs text-[#52525B] dark:text-[#A1A1AA]">
+                {formData.description.length} characters
+              </p>
+            </div>
+
+            {/* Optional Fields */}
+            <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+              <p className="text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">
+                Optional: Contact Information
+              </p>
+              <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mb-4">
+                If you'd like us to follow up with you about this feedback, please provide your contact info.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    placeholder="Your name"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 focus:outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 transition-all duration-200"
+                    disabled={isSubmitting}
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    placeholder="your@email.com"
+                    className={`w-full px-4 py-3 rounded-xl border-2 bg-white dark:bg-zinc-950 text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 transition-all duration-200 ${
+                      errors.email 
+                        ? 'border-red-500' 
+                        : 'border-zinc-200 dark:border-zinc-800 focus:border-[#7C3AED]'
+                    }`}
+                    disabled={isSubmitting}
+                  />
+                  {errors.email && (
+                    <p className="mt-2 text-sm text-red-500 flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <div className="p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900/30 flex items-center gap-3">
+                <CheckCircle2 className="text-green-600 dark:text-green-400" size={20} />
+                <p className="text-sm font-medium text-green-800 dark:text-green-300">
+                  Thank you! Your feedback has been submitted successfully.
+                </p>
+              </div>
+            )}
+            
+            {submitStatus === 'error' && (
+              <div className="p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 flex items-center gap-3">
+                <AlertCircle className="text-red-600 dark:text-red-400" size={20} />
+                <p className="text-sm font-medium text-red-800 dark:text-red-300">
+                  Something went wrong. Please try again or use email/GitHub instead.
+                </p>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <div className="flex gap-3 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 px-6 py-3 rounded-xl border-2 border-zinc-200 dark:border-zinc-800 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all duration-200"
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting || submitStatus === 'success'}
+                className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Submitting...
+                  </>
+                ) : submitStatus === 'success' ? (
+                  <>
+                    <CheckCircle2 size={18} />
+                    Submitted!
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Submit Feedback
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};
 
 // --- Helper Components ---
 
@@ -50,7 +403,6 @@ const FeedbackTypeCard = ({ icon: Icon, title, description, examples, index }: {
     className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/40 transition-all duration-500 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-2 group animate-slide-up relative overflow-hidden"
     style={{ animationDelay: `${index * 100}ms` }}
   >
-    {/* Hover gradient overlay */}
     <div className="absolute inset-0 bg-gradient-to-br from-violet-500/0 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     
     <div className="flex items-center gap-3 mb-4 relative z-10">
@@ -138,7 +490,6 @@ const RoadmapItem = ({ title, status, desc, date, index }: { title: string, stat
   );
 };
 
-// Floating particles component
 const FloatingParticles = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -158,7 +509,6 @@ const FloatingParticles = () => {
   );
 };
 
-// Animated counter component
 const AnimatedStat = ({ icon: Icon, value, label, color }: { icon: any, value: string, label: string, color: string }) => {
   const [isVisible, setIsVisible] = useState(false);
   
@@ -175,8 +525,11 @@ const AnimatedStat = ({ icon: Icon, value, label, color }: { icon: any, value: s
   );
 };
 
+// --- Main Component ---
+
 export default function FeedbackPage() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -214,21 +567,6 @@ export default function FeedbackPage() {
           75% { transform: translateX(3px); }
         }
         
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        
-        @keyframes pulse-ring {
-          0% { transform: scale(0.8); opacity: 1; }
-          100% { transform: scale(1.5); opacity: 0; }
-        }
-        
-        @keyframes gradient-shift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        
         .animate-fade-in {
           animation: fade-in 0.6s ease-out forwards;
         }
@@ -254,24 +592,12 @@ export default function FeedbackPage() {
         .animate-shake {
           animation: shake 0.4s ease-out;
         }
-        
-        .animate-shimmer {
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-          background-size: 200% 100%;
-          animation: shimmer 2s infinite;
-        }
-        
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient-shift 3s ease infinite;
-        }
       `}</style>
 
       <Navbar/>
       
       {/* HERO SECTION */}
       <div className="pt-32 pb-20 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 relative overflow-hidden">
-        {/* Background gradient orbs */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#7C3AED]/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#14B8A6]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         
@@ -371,7 +697,6 @@ export default function FeedbackPage() {
 
       {/* HOW TO WRITE FEEDBACK */}
       <section className="py-20 px-6 bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
-        {/* Decorative elements */}
         <div className="absolute top-10 left-10 w-20 h-20 border border-zinc-200 dark:border-zinc-800 rounded-full opacity-50" />
         <div className="absolute bottom-10 right-10 w-32 h-32 border border-zinc-200 dark:border-zinc-800 rounded-full opacity-50" />
         <div className="absolute top-1/2 left-0 w-40 h-40 bg-green-500/5 rounded-full blur-3xl" />
@@ -487,17 +812,21 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
               </a>
             </div>
 
-            {/* Survey */}
-            <div className="p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#14B8A6] transition-all duration-500 group hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-2 relative overflow-hidden animate-slide-up" style={{ animationDelay: '200ms' }}>
+            {/* Web Form */}
+            <div 
+              className="p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#14B8A6] transition-all duration-500 group hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-2 relative overflow-hidden animate-slide-up cursor-pointer" 
+              style={{ animationDelay: '200ms' }}
+              onClick={() => setIsFormOpen(true)}
+            >
               <div className="absolute inset-0 bg-gradient-to-br from-teal-500/0 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <ClipboardList size={48} className="text-[#14B8A6] mb-6 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 relative z-10">Quick Survey</h3>
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 relative z-10">Web Form</h3>
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6 relative z-10">
-                Take 3 minutes to rate features and share quick thoughts anonymously.
+                Fill out a quick structured form right here in your browser.
               </p>
-              <a href="#" className="inline-flex items-center gap-2 font-bold text-[#14B8A6] hover:gap-4 transition-all duration-300 group/link relative z-10">
-                Take Survey <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
-              </a>
+              <span className="inline-flex items-center gap-2 font-bold text-[#14B8A6] hover:gap-4 transition-all duration-300 group/link relative z-10">
+                Open Form <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+              </span>
             </div>
           </div>
         </div>
@@ -586,12 +915,10 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
 
       {/* FINAL CTA */}
       <section className="py-24 px-6 text-center bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 text-white relative overflow-hidden">
-        {/* Animated background */}
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#7C3AED]/20 rounded-full blur-3xl animate-pulse" />
         </div>
         
-        {/* Grid pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
             backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
@@ -610,29 +937,39 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
             Every suggestion helps us build a better tool for everyone. We read every piece of feedback we receive.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a 
-              href="#" 
+            <button 
+              onClick={() => setIsFormOpen(true)}
               className="px-8 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-xl font-bold transition-all duration-300 shadow-lg shadow-violet-900/30 hover:shadow-xl hover:shadow-violet-900/40 hover:-translate-y-1 flex items-center justify-center gap-2 group"
             >
-              <Github size={20} />
-              Submit on GitHub
+              <MessageSquarePlus size={20} />
+              Quick Form
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+            <a 
+              href="#" 
+              className="px-8 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group backdrop-blur-sm"
+            >
+              <Github size={20} />
+              GitHub
             </a>
             <a 
               href="mailto:feedback@timemark.app" 
               className="px-8 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group backdrop-blur-sm"
             >
               <Mail size={20} />
-              Email Feedback
+              Email
             </a>
           </div>
         </div>
       </section>
       
       <Footer/>
+
+      {/* Feedback Form Modal */}
+      <FeedbackFormModal 
+        isOpen={isFormOpen} 
+        onClose={() => setIsFormOpen(false)} 
+      />
     </div>
   );
 }
-
-// Import for the AlertTriangle icon used in the "Is this a bug?" section
-import { AlertTriangle } from 'lucide-react';

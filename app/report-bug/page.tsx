@@ -18,7 +18,10 @@ import {
   AlertOctagon,
   Info,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Send,
+  Upload,
+  X
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -154,6 +157,425 @@ const TemplateBlock = () => {
       <pre className="p-4 text-sm font-mono text-zinc-300 overflow-x-auto whitespace-pre-wrap max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
         {template}
       </pre>
+    </div>
+  );
+};
+
+// Bug Report Form Component
+const BugReportForm = () => {
+  const [formData, setFormData] = useState({
+    title: '',
+    severity: '',
+    type: 'bug', // 'bug' or 'security'
+    description: '',
+    steps: '',
+    expected: '',
+    actual: '',
+    windowsVersion: '',
+    timemarkVersion: '',
+    ram: '',
+    email: ''
+  });
+  
+  const [files, setFiles] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFiles(Array.from(e.target.files));
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(files.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/send-bug-report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitStatus('success');
+        
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setFormData({
+            title: '',
+            severity: '',
+            type: 'bug',
+            description: '',
+            steps: '',
+            expected: '',
+            actual: '',
+            windowsVersion: '',
+            timemarkVersion: '',
+            ram: '',
+            email: ''
+          });
+          setFiles([]);
+          setSubmitStatus('idle');
+        }, 3000);
+      } else {
+        setSubmitStatus('error');
+        console.error('Error:', data.message);
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const getSeverityColor = (severity: string) => {
+    switch(severity) {
+      case 'critical': return '#F43F5E';
+      case 'high': return '#F97316';
+      case 'medium': return '#EAB308';
+      case 'low': return '#22C55E';
+      default: return '#71717A';
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
+        {/* Form Header */}
+        <div className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] p-6 text-white">
+          <div className="flex items-center gap-3 mb-2">
+            {formData.type === 'security' ? (
+              <Lock size={28} className="animate-pulse" />
+            ) : (
+              <Bug size={28} />
+            )}
+            <h3 className="text-2xl font-bold">
+              {formData.type === 'security' ? 'Security Issue Report' : 'Bug Report Form'}
+            </h3>
+          </div>
+          <p className="text-violet-100">
+            {formData.type === 'security' 
+              ? 'This will be handled confidentially and with priority.'
+              : 'Fill out the form below to submit your bug report directly.'}
+          </p>
+        </div>
+
+        {/* Success Message */}
+        {submitStatus === 'success' && (
+          <div className="m-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-start gap-3 animate-slide-up">
+            <CheckCircle2 className="text-green-600 dark:text-green-400 shrink-0 mt-0.5" size={20} />
+            <div>
+              <h4 className="font-bold text-green-900 dark:text-green-100 mb-1">Report Submitted!</h4>
+              <p className="text-sm text-green-700 dark:text-green-300">
+                Thank you for your report. We'll review it and get back to you via email within 24-48 hours.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Report Type Toggle */}
+          <div>
+            <label className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-3">
+              Report Type *
+            </label>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, type: 'bug' })}
+                className={`flex-1 p-4 rounded-xl border-2 transition-all duration-300 ${
+                  formData.type === 'bug'
+                    ? 'border-[#7C3AED] bg-[#7C3AED]/5'
+                    : 'border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/50'
+                }`}
+              >
+                <Bug className={`mx-auto mb-2 ${formData.type === 'bug' ? 'text-[#7C3AED]' : 'text-zinc-400'}`} />
+                <div className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Bug Report</div>
+                <div className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1">Feature issues, crashes, errors</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, type: 'security' })}
+                className={`flex-1 p-4 rounded-xl border-2 transition-all duration-300 ${
+                  formData.type === 'security'
+                    ? 'border-[#F43F5E] bg-[#F43F5E]/5'
+                    : 'border-zinc-200 dark:border-zinc-800 hover:border-[#F43F5E]/50'
+                }`}
+              >
+                <Lock className={`mx-auto mb-2 ${formData.type === 'security' ? 'text-[#F43F5E]' : 'text-zinc-400'}`} />
+                <div className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Security Issue</div>
+                <div className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1">Vulnerabilities, exploits</div>
+              </button>
+            </div>
+          </div>
+
+          {/* Title */}
+          <div>
+            <label htmlFor="title" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+              Bug Title *
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              required
+              value={formData.title}
+              onChange={handleInputChange}
+              placeholder="Brief, clear description (e.g., 'App crashes when exporting data')"
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
+            />
+          </div>
+
+          {/* Severity */}
+          <div>
+            <label htmlFor="severity" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+              Severity Level *
+            </label>
+            <select
+              id="severity"
+              name="severity"
+              required
+              value={formData.severity}
+              onChange={handleInputChange}
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA]"
+              style={formData.severity ? { borderLeftWidth: '4px', borderLeftColor: getSeverityColor(formData.severity) } : {}}
+            >
+              <option value="">Select severity...</option>
+              <option value="critical">🔴 Critical - App unusable, data loss, security issue</option>
+              <option value="high">🟠 High - Major feature broken</option>
+              <option value="medium">🟡 Medium - Feature partially broken</option>
+              <option value="low">🟢 Low - Minor issue or cosmetic</option>
+            </select>
+          </div>
+
+          {/* Description */}
+          <div>
+            <label htmlFor="description" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+              Bug Description *
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              required
+              value={formData.description}
+              onChange={handleInputChange}
+              rows={4}
+              placeholder="Describe what's happening in detail..."
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 resize-none"
+            />
+          </div>
+
+          {/* Steps to Reproduce */}
+          <div>
+            <label htmlFor="steps" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+              Steps to Reproduce *
+            </label>
+            <textarea
+              id="steps"
+              name="steps"
+              required
+              value={formData.steps}
+              onChange={handleInputChange}
+              rows={5}
+              placeholder="1. Open the app&#10;2. Click on Settings&#10;3. Navigate to Export&#10;4. Click Export Data&#10;5. Bug occurs"
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 resize-none font-mono text-sm"
+            />
+          </div>
+
+          {/* Expected vs Actual Behavior */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="expected" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Expected Behavior *
+              </label>
+              <textarea
+                id="expected"
+                name="expected"
+                required
+                value={formData.expected}
+                onChange={handleInputChange}
+                rows={4}
+                placeholder="What should happen?"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 resize-none"
+              />
+            </div>
+            <div>
+              <label htmlFor="actual" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Actual Behavior *
+              </label>
+              <textarea
+                id="actual"
+                name="actual"
+                required
+                value={formData.actual}
+                onChange={handleInputChange}
+                rows={4}
+                placeholder="What actually happens?"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400 resize-none"
+              />
+            </div>
+          </div>
+
+          {/* System Information */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <label htmlFor="windowsVersion" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Windows Version *
+              </label>
+              <input
+                type="text"
+                id="windowsVersion"
+                name="windowsVersion"
+                required
+                value={formData.windowsVersion}
+                onChange={handleInputChange}
+                placeholder="e.g., Win 11 Pro 22H2"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
+              />
+            </div>
+            <div>
+              <label htmlFor="timemarkVersion" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                TimeMark Version *
+              </label>
+              <input
+                type="text"
+                id="timemarkVersion"
+                name="timemarkVersion"
+                required
+                value={formData.timemarkVersion}
+                onChange={handleInputChange}
+                placeholder="e.g., 1.2.5"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
+              />
+            </div>
+            <div>
+              <label htmlFor="ram" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                RAM
+              </label>
+              <input
+                type="text"
+                id="ram"
+                name="ram"
+                value={formData.ram}
+                onChange={handleInputChange}
+                placeholder="e.g., 16 GB"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
+              />
+            </div>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+              Your Email *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="so we can follow up with you"
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
+            />
+          </div>
+
+          {/* File Upload */}
+          {/* <div>
+            <label className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+              Screenshots / Attachments
+            </label>
+            <div className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-xl p-6 text-center hover:border-[#7C3AED] transition-colors">
+              <input
+                type="file"
+                id="fileUpload"
+                multiple
+                accept="image/*,.pdf,.txt,.log"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <label htmlFor="fileUpload" className="cursor-pointer">
+                <Upload className="mx-auto mb-2 text-zinc-400" size={32} />
+                <p className="text-sm font-medium text-[#18181B] dark:text-[#FAFAFA]">
+                  Click to upload or drag and drop
+                </p>
+                <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1">
+                  PNG, JPG, PDF, TXT, LOG (max 10MB each)
+                </p>
+              </label>
+            </div> */}
+            
+            {/* File List */}
+            {/* {files.length > 0 && (
+              <div className="mt-3 space-y-2">
+                {files.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg">
+                    <span className="text-sm text-[#18181B] dark:text-[#FAFAFA] truncate flex-1">
+                      {file.name}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="ml-2 text-red-500 hover:text-red-700 transition-colors"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div> */}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full py-4 rounded-xl font-bold text-white transition-all duration-300 flex items-center justify-center gap-2 ${
+              isSubmitting
+                ? 'bg-zinc-400 cursor-not-allowed'
+                : formData.type === 'security'
+                ? 'bg-gradient-to-r from-[#F43F5E] to-[#DC2626] hover:from-[#DC2626] hover:to-[#B91C1C] shadow-lg hover:shadow-xl hover:-translate-y-1'
+                : 'bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] shadow-lg hover:shadow-xl hover:-translate-y-1'
+            }`}
+          >
+            {isSubmitting ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                <Send size={20} />
+                Submit Report
+              </>
+            )}
+          </button>
+
+          <p className="text-xs text-center text-[#52525B] dark:text-[#A1A1AA]">
+            By submitting, you agree that we may contact you about this report and use the information to improve TimeMark.
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
@@ -307,16 +729,29 @@ export default function ReportBugPage() {
                 </span>
               </h3>
               <div className="space-y-2 mt-2 text-sm text-red-800 dark:text-red-300">
-                <p>🚨 <strong>Security Vulnerabilities:</strong> Email <a href="security.timemark@harmanita.com" className="underline font-bold hover:text-red-600 transition-colors">security.timemark@harmanita.com</a></p>
-                <p>🔥 <strong>App Crashes:</strong> Use the template below immediately.</p>
+                <p>🚨 <strong>Security Vulnerabilities:</strong> Use the form below with "Security Issue" selected.</p>
+                <p>🔥 <strong>App Crashes:</strong> Fill out the form immediately.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* BUG REPORT FORM SECTION */}
+      <section className="py-20 px-6 bg-[#FAFAFA] dark:bg-[#09090B]">
+        <div className="max-w-4xl mx-auto mb-12 text-center">
+          <h2 className="text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">
+            Submit Your Report
+          </h2>
+          <p className="text-lg text-[#52525B] dark:text-[#A1A1AA]">
+            Fill out the form below, or use one of the alternative methods further down the page.
+          </p>
+        </div>
+        <BugReportForm />
+      </section>
+
       {/* CHECKLIST */}
-      <section className="py-20 px-6 bg-[#FAFAFA] dark:bg-[#09090B] relative">
+      <section className="py-20 px-6 bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-violet-500/5 via-transparent to-transparent" />
         
         <div className="max-w-4xl mx-auto relative z-10">
@@ -345,7 +780,7 @@ export default function ReportBugPage() {
       </section>
 
       {/* SEVERITY GUIDE */}
-      <section className="py-20 px-6 bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
+      <section className="py-20 px-6 bg-[#FAFAFA] dark:bg-[#09090B] relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-10 left-10 w-20 h-20 border border-zinc-200 dark:border-zinc-800 rounded-full opacity-50" />
         <div className="absolute bottom-10 right-10 w-32 h-32 border border-zinc-200 dark:border-zinc-800 rounded-full opacity-50" />
@@ -391,7 +826,7 @@ export default function ReportBugPage() {
       </section>
 
       {/* HOW TO REPORT */}
-      <section className="py-20 px-6 bg-[#FAFAFA] dark:bg-[#09090B]">
+      <section className="py-20 px-6 bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800">
         <div className="max-w-4xl mx-auto">
           <SectionHeader title="Writing an Effective Report" subtitle="A good bug report is the fastest way to get a fix." />
 
@@ -468,9 +903,9 @@ export default function ReportBugPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm font-medium mb-6">
               <Sparkles size={14} /> Pro Tip
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Use the Bug Report Template</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Bug Report Template</h2>
             <p className="text-zinc-400 mb-8 leading-relaxed">
-              Copy this template and fill it out when submitting your report. It ensures you include all necessary information for us to help you.
+              Copy this template for GitHub or email submissions. The form above auto-formats everything for you!
             </p>
             <div className="space-y-4">
               {[
@@ -495,18 +930,18 @@ export default function ReportBugPage() {
         </div>
       </section>
 
-      {/* SUBMISSION OPTIONS */}
+      {/* ALTERNATIVE SUBMISSION OPTIONS */}
       <section className="py-20 px-6 bg-[#FAFAFA] dark:bg-[#09090B] relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-500/5 via-transparent to-transparent" />
         
         <div className="max-w-6xl mx-auto relative z-10">
-          <SectionHeader title="Submit Your Report" subtitle="Choose the method that works best for you." center />
+          <SectionHeader title="Alternative Submission Methods" subtitle="Prefer a different approach? We've got you covered." center />
           
           <div className="grid md:grid-cols-3 gap-6">
             {/* GitHub */}
             <div className="p-8 bg-white dark:bg-zinc-900 rounded-2xl border-2 border-[#18181B] dark:border-zinc-700 relative overflow-hidden group hover:shadow-2xl hover:shadow-zinc-900/20 dark:hover:shadow-white/5 transition-all duration-500 hover:-translate-y-2 animate-slide-up" style={{ animationDelay: '0ms' }}>
               <div className="absolute top-0 right-0 bg-gradient-to-l from-[#18181B] to-zinc-800 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl flex items-center gap-1">
-                <Sparkles size={12} /> Recommended
+                <Sparkles size={12} /> Public Tracking
               </div>
               <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-zinc-100/50 dark:to-zinc-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Github size={48} className="text-[#18181B] dark:text-[#FAFAFA] mb-6 group-hover:scale-110 transition-transform duration-300" />
@@ -514,7 +949,7 @@ export default function ReportBugPage() {
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
                 Public tracking, community support, and transparent resolution.
               </p>
-              <a href="#" className="inline-flex items-center gap-2 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:gap-4 transition-all duration-300 group/link">
+              <a href="https://github.com/timemark/issues" className="inline-flex items-center gap-2 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:gap-4 transition-all duration-300 group/link">
                 Report on GitHub <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -525,7 +960,7 @@ export default function ReportBugPage() {
               <Mail size={48} className="text-[#7C3AED] mb-6 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Email Report</h3>
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
-                For bugs containing personal data or if you don't use GitHub.
+                For bugs containing personal data or if you prefer email.
               </p>
               <a href="mailto:bugs@timemark.app" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link">
                 Email Bug Report <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
@@ -536,12 +971,12 @@ export default function ReportBugPage() {
             <div className="p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#F43F5E] transition-all duration-500 group hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-2 relative overflow-hidden animate-slide-up" style={{ animationDelay: '200ms' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Lock size={48} className="text-[#F43F5E] mb-6 group-hover:scale-110 transition-transform duration-300" />
-              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Security Issue</h3>
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Security Email</h3>
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
-                For vulnerabilities. Handled confidentially and with priority.
+                For sensitive vulnerabilities. Use form above or email directly.
               </p>
               <a href="mailto:security.timemark@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#F43F5E] hover:gap-4 transition-all duration-300 group/link">
-                Report Security Issue <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+                Email Security Team <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
           </div>
@@ -661,7 +1096,7 @@ export default function ReportBugPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
-              href="#" 
+              href="https://github.com/timemark/issues" 
               className="px-8 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-xl font-bold transition-all duration-300 shadow-lg shadow-violet-900/30 hover:shadow-xl hover:shadow-violet-900/40 hover:-translate-y-1 flex items-center justify-center gap-2 group"
             >
               <Github size={20} />

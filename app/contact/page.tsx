@@ -24,11 +24,14 @@ import {
   Menu,
   X,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Loader2,
+  CheckCheck
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useRouter } from 'next/navigation';
+import { sendContactEmail } from '@/app/actions/sendEmail';
 
 // Floating particles component
 const FloatingParticles = () => {
@@ -53,10 +56,72 @@ const FloatingParticles = () => {
 const ContactPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [formFocused, setFormFocused] = useState<string | null>(null);
-    const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    category: 'General Question',
+    subject: '',
+    message: '',
+    newsletter: false
+  });
+  
+  const router = useRouter();
+  
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setSubmitStatus({ type: 'error', message: 'Please fill in all required fields.' });
+      setTimeout(() => setSubmitStatus({ type: null, message: '' }), 5000);
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+    
+    try {
+      const result = await sendContactEmail(formData);
+      
+      if (result.success) {
+        setSubmitStatus({ type: 'success', message: 'Thank you! Your message has been sent successfully. We\'ll respond within 1-3 business days.' });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          category: 'General Question',
+          subject: '',
+          message: '',
+          newsletter: false
+        });
+        
+        // Scroll to top to show success message
+        setTimeout(() => {
+          window.scrollTo({ top: document.querySelector('form')?.offsetTop || 0, behavior: 'smooth' });
+        }, 100);
+      } else {
+        setSubmitStatus({ type: 'error', message: result.message });
+      }
+    } catch (error) {
+      setSubmitStatus({ type: 'error', message: 'An unexpected error occurred. Please try emailing us directly at support.timemark@harmanita.com' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="font-sans antialiased text-[var(--text-main)] bg-[var(--bg-page)] min-h-screen selection:bg-[var(--primary)] selection:text-white">
@@ -238,13 +303,33 @@ const ContactPage: React.FC = () => {
             <p className="text-[var(--text-muted)] animate-fade-in" style={{ animationDelay: '0.1s' }}>Fill out the form below and we'll get back to you as soon as possible.</p>
           </div>
 
-          <form className="space-y-6">
+          {/* Status Messages */}
+          {submitStatus.type && (
+            <div className={`mb-6 p-4 rounded-xl border ${
+              submitStatus.type === 'success' 
+                ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200' 
+                : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200'
+            } flex items-start gap-3 animate-slide-up`}>
+              {submitStatus.type === 'success' ? (
+                <CheckCheck className="w-5 h-5 flex-shrink-0 mt-0.5" />
+              ) : (
+                <XCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+              )}
+              <p className="text-sm font-medium">{submitStatus.message}</p>
+            </div>
+          )}
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2 animate-slide-up" style={{ animationDelay: '0.1s' }}>
                 <label className="text-sm font-semibold text-[var(--text-main)]">Name <span className="text-[var(--danger)]">*</span></label>
                 <input 
                   type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   placeholder="Your full name" 
+                  required
                   className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all duration-300 hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-[var(--primary)]/5" 
                   onFocus={() => setFormFocused('name')}
                   onBlur={() => setFormFocused(null)}
@@ -254,7 +339,11 @@ const ContactPage: React.FC = () => {
                 <label className="text-sm font-semibold text-[var(--text-main)]">Email Address <span className="text-[var(--danger)]">*</span></label>
                 <input 
                   type="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="We'll respond to this email" 
+                  required
                   className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all duration-300 hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-[var(--primary)]/5" 
                 />
               </div>
@@ -263,7 +352,13 @@ const ContactPage: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2 animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 <label className="text-sm font-semibold text-[var(--text-main)]">Subject Category <span className="text-[var(--danger)]">*</span></label>
-                <select className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] outline-none text-[var(--text-main)] transition-all duration-300 hover:border-[var(--primary)]/50 cursor-pointer">
+                <select 
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] outline-none text-[var(--text-main)] transition-all duration-300 hover:border-[var(--primary)]/50 cursor-pointer"
+                >
                   <option>General Question</option>
                   <option>Technical Support</option>
                   <option>Account Issue</option>
@@ -276,7 +371,11 @@ const ContactPage: React.FC = () => {
                 <label className="text-sm font-semibold text-[var(--text-main)]">Subject Line <span className="text-[var(--danger)]">*</span></label>
                 <input 
                   type="text" 
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
                   placeholder="Brief description of your inquiry" 
+                  required
                   className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all duration-300 hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-[var(--primary)]/5" 
                 />
               </div>
@@ -286,7 +385,11 @@ const ContactPage: React.FC = () => {
               <label className="text-sm font-semibold text-[var(--text-main)]">Message <span className="text-[var(--danger)]">*</span></label>
               <textarea 
                 rows={6} 
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
                 placeholder="Please provide as much detail as possible..." 
+                required
                 className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all duration-300 font-mono text-sm hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-[var(--primary)]/5 resize-none" 
               />
               <p className="text-xs text-[var(--text-muted)]">
@@ -294,24 +397,36 @@ const ContactPage: React.FC = () => {
               </p>
             </div>
 
-            {/* <div className="space-y-2 animate-slide-up" style={{ animationDelay: '0.35s' }}>
-              <label className="text-sm font-semibold text-[var(--text-main)]">Attachment <span className="text-[var(--text-muted)] font-normal">(Optional)</span></label>
-              <div className="border-2 border-dashed border-[var(--border)] rounded-lg p-6 text-center hover:border-[var(--primary)] transition-all duration-300 cursor-pointer bg-[var(--bg-page)] group hover:bg-[var(--primary)]/5">
-                <Paperclip className="w-5 h-5 mx-auto mb-2 text-[var(--text-muted)] group-hover:text-[var(--primary)] group-hover:scale-110 transition-all duration-300" />
-                <span className="text-sm text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">Attach screenshots or logs (Max 5MB)</span>
-              </div>
-            </div> */}
-
             <div className="flex items-start gap-3 pt-2 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-              <input type="checkbox" id="newsletter" className="mt-1 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer" />
+              <input 
+                type="checkbox" 
+                id="newsletter" 
+                name="newsletter"
+                checked={formData.newsletter}
+                onChange={handleInputChange}
+                className="mt-1 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer" 
+              />
               <label htmlFor="newsletter" className="text-sm text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors">Keep me updated with TimeMark news and releases</label>
             </div>
 
             <div className="animate-slide-up" style={{ animationDelay: '0.45s' }}>
-              <button className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 hover:from-[var(--primary-hover)] hover:to-fuchsia-700 text-white rounded-xl font-semibold shadow-lg shadow-[var(--primary)]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[var(--primary)]/40 flex items-center justify-center gap-2 group">
-                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                Send Message
-                <ArrowRight className="w-4 h-4 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 hover:from-[var(--primary-hover)] hover:to-fuchsia-700 text-white rounded-xl font-semibold shadow-lg shadow-[var(--primary)]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[var(--primary)]/40 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    Send Message
+                    <ArrowRight className="w-4 h-4 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+                  </>
+                )}
               </button>
             </div>
             <p className="text-center text-xs text-[var(--text-muted)] mt-4">
@@ -464,14 +579,6 @@ const ContactPage: React.FC = () => {
               btnLink='https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues'
               index={1}
             />
-            {/* <CommunityCard 
-              icon={<svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#5865F2]"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.086 2.176 2.419 0 1.334-.966 2.419-2.176 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.086 2.176 2.419 0 1.334-.966 2.419-2.176 2.419z"/></svg>}
-              title="Discord Server"
-              desc="Real-time chat, quick help, and community events."
-              linkText="Join Server"
-              meta="Active Daily"
-              index={2}
-            /> */}
             <CommunityCard 
               icon={<Twitter className="w-8 h-8 text-[#1DA1F2]" />}
               title="Twitter / X"
@@ -753,7 +860,6 @@ const ContactOption: React.FC<ContactOptionProps> = ({ icon, title, desc, exampl
     className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--primary)] transition-all duration-500 flex flex-col h-full group hover:shadow-xl hover:shadow-[var(--primary)]/10 hover:-translate-y-2 animate-slide-up relative overflow-hidden"
     style={{ animationDelay: `${index * 100}ms` }}
   >
-    {/* Hover gradient overlay */}
     <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/0 to-[var(--primary)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     
     <div className="bg-[var(--bg-page)] w-12 h-12 rounded-xl flex items-center justify-center border border-[var(--border)] mb-4 group-hover:scale-110 group-hover:border-[var(--primary)]/30 transition-all duration-300 relative z-10">
