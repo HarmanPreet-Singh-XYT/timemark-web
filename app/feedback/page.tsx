@@ -807,7 +807,7 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6 relative z-10">
                 For private feedback or detailed suggestions without GitHub.
               </p>
-              <a href="mailto:feedback@timemark.app" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link relative z-10">
+              <a href="mailto:feedback.timemark@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link relative z-10">
                 Email Feedback <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -953,7 +953,7 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
               GitHub
             </a>
             <a 
-              href="mailto:feedback@timemark.app" 
+              href="mailto:feedback.timemark@harmanita.com" 
               className="px-8 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group backdrop-blur-sm"
             >
               <Mail size={20} />

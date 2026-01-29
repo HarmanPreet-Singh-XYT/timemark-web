@@ -533,7 +533,7 @@ const ContactPage: React.FC = () => {
               </div>
               <div className="pt-6">
                 <span className="text-[var(--text-main)] font-bold block mb-2">Example Good Email:</span>
-                <span className="block mb-1">To: support@timemark.app</span>
+                <span className="block mb-1">To: support.timemark@harmanita.com</span>
                 <span className="block mb-3">Subject: Question: How to Export Data to CSV</span>
                 
                 <p className="mb-2">Hi TimeMark Team,</p>

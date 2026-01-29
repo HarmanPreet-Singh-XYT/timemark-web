@@ -738,7 +738,7 @@ export default function CommunityPage() {
               </div>
             </div>
             <p className="text-sm italic bg-zinc-100 dark:bg-zinc-800/50 px-6 py-4 rounded-xl border border-zinc-200 dark:border-zinc-700">
-              Violations can be reported to support@timemark.app. We take all reports seriously.
+              Violations can be reported to support.timemark@harmanita.com. We take all reports seriously.
             </p>
           </div>
         </div>

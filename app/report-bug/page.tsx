@@ -962,7 +962,7 @@ export default function ReportBugPage() {
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
                 For bugs containing personal data or if you prefer email.
               </p>
-              <a href="mailto:bugs@timemark.app" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link">
+              <a href="mailto:bugs.timemark@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link">
                 Email Bug Report <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -1060,9 +1060,9 @@ export default function ReportBugPage() {
                   </div>
                   <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">{issue.workaround}</p>
                 </div>
-                <a href="#" className="text-sm font-medium text-[#7C3AED] hover:underline whitespace-nowrap flex items-center gap-1 group/link">
+                {/* <a href="#" className="text-sm font-medium text-[#7C3AED] hover:underline whitespace-nowrap flex items-center gap-1 group/link">
                   View Issue {issue.issueNum} <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                </a>
+                </a> */}
               </div>
             ))}
           </div>
@@ -1104,7 +1104,7 @@ export default function ReportBugPage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a 
-              href="mailto:bugs@timemark.app" 
+              href="mailto:bugs.timemark@harmanita.com" 
               className="px-8 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group backdrop-blur-sm"
             >
               <Mail size={20} />
