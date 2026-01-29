@@ -64,7 +64,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
   { 
     id: 2, 
     category: "Overview", 
-    title: "Application Analysis", 
+    title: "Applications", 
     description: "Track your most-used apps and categories.", 
     src: "/images/applications.png", 
     icon: LayoutDashboard 
@@ -177,14 +177,14 @@ const GALLERY_ITEMS: GalleryItem[] = [
   },
 
   // Themes (Light/Dark)
-  { 
-    id: 15, 
-    category: "Themes", 
-    title: "Dark Mode", 
-    description: "Easy on the eyes for late-night work.", 
-    src: "/images/dark mode.png", 
-    icon: Moon 
-  },
+  // { 
+  //   id: 15, 
+  //   category: "Themes", 
+  //   title: "Dark Mode", 
+  //   description: "Easy on the eyes for late-night work.", 
+  //   src: "/images/dark mode.png", 
+  //   icon: Moon 
+  // },
   { 
     id: 16, 
     category: "Themes", 
