@@ -12,7 +12,10 @@ import {
   Zap,
   LayoutGrid,
   BarChart3,
-  Sparkles
+  Sparkles,
+  Bell,
+  Target,
+  Settings
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -286,7 +289,7 @@ export default function FAQPage() {
               <span>Not tracking when Computer is locked or in sleep mode</span>
             </div>
           </div>
-                    <p className="mt-4">The margin of error is minimal (less than 1% of total usage). One important note: TimeMark tracks <strong className="text-violet-600 dark:text-violet-400">active</strong> application time, not just time with the app open.</p>
+          <p className="mt-4">The margin of error is minimal (less than 1% of total usage). One important note: TimeMark tracks <strong className="text-violet-600 dark:text-violet-400">active</strong> application time, not just time with the app open.</p>
         </FAQItem>
 
         <FAQItem question="Q4: Can I customize my app categorization?" index={3}>
@@ -338,73 +341,19 @@ export default function FAQPage() {
           <p>These insights help you identify time sinks ("3 hours on Slack?!"), optimize your schedule based on peak hours, and track improvement in your habits over time.</p>
         </FAQItem>
 
-        <FAQItem question="Q6: How can I change language and which languages are available?" index={5}>
-          <p>TimeMark supports multiple languages to make productivity accessible worldwide.</p>
-          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3 flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 text-xs">🌐</span>
-            Changing Language:
-          </h4>
-          <ol className="list-decimal pl-5 space-y-2">
-            <li className="pl-2">Open Settings</li>
-            <li className="pl-2">Go to General section</li>
-            <li className="pl-2">Find 'Language' dropdown</li>
-            <li className="pl-2">Select your preferred language (changes immediately)</li>
-          </ol>
-          <p className="mt-4 text-sm p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl"><strong className="text-amber-700 dark:text-amber-300">⚠️ Note on Translations:</strong> All translations are AI-generated from English. They are generally accurate but may have awkward phrasing. You can request new languages via Settings → Contact.</p>
-        </FAQItem>
-
-        <FAQItem question="Q7: What if I find that a translation is wrong?" index={6}>
-          <p>Translation errors are expected since content is AI-generated. We appreciate reports!</p>
-          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3 flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 text-xs">📝</span>
-            How to Report:
-          </h4>
-          <ul className="space-y-3">
-            <li className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <strong className="text-violet-600 dark:text-violet-400">Through the App (Recommended):</strong>
-              <p className="text-sm mt-1">Settings → Report Bug. Include current text, correct text, and location.</p>
-            </li>
-            <li className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <strong className="text-violet-600 dark:text-violet-400">Direct Contact:</strong>
-              <p className="text-sm mt-1">Settings → Contact to email us directly.</p>
-            </li>
-            <li className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <strong className="text-violet-600 dark:text-violet-400">GitHub:</strong>
-              <p className="text-sm mt-1">Create an issue on our repository if you are a developer.</p>
-            </li>
-          </ul>
-          <p className="mt-4">We review all reports and apply fixes in the next release. If you are fluent and want to contribute to the project, check our GitHub repository!</p>
-        </FAQItem>
-
 
         {/* CATEGORY 2: APPLICATIONS MANAGEMENT */}
         <CategoryHeader title="Applications Management" icon={LayoutGrid} />
 
-        <FAQItem question="Q1: How do I hide specific apps from tracking?" index={7}>
-          <p>You have two options depending on what you want:</p>
-          <div className="space-y-4 mt-4">
-            <div className="p-5 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950/30 dark:to-zinc-900 rounded-xl border border-blue-200 dark:border-blue-800 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
-              <strong className="block text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
-                <span className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">👁</span>
-                Option 1: Hide from Reports
-              </strong>
-              <p className="text-sm mb-3">Hides app from charts but still counts toward total time.</p>
-              <code className="text-xs bg-zinc-200 dark:bg-zinc-800 px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 block">Apps → Edit App → Toggle "Visible in Reports" OFF</code>
-            </div>
-            <div className="p-5 bg-gradient-to-br from-purple-50 to-white dark:from-purple-950/30 dark:to-zinc-900 rounded-xl border border-purple-200 dark:border-purple-800 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300">
-              <strong className="block text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
-                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">🚫</span>
-                Option 2: Stop Tracking Completely
-              </strong>
-              <p className="text-sm mb-3">TimeMark completely ignores the app.</p>
-              <code className="text-xs bg-zinc-200 dark:bg-zinc-800 px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 block">Apps → Edit App → Toggle "Track Usage" OFF</code>
-            </div>
+        <FAQItem question="Q1: How do I hide specific apps from tracking?" index={5}>
+          <p>In the 'Applications' section, you can toggle the visibility of apps. This allows you to keep certain apps out of your reports while still tracking overall usage patterns.</p>
+          <div className="mt-4 p-4 bg-gradient-to-r from-violet-50 to-transparent dark:from-violet-950/50 dark:to-transparent border-l-4 border-[#7C3AED] rounded-r-xl text-sm">
+            <strong className="text-violet-700 dark:text-violet-300">💡 Pro tip:</strong> This is useful for hiding system apps or personal apps you don't want visible in reports but still want to count toward your total screen time.
           </div>
-          <p className="mt-4">Both can be reversed anytime—just toggle back on. Historical data is preserved.</p>
         </FAQItem>
 
-        <FAQItem question="Q2: Can I search and filter my applications?" index={8}>
-          <p>Yes! The Applications page has powerful search and filtering to manage hundreds of apps easily.</p>
+        <FAQItem question="Q2: Can I search and filter my applications?" index={6}>
+          <p>Yes! The Applications section includes powerful search and filtering capabilities:</p>
           <ul className="mt-4 space-y-3">
             <li className="flex items-start gap-3">
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5">🔍</span>
@@ -424,26 +373,32 @@ export default function FAQPage() {
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5">⚡</span>
               <div>
                 <strong className="text-[#18181B] dark:text-[#FAFAFA]">Filter by Productivity:</strong>
-                <p className="text-sm">Quickly review productive vs. non-productive.</p>
+                <p className="text-sm">Quickly review productive vs. non-productive apps.</p>
               </div>
             </li>
             <li className="flex items-start gap-3">
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5">📊</span>
               <div>
                 <strong className="text-[#18181B] dark:text-[#FAFAFA]">Filter by Tracking Status:</strong>
-                <p className="text-sm">See which apps are ignored.</p>
+                <p className="text-sm">See which apps are being tracked or ignored.</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5">👁</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Filter by Visibility:</strong>
+                <p className="text-sm">Find apps hidden from reports.</p>
               </div>
             </li>
           </ul>
-          <p className="mt-4">You can combine search with filters. Even with 500+ apps, search is instant.</p>
         </FAQItem>
 
-        <FAQItem question="Q3: What editing options are available for applications?" index={9}>
-          <p>For each application, you can edit multiple properties:</p>
+        <FAQItem question="Q3: What editing options are available for applications?" index={7}>
+          <p>For each application, you can edit multiple properties to customize your tracking experience:</p>
           <div className="space-y-3 mt-4">
             <div className="p-4 rounded-xl bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500 hover:pl-6 transition-all duration-300">
               <strong className="text-[#18181B] dark:text-[#FAFAFA]">1. Category Assignment:</strong>
-              <p className="text-sm mt-1">Choose default or custom categories.</p>
+              <p className="text-sm mt-1">Choose from default or custom categories.</p>
             </div>
             <div className="p-4 rounded-xl bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500 hover:pl-6 transition-all duration-300">
               <strong className="text-[#18181B] dark:text-[#FAFAFA]">2. Productivity Status:</strong>
@@ -455,137 +410,560 @@ export default function FAQPage() {
             </div>
             <div className="p-4 rounded-xl bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500 hover:pl-6 transition-all duration-300">
               <strong className="text-[#18181B] dark:text-[#FAFAFA]">4. Visible in Reports:</strong>
-              <p className="text-sm mt-1">Show/Hide from charts.</p>
+              <p className="text-sm mt-1">Show/Hide from charts and analytics.</p>
             </div>
             <div className="p-4 rounded-xl bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500 hover:pl-6 transition-all duration-300">
               <strong className="text-[#18181B] dark:text-[#FAFAFA]">5. Daily Time Limit:</strong>
-              <p className="text-sm mt-1">Set max hours/minutes.</p>
+              <p className="text-sm mt-1">Set maximum hours and minutes per day.</p>
             </div>
           </div>
-          <p className="mt-4 text-sm italic bg-violet-50 dark:bg-violet-900/20 p-3 rounded-xl border border-violet-200 dark:border-violet-800">✨ All changes save immediately and apply retroactively to historical data.</p>
         </FAQItem>
 
-        <FAQItem question="Q4: How are application categories determined?" index={10}>
-          <p>TimeMark automatically categorizes apps on first launch using intelligent defaults (e.g., VS Code → Development, Netflix → Entertainment).</p>
-          <div className="mt-4 p-4 bg-gradient-to-br from-green-50 to-white dark:from-green-950/30 dark:to-zinc-900 rounded-xl border border-green-200 dark:border-green-800">
-            <strong className="text-green-700 dark:text-green-300 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">✓</span>
-              Accuracy: 80-90% of common apps are correct automatically.
-            </strong>
+        <FAQItem question="Q4: How are application categories determined?" index={8}>
+          <p>Initial categories are system-suggested based on common application types. TimeMark uses intelligent defaults to automatically categorize apps when they're first detected:</p>
+          <div className="mt-4 space-y-3">
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
+              <strong className="text-green-700 dark:text-green-300">✓ Common apps are categorized automatically</strong>
+              <p className="text-sm mt-1">Examples: Chrome → Browsers, VS Code → Development, Slack → Communication</p>
+            </div>
+            <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+              <strong className="text-amber-700 dark:text-amber-300">⚠ Uncommon apps may be "Uncategorized"</strong>
+              <p className="text-sm mt-1">You have full control to create, modify, and assign custom categories.</p>
+            </div>
           </div>
-          <p className="mt-4">Niche apps might default to 'Uncategorized'.</p>
-          <p className="mt-2"><strong className="text-violet-600 dark:text-violet-400">You Have Control:</strong> The auto-categorization is just a starting point. You can override any category. We recommend spending 10 minutes in your first week to correct any miscategorizations to ensure accurate analytics.</p>
         </FAQItem>
 
 
         {/* CATEGORY 3: USAGE ANALYTICS & REPORTS */}
         <CategoryHeader title="Usage Analytics & Reports" icon={BarChart3} />
 
-        <FAQItem question="Q1: What types of reports are available?" index={11}>
-          <p>TimeMark provides comprehensive reports across multiple pages:</p>
-          
-          <div className="space-y-4 mt-4">
-            <div className="p-5 rounded-xl bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-950/30 dark:to-zinc-900 border border-indigo-200 dark:border-indigo-800 hover:shadow-lg hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1">
-              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 text-lg">
-                <span className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">🏠</span>
-                Overview Dashboard
-              </strong>
-              <p className="text-sm mt-2">Summary cards (Total Time, Productive Score), Top Apps widget, and quick stats comparison.</p>
+        <FAQItem question="Q1: What types of reports are available?" index={9}>
+          <p>Reports include comprehensive analytics to help you understand your digital habits:</p>
+          <ul className="mt-4 space-y-2 list-disc pl-5">
+            <li>Total screen time</li>
+            <li>Productive time percentage</li>
+            <li>Most used apps</li>
+            <li>Focus sessions tracking</li>
+            <li>Daily screen time graph</li>
+            <li>Category breakdown pie chart</li>
+            <li>Detailed application usage</li>
+            <li>Weekly usage trends</li>
+            <li>Usage pattern analysis by time of day</li>
+          </ul>
+        </FAQItem>
+
+        <FAQItem question="Q2: How detailed are the application usage reports?" index={10}>
+          <p>Detailed application usage reports show extensive information for each app:</p>
+          <div className="mt-4 space-y-3">
+            <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">App Information:</strong>
+              <p className="text-sm">Name, category, and productivity status</p>
             </div>
-            <div className="p-5 rounded-xl bg-gradient-to-br from-violet-50 to-white dark:from-violet-950/30 dark:to-zinc-900 border border-violet-200 dark:border-violet-800 hover:shadow-lg hover:shadow-violet-500/10 transition-all duration-300 hover:-translate-y-1">
-              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 text-lg">
-                <span className="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">📊</span>
-                Reports Page (Detailed)
-              </strong>
-              <ul className="text-sm list-disc pl-5 mt-3 space-y-2">
-                <li><strong>Daily Screen Time Graph:</strong> Bar chart by day.</li>
-                <li><strong>Category Breakdown:</strong> Pie chart distribution.</li>
-                <li><strong>Usage Pattern by Time of Day:</strong> Morning/Afternoon/Evening/Night breakdown.</li>
-                <li><strong>Detailed Table:</strong> Sortable list of all apps.</li>
-              </ul>
+            <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Time Metrics:</strong>
+              <p className="text-sm">Total time spent, daily averages, and longest sessions</p>
             </div>
-            <div className="p-5 rounded-xl bg-gradient-to-br from-purple-50 to-white dark:from-purple-950/30 dark:to-zinc-900 border border-purple-200 dark:border-purple-800 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1">
-              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 text-lg">
-                <span className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">🔎</span>
-                Application Details
-              </strong>
-              <p className="text-sm mt-2">Click any app for usage summary, weekly line graphs, time-of-day breakdown, and auto-generated pattern insights.</p>
-            </div>
-            <div className="p-5 rounded-xl bg-gradient-to-br from-fuchsia-50 to-white dark:from-fuchsia-950/30 dark:to-zinc-900 border border-fuchsia-200 dark:border-fuchsia-800 hover:shadow-lg hover:shadow-fuchsia-500/10 transition-all duration-300 hover:-translate-y-1">
-              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 text-lg">
-                <span className="w-10 h-10 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900/50 flex items-center justify-center">📤</span>
-                Export Options
-              </strong>
-              <p className="text-sm mt-2">Export full backups or specific date ranges to JSON for external analysis.</p>
+            <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Actions Section:</strong>
+              <p className="text-sm">Access to usage summary, daily limits, usage trends, and productivity metrics</p>
             </div>
           </div>
         </FAQItem>
 
-        <FAQItem question="Q2: How detailed are the application usage reports?" index={12}>
-          <p>Extremely detailed—down to the minute for every app, every day.</p>
-          <p className="mt-2">When you click 'View Details' on any app, you see:</p>
-          
+        <FAQItem question="Q3: Can I analyze my usage trends over time?" index={11}>
+          <p>Yes! TimeMark provides powerful trend analysis:</p>
           <ul className="mt-4 space-y-3">
-            <li className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">📋</span>
-              <div>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Usage Summary:</strong>
-                <p className="text-sm">Exact time today, daily limit progress, and trend indicators (e.g., ↗️ +18%).</p>
-              </div>
-            </li>
-            <li className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+            <li className="flex items-start gap-3">
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">📈</span>
               <div>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Weekly Graph:</strong>
-                <p className="text-sm">Line chart of the past 7 days to spot unusual usage patterns.</p>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Week-over-Week Comparisons:</strong>
+                <p className="text-sm">See graphs of usage over past weeks with trend indicators</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🕐</span>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">📊</span>
               <div>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Time-of-Day Breakdown:</strong>
-                <p className="text-sm">Visual bar chart showing if you use the app mostly in Morning, Afternoon, Evening, or Night.</p>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Average Daily Usage:</strong>
+                <p className="text-sm">Calculate your typical daily patterns</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🤖</span>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">⏱️</span>
               <div>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Pattern Analysis (AI):</strong>
-                <p className="text-sm">Auto-generated text like <em>"You primarily use Chrome during Evening. Usage increased 25% this week."</em></p>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Longest Sessions:</strong>
+                <p className="text-sm">Identify your peak usage periods</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🎯</span>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">📅</span>
               <div>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Limit Status:</strong>
-                <p className="text-sm">Visual progress bar showing percentage of limit used.</p>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Weekly Totals:</strong>
+                <p className="text-sm">Track your overall digital habits week by week</p>
               </div>
             </li>
           </ul>
-          
-          <div className="mt-6 p-5 bg-gradient-to-br from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-inner">
-            <h5 className="font-bold text-[#18181B] dark:text-[#FAFAFA] text-sm mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-violet-500 text-white flex items-center justify-center text-xs">💡</span>
-              Real-World Example (Chrome)
-            </h5>
-            <div className="grid grid-cols-2 gap-3 text-xs font-mono">
-              <div className="p-2 bg-white dark:bg-zinc-950 rounded-lg border border-zinc-200 dark:border-zinc-700">
-                <span className="text-zinc-500">Today:</span>
-                <span className="block text-[#18181B] dark:text-[#FAFAFA] font-bold">4h 23m</span>
+        </FAQItem>
+
+        <FAQItem question="Q4: What is the 'Usage Pattern' analysis?" index={12}>
+          <p>Usage Pattern breaks down your screen time into different time segments throughout the day:</p>
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="p-4 bg-gradient-to-br from-yellow-50 to-white dark:from-yellow-900/20 dark:to-zinc-900 rounded-xl border border-yellow-200 dark:border-yellow-800">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">🌅</span> Morning
+              </strong>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">Early day usage patterns</p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-zinc-900 rounded-xl border border-orange-200 dark:border-orange-800">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">☀️</span> Afternoon
+              </strong>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">Mid-day activity</p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-zinc-900 rounded-xl border border-purple-200 dark:border-purple-800">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">🌆</span> Evening
+              </strong>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">After-work usage</p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-900/20 dark:to-zinc-900 rounded-xl border border-indigo-200 dark:border-indigo-800">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">🌙</span> Night
+              </strong>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">Late-night screen time</p>
+            </div>
+          </div>
+          <p className="mt-4">This helps you understand when you're most active on your device and identify potential areas for improvement in your digital wellness.</p>
+        </FAQItem>
+
+
+        {/* CATEGORY 4: ALERTS & LIMITS */}
+        <CategoryHeader title="Alerts & Limits" icon={Bell} />
+
+        <FAQItem question="Q1: How granular are the screen time limits?" index={13}>
+          <p>TimeMark provides flexible limit settings for comprehensive time management:</p>
+          <div className="space-y-3 mt-4">
+            <div className="p-4 rounded-xl bg-gradient-to-r from-blue-50 to-transparent dark:from-blue-950/30 dark:to-transparent border-l-4 border-blue-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Overall Daily Limits:</strong>
+              <p className="text-sm mt-1">Set total screen time goals for the entire day</p>
+            </div>
+            <div className="p-4 rounded-xl bg-gradient-to-r from-purple-50 to-transparent dark:from-purple-950/30 dark:to-transparent border-l-4 border-purple-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Individual App Limits:</strong>
+              <p className="text-sm mt-1">Configure specific limits for each application</p>
+            </div>
+            <div className="p-4 rounded-xl bg-gradient-to-r from-green-50 to-transparent dark:from-green-950/30 dark:to-transparent border-l-4 border-green-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Flexible Time Units:</strong>
+              <p className="text-sm mt-1">Set limits in hours and minutes for precise control</p>
+            </div>
+          </div>
+          <p className="mt-4">All limits can be reset or adjusted as needed to match your changing goals.</p>
+        </FAQItem>
+
+        <FAQItem question="Q2: What notification options are available?" index={14}>
+          <p>TimeMark offers comprehensive notification settings to keep you informed:</p>
+          <ul className="mt-4 space-y-3">
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-red-600 dark:text-red-400 flex-shrink-0">🔔</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">System Alerts:</strong>
+                <p className="text-sm">Get notified when you exceed your screen time limits</p>
               </div>
-              <div className="p-2 bg-white dark:bg-zinc-950 rounded-lg border border-zinc-200 dark:border-zinc-700">
-                <span className="text-zinc-500">Trend:</span>
-                <span className="block text-green-600 dark:text-green-400 font-bold">↗️ +18%</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center text-orange-600 dark:text-orange-400 flex-shrink-0">⏰</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Frequent Alerts:</strong>
+                <p className="text-sm">Customizable intervals: 1, 5, 15, 30, or 60 minutes</p>
               </div>
-              <div className="p-2 bg-white dark:bg-zinc-950 rounded-lg border border-zinc-200 dark:border-zinc-700">
-                <span className="text-zinc-500">Peak Usage:</span>
-                <span className="block text-[#18181B] dark:text-[#FAFAFA] font-bold">Tue (5h 12m)</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🎯</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Focus Mode Notifications:</strong>
+                <p className="text-sm">Alerts for focus session start, break, and completion</p>
               </div>
-              <div className="p-2 bg-white dark:bg-zinc-950 rounded-lg border border-zinc-200 dark:border-zinc-700">
-                <span className="text-zinc-500">Top Time:</span>
-                <span className="block text-[#18181B] dark:text-[#FAFAFA] font-bold">Afternoon (40%)</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 flex-shrink-0">📱</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Screen Time Reminders:</strong>
+                <p className="text-sm">Regular updates on your usage throughout the day</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center text-green-600 dark:text-green-400 flex-shrink-0">📲</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Application-Specific Alerts:</strong>
+                <p className="text-sm">Individual notifications for specific apps when limits are approached</p>
+              </div>
+            </li>
+          </ul>
+        </FAQItem>
+
+        <FAQItem question="Q3: Can I customize limit alerts?" index={15}>
+          <p>Yes! TimeMark provides extensive customization for all alert types:</p>
+          <div className="mt-4 space-y-3">
+            <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Alert Frequency Control:</strong>
+              <p className="text-sm">Choose how often you want to be reminded</p>
+            </div>
+            <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Selective Notifications:</strong>
+              <p className="text-sm">Enable/disable specific types of alerts independently</p>
+            </div>
+            <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Different Limits:</strong>
+              <p className="text-sm">Set varying limits for overall screen time and individual applications</p>
+            </div>
+          </div>
+        </FAQItem>
+
+
+        {/* CATEGORY 5: FOCUS MODE & POMODORO TIMER */}
+        <CategoryHeader title="Focus Mode & Pomodoro Timer" icon={Target} />
+
+        <FAQItem question="Q1: What types of Focus Modes are available?" index={16}>
+          <p>TimeMark offers multiple focus modes to match different work styles:</p>
+          <div className="grid md:grid-cols-3 gap-4 mt-4">
+            <div className="p-5 rounded-xl bg-gradient-to-br from-red-50 to-white dark:from-red-950/30 dark:to-zinc-900 border border-red-200 dark:border-red-800 hover:shadow-lg transition-all duration-300">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
+                <span className="text-2xl">🎯</span>
+                Deep Work
+              </strong>
+              <p className="text-sm">Extended focus sessions for complex tasks requiring sustained concentration</p>
+            </div>
+            <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-white dark:from-blue-950/30 dark:to-zinc-900 border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
+                <span className="text-2xl">⚡</span>
+                Quick Tasks
+              </strong>
+              <p className="text-sm">Short bursts of focused work for rapid task completion</p>
+            </div>
+            <div className="p-5 rounded-xl bg-gradient-to-br from-green-50 to-white dark:from-green-950/30 dark:to-zinc-900 border border-green-200 dark:border-green-800 hover:shadow-lg transition-all duration-300">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
+                <span className="text-2xl">📚</span>
+                Reading Mode
+              </strong>
+              <p className="text-sm">Optimized for reading, research, and learning activities</p>
+            </div>
+          </div>
+          <p className="mt-4">Each mode helps you structure your work and break times effectively for maximum productivity.</p>
+        </FAQItem>
+
+        <FAQItem question="Q2: How flexible is the Pomodoro Timer?" index={17}>
+          <p>The Pomodoro Timer is highly customizable to fit your personal productivity style:</p>
+          <ul className="mt-4 space-y-3">
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">⏱️</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Adjustable Work Duration:</strong>
+                <p className="text-sm">Set custom work session lengths to match your concentration span</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">☕</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Short Break Length:</strong>
+                <p className="text-sm">Configure the duration of short breaks between work sessions</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🌴</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Long Break Duration:</strong>
+                <p className="text-sm">Set extended break periods after multiple work sessions</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🔄</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Auto-Start Option:</strong>
+                <p className="text-sm">Automatically begin the next session without manual intervention</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🔔</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Notification Settings:</strong>
+                <p className="text-sm">Control alerts for session transitions</p>
+              </div>
+            </li>
+          </ul>
+        </FAQItem>
+
+        <FAQItem question="Q3: What does the Focus Mode history show?" index={18}>
+          <p>Focus Mode history provides detailed tracking of your focused work sessions:</p>
+          <div className="space-y-3 mt-4">
+            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Daily Focus Sessions:</strong>
+              <p className="text-sm mt-1">Number of completed sessions per day</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Trends Graph:</strong>
+              <p className="text-sm mt-1">Visual representation of your focus patterns over time</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Average Session Duration:</strong>
+              <p className="text-sm mt-1">Calculate your typical focus session length</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Total Focus Time:</strong>
+              <p className="text-sm mt-1">Cumulative focused work time</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-800/50 dark:to-transparent border-l-4 border-violet-500">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA]">Time Distribution Pie Chart:</strong>
+              <p className="text-sm mt-1">Breakdown of work sessions, short breaks, and long breaks</p>
+            </div>
+          </div>
+        </FAQItem>
+
+        <FAQItem question="Q4: Can I track my focus session progress?" index={19}>
+          <p>Yes! TimeMark features an intuitive interface for managing and tracking focus sessions:</p>
+          <div className="mt-4 p-5 bg-gradient-to-br from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl">
+            <strong className="text-[#18181B] dark:text-[#FAFAFA] block mb-3">Circular Timer UI Features:</strong>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">▶</span>
+                Play button to start sessions
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-yellow-500 text-white flex items-center justify-center text-xs">⏸</span>
+                Pause button for temporary breaks
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-xs">↻</span>
+                Reload button to restart current session
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs">⚙</span>
+                Settings button for quick adjustments
+              </li>
+            </ul>
+          </div>
+          <p className="mt-4">You can easily track and manage your focus sessions with these intuitive controls, ensuring smooth workflow management.</p>
+        </FAQItem>
+
+
+        {/* CATEGORY 6: SETTINGS & CUSTOMIZATION */}
+        <CategoryHeader title="Settings & Customization" icon={Settings} />
+
+        <FAQItem question="Q1: What customization options are available?" index={20}>
+          <p>TimeMark provides extensive customization to personalize your experience:</p>
+          <ul className="mt-4 space-y-3">
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🎨</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Theme Selection:</strong>
+                <p className="text-sm">Choose between System, Light, or Dark themes</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🌐</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Language Settings:</strong>
+                <p className="text-sm">Multiple language options available</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🚀</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Startup Behavior:</strong>
+                <p className="text-sm">Configure how TimeMark launches on system start</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🔔</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Notification Controls:</strong>
+                <p className="text-sm">Comprehensive settings for all alert types</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">💾</span>
+              <div>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Data Management:</strong>
+                <p className="text-sm">Options for clearing data or resetting settings</p>
+              </div>
+            </li>
+          </ul>
+        </FAQItem>
+
+        <FAQItem question="Q2: How do I provide feedback or report issues?" index={21}>
+          <p>TimeMark makes it easy to get in touch with support or provide feedback:</p>
+          <div className="mt-4 space-y-3">
+            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-800 hover:shadow-lg transition-all duration-300">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">🐛</span> Report a Bug
+              </strong>
+              <p className="text-sm mt-1">Found a technical issue? Click this button to report bugs directly</p>
+            </div>
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">💭</span> Submit Feedback
+              </strong>
+              <p className="text-sm mt-1">Share your thoughts, suggestions, or feature requests</p>
+            </div>
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800 hover:shadow-lg transition-all duration-300">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
+                <span className="text-xl">📧</span> Contact Support
+              </strong>
+              <p className="text-sm mt-1">Need help? Reach out to our support team</p>
+            </div>
+          </div>
+          <p className="mt-4 text-sm italic text-zinc-600 dark:text-zinc-400">All buttons are located at the bottom of the Settings section and will redirect you to the appropriate support channels.</p>
+        </FAQItem>
+
+        <FAQItem question="Q3: What happens when I clear my data?" index={22}>
+          <p>Clearing data is a significant action that affects all your TimeMark information:</p>
+          <div className="mt-4 p-5 bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-xl">
+            <strong className="text-amber-800 dark:text-amber-200 flex items-center gap-2 mb-3">
+              <span className="text-2xl">⚠️</span> What Gets Cleared:
+            </strong>
+            <ul className="space-y-2 text-sm text-amber-900 dark:text-amber-100">
+              <li className="flex items-start gap-2">
+                <span className="mt-1">•</span>
+                <span>All usage statistics and historical data</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1">•</span>
+                <span>Focus session history and records</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1">•</span>
+                <span>Custom settings and preferences</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1">•</span>
+                <span>App categorizations and productivity labels</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1">•</span>
+                <span>Daily limits and alert configurations</span>
+              </li>
+            </ul>
+          </div>
+          <div className="mt-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+            <strong className="text-green-700 dark:text-green-300 flex items-center gap-2 mb-2">
+              <span className="text-xl">✓</span> When to Clear Data:
+            </strong>
+            <ul className="text-sm space-y-1 text-green-800 dark:text-green-200">
+              <li>• Starting fresh with new goals</li>
+              <li>• Troubleshooting persistent issues</li>
+              <li>• Preparing to hand over device</li>
+              <li>• Resetting after experimental configurations</li>
+            </ul>
+          </div>
+          <p className="mt-4 text-sm"><strong className="text-violet-600 dark:text-violet-400">Important:</strong> This action cannot be undone. Consider exporting your data first if you want to keep a backup.</p>
+        </FAQItem>
+
+        <FAQItem question="Q4: How can I restore or export my data?" index={23}>
+          <p>TimeMark provides robust backup and restore functionality to protect your data:</p>
+          <div className="mt-4 space-y-4">
+            <div className="p-5 bg-gradient-to-r from-blue-50 to-transparent dark:from-blue-950/30 dark:to-transparent border-l-4 border-blue-500 rounded-r-xl">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
+                <span className="text-xl">💾</span> Export Data
+              </strong>
+              <p className="text-sm mb-2">Navigate to Settings → Backup & Restore section to export your complete TimeMark data.</p>
+              <div className="bg-white dark:bg-zinc-900 p-3 rounded-lg border border-blue-200 dark:border-blue-800 text-sm">
+                <strong>Export Location:</strong>
+                <code className="block mt-1 text-xs bg-zinc-100 dark:bg-zinc-800 p-2 rounded">Documents/TimeMark-Backups/</code>
               </div>
             </div>
+            
+            <div className="p-5 bg-gradient-to-r from-green-50 to-transparent dark:from-green-950/30 dark:to-transparent border-l-4 border-green-500 rounded-r-xl">
+              <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
+                <span className="text-xl">📥</span> Import/Restore Data
+              </strong>
+              <p className="text-sm mb-2">Use the same Backup & Restore section to import previously exported data.</p>
+              <div className="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg border border-amber-200 dark:border-amber-800 text-sm">
+                <strong className="text-amber-700 dark:text-amber-300">⚠️ Important:</strong>
+                <p className="mt-1">Only files exported from TimeMark can be used for restoration. Custom or modified files will not work.</p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 p-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl">
+            <strong className="text-violet-700 dark:text-violet-300 flex items-center gap-2 mb-2">
+              <span className="text-xl">💡</span> Pro Tips:
+            </strong>
+            <ul className="text-sm space-y-1">
+              <li>• Create regular backups (weekly or monthly)</li>
+              <li>• Store backups in cloud storage for safety</li>
+              <li>• Test restore functionality occasionally</li>
+              <li>• Keep multiple backup versions</li>
+            </ul>
+          </div>
+        </FAQItem>
+
+
+        {/* CATEGORY 7: TROUBLESHOOTING */}
+        <CategoryHeader title="Troubleshooting" icon={HelpCircle} />
+
+        <FAQItem question="Q1: Data is not showing, 'hive is not opening' error" index={24}>
+          <div className="p-5 bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl mb-4">
+            <strong className="text-red-800 dark:text-red-200 flex items-center gap-2 mb-2">
+              <span className="text-xl">🐛</span> Known Issue
+            </strong>
+            <p className="text-sm">This is a recognized bug that we're working to resolve in future updates.</p>
+          </div>
+          
+          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3">Solution 1: Clear Data Through Settings</h4>
+          <ol className="list-decimal pl-5 space-y-2">
+            <li className="pl-2">Open TimeMark Settings</li>
+            <li className="pl-2">Navigate to Data Management</li>
+            <li className="pl-2">Click "Clear Data"</li>
+            <li className="pl-2">Restart the application</li>
+          </ol>
+
+          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-6 mb-3">Solution 2: Manual File Deletion</h4>
+          <p className="mb-2">If clearing data through settings doesn't work:</p>
+          <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <ol className="list-decimal pl-5 space-y-2 text-sm">
+              <li className="pl-2">Navigate to your Documents folder</li>
+              <li className="pl-2">Delete the following files if they exist:
+                <ul className="list-disc pl-5 mt-2 space-y-1">
+                  <li><code className="text-xs bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">harman_screentime_app_usage_box.hive</code></li>
+                  <li><code className="text-xs bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">harman_screentime_app_usage.lock</code></li>
+                </ul>
+              </li>
+              <li className="pl-2">Restart TimeMark</li>
+            </ol>
+          </div>
+
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+            <strong className="text-blue-700 dark:text-blue-300 flex items-center gap-2">
+              <span className="text-xl">🔄</span> Additional Recommendation:
+            </strong>
+            <p className="text-sm mt-1">Update TimeMark to the latest version, as this issue may be resolved in newer releases.</p>
+          </div>
+        </FAQItem>
+
+        <FAQItem question="Q2: App opens on every startup, what to do?" index={25}>
+          <div className="p-5 bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-xl mb-4">
+            <strong className="text-amber-800 dark:text-amber-200 flex items-center gap-2 mb-2">
+              <span className="text-xl">⚠️</span> Windows 10 Known Issue
+            </strong>
+            <p className="text-sm">This is a known behavior that specifically occurs on Windows 10 systems.</p>
+          </div>
+
+          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3">Temporary Fix:</h4>
+          <div className="bg-gradient-to-r from-green-50 to-transparent dark:from-green-950/30 dark:to-transparent border-l-4 border-green-500 rounded-r-xl p-5">
+            <strong className="text-[#18181B] dark:text-[#FAFAFA] block mb-3">Enable "Launch as Minimized"</strong>
+            <ol className="list-decimal pl-5 space-y-2 text-sm">
+              <li className="pl-2">Open TimeMark Settings</li>
+              <li className="pl-2">Go to General or Startup section</li>
+              <li className="pl-2">Find the "Launch as Minimized" option</li>
+              <li className="pl-2">Enable this setting</li>
+              <li className="pl-2">Restart your computer to test</li>
+            </ol>
+          </div>
+
+          <div className="mt-4 p-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl">
+            <strong className="text-violet-700 dark:text-violet-300">ℹ️ What This Does:</strong>
+            <p className="text-sm mt-1">When enabled, TimeMark will launch minimized to the system tray on startup instead of opening a full window. The app continues tracking in the background, but won't interrupt your workflow.</p>
+          </div>
+
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+            <strong className="text-blue-700 dark:text-blue-300">💡 Alternative Solution:</strong>
+            <p className="text-sm mt-1">If you don't want TimeMark to start automatically at all, you can disable it from Windows Startup settings (Task Manager → Startup tab → Disable TimeMark).</p>
           </div>
         </FAQItem>
 

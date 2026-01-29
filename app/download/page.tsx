@@ -21,9 +21,27 @@ import {
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useRouter } from 'next/navigation';
+import { releases } from '../changelog-data';
 
 const DownloadPage: React.FC = () => {
   const router = useRouter();
+  
+  // Get the latest release data
+  const latestRelease = releases.find(r => r.isLatest) || releases[0];
+  
+  // Extract version number from version string (e.g., "v1.2.1" -> "1.2.1")
+  const versionNumber = latestRelease.version.replace('v', '');
+  
+  // Format date to a shorter format if needed
+  const releaseDate = latestRelease.date;
+  
+  // Get the latest changes for display
+  const latestChanges = [
+    ...(latestRelease.features || []).slice(0, 2),
+    ...(latestRelease.improvements || []).slice(0, 2),
+    ...(latestRelease.fixes || []).slice(0, 2)
+  ].slice(0, 3);
+
   return (
     // Theme Wrapper - In a real app, these variables would be in global.css
     <div className="font-sans antialiased text-[var(--text-main)] bg-[var(--bg-page)] min-h-screen selection:bg-[var(--primary)] selection:text-white overflow-x-hidden">
@@ -58,7 +76,7 @@ const DownloadPage: React.FC = () => {
               <Shield className="w-4 h-4 text-[var(--success)] animate-[pulse_2s_ease-in-out_infinite]" />
               <span>Verified & Safe</span>
               <span className="mx-1 opacity-50">•</span>
-              <span>Version 1.0.2</span>
+              <span>Version {versionNumber}</span>
             </div>
           </div>
         </div>
@@ -225,18 +243,44 @@ const DownloadPage: React.FC = () => {
           <div className="p-8 md:w-1/2 border-b md:border-b-0 md:border-r border-[var(--border)] hover:bg-[var(--bg-page)]/50 transition-colors">
             <h3 className="font-bold text-lg mb-4 group-hover:text-[var(--primary)] transition-colors">Version Information</h3>
             <div className="space-y-2 text-sm text-[var(--text-muted)]">
-              <div className="flex justify-between hover:text-[var(--text-main)] transition-colors"><span>Current Version</span> <span className="font-mono text-[var(--text-main)]">v1.0.2</span></div>
-              <div className="flex justify-between hover:text-[var(--text-main)] transition-colors"><span>Release Date</span> <span className="font-mono text-[var(--text-main)]">Oct 24, 2023</span></div>
-              <div className="flex justify-between hover:text-[var(--text-main)] transition-colors"><span>File Size</span> <span className="font-mono text-[var(--text-main)]">~50 MB</span></div>
+              <div className="flex justify-between hover:text-[var(--text-main)] transition-colors">
+                <span>Current Version</span> 
+                <span className="font-mono text-[var(--text-main)]">{latestRelease.version}</span>
+              </div>
+              <div className="flex justify-between hover:text-[var(--text-main)] transition-colors">
+                <span>Release Date</span> 
+                <span className="font-mono text-[var(--text-main)]">{releaseDate}</span>
+              </div>
+              {latestRelease.size ? (
+                <div className="flex justify-between hover:text-[var(--text-main)] transition-colors">
+                  <span>File Size</span> 
+                  <span className="font-mono text-[var(--text-main)]">~{latestRelease.size} MB</span>
+                </div>
+              ):(
+                <div className="flex justify-between hover:text-[var(--text-main)] transition-colors">
+                  <span>File Size</span> 
+                  <span className="font-mono text-[var(--text-main)]">~30 MB</span>
+                </div>
+              )}
             </div>
             <div className="mt-6">
               <p className="font-medium text-sm mb-2">What's New:</p>
-              <ul className="list-disc list-inside text-sm text-[var(--text-muted)] space-y-1">
-                <li className="hover:text-[var(--text-main)] transition-colors">Dark mode contrast improvements</li>
-                <li className="hover:text-[var(--text-main)] transition-colors">Fixed crash on system wake</li>
-                <li className="hover:text-[var(--text-main)] transition-colors">Performance optimization for large datasets</li>
+              <ul className="space-y-2 text-sm text-[var(--text-muted)]">
+                {latestChanges.length > 0 ? (
+                  latestChanges.map((change, idx) => (
+                    <li key={idx} className="flex items-start gap-2 hover:text-[var(--text-main)] transition-colors">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--primary)] flex-shrink-0" />
+                      <span className="flex-1">{change}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="flex items-start gap-2 hover:text-[var(--text-main)] transition-colors">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--primary)] flex-shrink-0" />
+                    <span className="flex-1">See full changelog for details</span>
+                  </li>
+                )}
               </ul>
-              <a href="#" className="inline-block mt-4 text-sm font-medium text-[var(--primary)] hover:underline hover:scale-105 inline-flex items-center gap-1 transition-all group/link">
+              <a href="/changelog" className="inline-block mt-4 text-sm font-medium text-[var(--primary)] hover:underline hover:scale-105 inline-flex items-center gap-1 transition-all group/link">
                 Read full changelog
                 <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
               </a>
@@ -248,7 +292,7 @@ const DownloadPage: React.FC = () => {
             <p className="text-sm text-[var(--text-muted)] mb-6">
               Prefer manual installation? You can download release builds directly from GitHub. This requires manual updates.
             </p>
-            <button className="flex items-center justify-center gap-2 w-full border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--bg-page)] hover:border-[var(--primary)] text-[var(--text-main)] py-3 rounded-lg font-medium transition-all duration-300 group/btn hover:scale-[1.02]">
+            <button onClick={() => router.push('https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/releases')} className="flex items-center justify-center gap-2 w-full border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--bg-page)] hover:border-[var(--primary)] text-[var(--text-main)] py-3 rounded-lg font-medium transition-all duration-300 group/btn hover:scale-[1.02]">
               <Github className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
               View GitHub Releases
             </button>
@@ -442,7 +486,7 @@ const PlatformCard = ({ icon, title, desc, delay }: { icon: React.ReactNode, tit
   </div>
 );
 
-const FooterLink = ({ icon, label,link }: { icon: React.ReactNode, label: string,link:string }) => (
+const FooterLink = ({ icon, label, link }: { icon: React.ReactNode, label: string, link: string }) => (
   <a href={link} className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--primary)] text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 group">
     <span className="group-hover:scale-110 transition-transform">{icon}</span>
     {label}
