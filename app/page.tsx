@@ -32,6 +32,7 @@ import Navbar from '@/components/layout/Navbar';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Dashboard from '@/components/Dashboard';
+import {releases} from "./changelog-data";
 
 // --- Floating Orb Component (from About page) ---
 const FloatingOrb = ({ className }: { className?: string }) => (
@@ -233,7 +234,7 @@ export default function TimeMarkLanding() {
             style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}
           >
             <Sparkles size={14} className="animate-pulse" />
-            v1.2.2 Now Available
+            {releases[0].version} Now Available
           </div>
           
           <h1 
