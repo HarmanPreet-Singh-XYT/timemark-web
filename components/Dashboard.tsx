@@ -81,13 +81,13 @@ const Dashboard = () => {
           <section className="bg-white dark:bg-[#1e1e1e] p-6 rounded-lg border border-gray-200 dark:border-gray-800/50">
             <h2 className="text-lg font-semibold mb-6">Category Breakdown</h2>
             <div className="space-y-8">
-              {['Development', 'Web Browsing', 'Communication', 'Entertainment', 'Idle'].map((cat, i) => (
+              {['Web Browsing','Development', 'Communication', 'Entertainment', 'Idle'].map((cat, i) => (
                 <div key={i} className="flex items-center gap-4">
                   <p className="text-sm font-medium flex-1">{cat}</p>
                   <div className="w-1/2 h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <div className="h-full bg-green-500 dark:bg-green-800 rounded-full" style={{ width: `${[47, 28, 15, 10, 3][i]}%` }}></div>
                   </div>
-                  <p className="text-sm w-16 text-right font-mono text-gray-700 dark:text-gray-200">{['3h 10m', '1h 52m', '58m', '42m', '12m'][i]}</p>
+                  <p className="text-sm w-16 text-right font-mono text-gray-700 dark:text-gray-200">{['3h 10m', '2h 17m', '58m', '42m', '12m'][i]}</p>
                 </div>
               ))}
             </div>

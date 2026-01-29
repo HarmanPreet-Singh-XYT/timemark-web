@@ -57,7 +57,7 @@ export default function Footer() {
                   priority
                 />
                 <span className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300">
-                  TimeMark
+                  TimeMark - Track Screen Time & App Usage
                 </span>
               </Link>
               

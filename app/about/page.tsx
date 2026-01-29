@@ -21,11 +21,13 @@ import {
   ArrowRight,
   Sparkles,
   Zap,
-  Star
+  Star,
+  ArrowUpRight
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 // --- Visual Identity Constants ---
 // Primary: #7C3AED (Violet 600)
@@ -570,23 +572,23 @@ export default function AboutPage() {
           />
           
           <div className="mt-12">
-            <TimelineItem year="Jan 2023" title="The Problem" index={0}>
-              I realized I was spending 10+ hours daily on my computer but couldn't answer: 'How much was productive?' Existing tools were invasive or expensive.
+            <TimelineItem year="Early 2025" title="The Beginning" index={0}>
+              Started building TimeMark to solve a personal problem: understanding how I spent my computer time without compromising privacy.
             </TimelineItem>
-            <TimelineItem year="Feb 2023" title="First Prototype" index={1}>
-              Built a basic Flutter app that tracked foreground applications. No analytics yet, but it worked.
+            <TimelineItem year="Mar 2025" title="Initial Release" index={1}>
+              v1.0.0 launched with real-time tracking, daily analytics, productive score, and custom categories. The foundation was set.
             </TimelineItem>
-            <TimelineItem year="Apr 2023" title="Open Source Release" index={2}>
-              Published on GitHub. Got first star from a stranger. Realized there was real interest in privacy-first tracking.
+            <TimelineItem year="Apr 2025" title="Stability & Refinement" index={2}>
+              Released v1.0.3 with enhanced tracking mechanisms and improved reliability based on early user feedback.
             </TimelineItem>
-            <TimelineItem year="Aug 2023" title="Microsoft Store Launch" index={3}>
-              Released on Store for easier installation. First bug reports from real users began rolling in.
+            <TimelineItem year="May 2025" title="Custom Date Reports" index={3}>
+              v1.1.0 introduced flexible date range reporting, giving users more control over their analytics.
             </TimelineItem>
-            <TimelineItem year="Jan 2024" title="Growing Community" index={4}>
-              10,000+ downloads. Contributors from 15 countries. TimeMark is now a community effort.
+            <TimelineItem year="Dec 2025" title="Going Global" index={4}>
+              v1.2.0 brought multi-language support for 11 languages and data import/export, making TimeMark accessible worldwide.
             </TimelineItem>
-            <TimelineItem year="Today" title="Global Impact" index={5}>
-              Used by thousands worldwide. Still 100% free. Still committed to privacy. Still improving everyday.
+            <TimelineItem year="Today" title="Continuous Evolution" index={5}>
+              Actively maintained and improved. 100% free. Privacy-first. Used by people around the world to reclaim their time.
             </TimelineItem>
           </div>
         </div>
@@ -594,70 +596,81 @@ export default function AboutPage() {
 
       {/* THE TEAM & CONTRIBUTORS */}
       <SectionWrapper className="bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800">
-        <SectionHeader 
-          title="The Team" 
-          subtitle="Built by developer for community."
-          badge="Our People"
-          center 
-        />
-        
-        <div className="grid md:grid-cols-1 gap-12 max-w-xl mx-auto">
-          {/* <div 
-            className="p-8 rounded-2xl bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900/50 border border-zinc-200 dark:border-zinc-800"
-            style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}
-          >
-            <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-violet-100 dark:bg-violet-900/50">
-                <Code2 className="text-[#7C3AED]" size={20} />
-              </div>
-              Core Contributors
-            </h3>
-            <div className="space-y-6">
-              <div className="flex gap-4 items-center p-4 rounded-xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-                <div className="w-14 h-14 rounded-full gradient-bg flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-violet-500/30">LD</div>
-                <div>
-                  <div className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Lead Developer</div>
-                  <div className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Architecture, Core Features</div>
+          <SectionHeader 
+            title="The Team" 
+            subtitle="Built by developer for community."
+            badge="Our People"
+            center 
+          />
+          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div 
+              className="p-8 rounded-2xl bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900/50 border border-zinc-200 dark:border-zinc-800"
+              style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}
+            >
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex-shrink-0">
+                  <Code2 className="text-[#7C3AED]" size={20} />
                 </div>
-              </div>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-700">
-                Supported by <strong className="text-[#18181B] dark:text-[#FAFAFA]">50+ code contributors</strong>, <strong className="text-[#18181B] dark:text-[#FAFAFA]">30+ translators</strong>, and hundreds of community testers.
-              </p>
-            </div>
-          </div> */}
-          
-          <div 
-            className="p-8 rounded-2xl bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-zinc-900/50 border border-rose-200 dark:border-rose-900/50"
-            style={{ animation: 'fadeInUp 0.6s ease-out 0.2s forwards', opacity: 0 }}
-          >
-            <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-rose-100 dark:bg-rose-900/50">
-                <Heart className="text-[#F43F5E]" size={20} />
-              </div>
-              How You Can Help
-            </h3>
-            <ul className="space-y-4">
-              {[
-                { icon: Code2, text: "Developers: Fix bugs & add features" },
-                { icon: Globe2, text: "Translators: Localize the app" },
-                { icon: MessageSquare, text: "Everyone: Report bugs & share ideas" }
-              ].map((item, idx) => (
-                <li key={idx} className="flex gap-3 items-center p-3 rounded-xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-violet-300 dark:hover:border-violet-700 transition-colors duration-300">
-                  <div className="w-10 h-10 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
-                    <item.icon size={18} className="text-[#7C3AED]"/>
+                Built By
+              </h3>
+              <div className="space-y-6">
+                <div className="flex gap-4 items-center p-4 rounded-xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+                  <img 
+                    src="https://media.licdn.com/dms/image/v2/D5603AQFKSFtNR11urQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1727085171286?e=1771459200&v=beta&t=dVwCEGly6oMPpayjIF2VqJFFqVwuB-qDOX2YsiiY_5A" 
+                    alt="Harmanpreet Singh"
+                    className="w-14 h-14 rounded-full object-cover shadow-lg shadow-violet-500/30 flex-shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <Link 
+                      href={"https://www.linkedin.com/in/harman-developer/"}
+                      className="group"
+                    >
+                      <div className="font-bold text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#A78BFA] transition-colors duration-300 flex items-center gap-1">
+                        Harmanpreet Singh
+                        <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    </Link>
+                    <div className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Design, Development & Maintenance</div>
                   </div>
-                  <span className="text-[#52525B] dark:text-[#A1A1AA]">{item.text}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6">
-              <a href="/community" className="inline-flex items-center gap-2 text-sm font-bold text-[#7C3AED] hover:text-[#6D28D9] transition-colors">
-                Read Contributing Guide <ArrowRight size={14} />
-              </a>
+                </div>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-700">
+                  A <strong className="text-[#18181B] dark:text-[#FAFAFA]">one-person project</strong> built with passion to help people understand and reclaim their time, with privacy as the foundation.
+                </p>
+              </div>
+            </div>
+            
+            <div 
+              className="p-8 rounded-2xl bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-zinc-900/50 border border-rose-200 dark:border-rose-900/50"
+              style={{ animation: 'fadeInUp 0.6s ease-out 0.2s forwards', opacity: 0 }}
+            >
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-rose-100 dark:bg-rose-900/50 flex-shrink-0">
+                  <Heart className="text-[#F43F5E]" size={20} />
+                </div>
+                How You Can Help
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  { icon: Code2, text: "Developers: Fix bugs & add features" },
+                  { icon: Globe2, text: "Translators: Localize the app" },
+                  { icon: MessageSquare, text: "Everyone: Report bugs & share ideas" }
+                ].map((item, idx) => (
+                  <li key={idx} className="flex gap-3 items-center p-3 rounded-xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-violet-300 dark:hover:border-violet-700 transition-colors duration-300">
+                    <div className="w-10 h-10 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center flex-shrink-0">
+                      <item.icon size={18} className="text-[#7C3AED]"/>
+                    </div>
+                    <span className="text-[#52525B] dark:text-[#A1A1AA] text-sm">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-6">
+                <a href="/community" className="inline-flex items-center gap-2 text-sm font-bold text-[#7C3AED] hover:text-[#6D28D9] transition-colors">
+                  Read Contributing Guide <ArrowRight size={14} />
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </SectionWrapper>
+        </SectionWrapper>
 
       {/* PRIVACY & SUPPORT */}
       <SectionWrapper className="bg-[#FAFAFA] dark:bg-[#09090B]">
