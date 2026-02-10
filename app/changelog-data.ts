@@ -15,9 +15,31 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "v2.0.0",
+    date: "February 10, 2026",
+    isLatest: true,
+    features: [
+      "Rebranded and restructured the application (TimeMark → Scolect)",
+      "Native macOS support with deep OS-level integration",
+      "Fully rebuilt tracking engine with up to 60× improved accuracy",
+      "Advanced idle detection using keyboard, mouse, audio, HID devices, and controllers",
+      "Fully customizable theming system",
+      "Automated Excel report generation with detailed analytics",
+      "Complete UI refresh focused on clarity, responsiveness, and performance"
+    ],
+    tech: [
+      "macOS permissions and entitlement handling",
+      "Low-level input monitoring across multiple device types",
+      "High-performance tracking engine optimization",
+      "Scalable theming architecture",
+      "Cross-platform Flutter architecture for Windows and macOS"
+    ],
+    note: "This is a major architectural release introducing Scolect as the new identity of TimeMark. Significant internal systems were redesigned to support cross-platform accuracy, performance, and extensibility."
+  },
+  {
     version: "v1.2.1",
     date: "December 23, 2025",
-    isLatest: true,
+    isLatest: false,
     fixes: [
       "Fixed issue where opening another instance of the application would fail to load. New instances now correctly bring the existing window to focus instead of creating duplicates."
     ],
