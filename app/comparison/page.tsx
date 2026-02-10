@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
+import { useRouter } from 'next/navigation';
 
 // Floating Orb Component
 const FloatingOrb = ({ className }: { className?: string }) => (
@@ -108,14 +109,14 @@ const StatusIcon = ({ status }: { status: 'yes' | 'no' | 'partial' | 'dev' }) =>
   }
 };
 
-const ComparisonRow = ({ feature, timemark, rescue, os, cold, focusme, isHeader = false, index = 0 }: { feature: string, timemark: any, rescue: any, os: any, cold: any, focusme: any, isHeader?: boolean, index?: number }) => {
+const ComparisonRow = ({ feature, scolect, rescue, os, cold, focusme, isHeader = false, index = 0 }: { feature: string, scolect: any, rescue: any, os: any, cold: any, focusme: any, isHeader?: boolean, index?: number }) => {
   if (isHeader) {
     return (
       <div className="grid grid-cols-6 gap-4 p-5 border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-r from-zinc-100 via-zinc-50 to-zinc-100 dark:from-zinc-900 dark:via-zinc-900/80 dark:to-zinc-900 font-bold text-sm md:text-base text-[#18181B] dark:text-[#FAFAFA] items-center text-center sticky top-0 z-10 backdrop-blur-sm">
         <div className="text-left pl-4">Feature</div>
         <div className="text-[#7C3AED] dark:text-[#8B5CF6] flex items-center justify-center gap-2">
           <Sparkles size={14} className="animate-pulse" />
-          TimeMark
+          Scolect
         </div>
         <div>RescueTime</div>
         <div className="hidden md:block">OS Built-in</div>
@@ -134,7 +135,7 @@ const ComparisonRow = ({ feature, timemark, rescue, os, cold, focusme, isHeader 
     >
       <div className="text-left font-medium text-[#18181B] dark:text-[#FAFAFA] pl-4 group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">{feature}</div>
       <div className="font-bold bg-gradient-to-br from-[#7C3AED]/10 to-[#7C3AED]/5 dark:from-[#7C3AED]/20 dark:to-[#7C3AED]/10 py-3 rounded-xl text-[#18181B] dark:text-[#FAFAFA] border border-[#7C3AED]/20 shadow-sm group-hover:shadow-[#7C3AED]/20 group-hover:border-[#7C3AED]/40 transition-all">
-        {isStatusValue(timemark) ? <StatusIcon status={timemark} /> : <span className="text-[#7C3AED] dark:text-[#8B5CF6] font-semibold">{timemark}</span>}
+        {isStatusValue(scolect) ? <StatusIcon status={scolect} /> : <span className="text-[#7C3AED] dark:text-[#8B5CF6] font-semibold">{scolect}</span>}
       </div>
       <div className="text-[#52525B] dark:text-[#A1A1AA]">{isStatusValue(rescue) ? <StatusIcon status={rescue} /> : rescue}</div>
       <div className="hidden md:block text-[#52525B] dark:text-[#A1A1AA]">{isStatusValue(os) ? <StatusIcon status={os} /> : os}</div>
@@ -171,7 +172,7 @@ const CompetitorCard = ({ title, advantages, disadvantages, summary, icon: Icon,
           <div className="bg-gradient-to-br from-[#14B8A6]/5 to-transparent p-6 rounded-2xl border border-[#14B8A6]/10">
             <h4 className="font-bold text-[#14B8A6] mb-4 uppercase text-xs tracking-wider flex items-center gap-2">
               <CheckCircle2 size={14} />
-              TimeMark Advantages
+              Scolect Advantages
             </h4>
             <ul className="space-y-3">
               {advantages.map((item, idx) => (
@@ -234,6 +235,8 @@ const FeatureHighlight = ({ icon: Icon, title, description, index = 0 }: { icon:
 };
 
 export default function ComparisonPage() {
+  const router = useRouter();
+  
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
       <style jsx global>{`
@@ -351,14 +354,14 @@ export default function ComparisonPage() {
             className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
           >
-            How <span className="shimmer-text">TimeMark</span> Compares
+            How <span className="shimmer-text">Scolect</span> Compares
           </h1>
           
           <p 
             className="text-xl md:text-2xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
           >
-            See how TimeMark stacks up against commercial screen time apps and built-in OS solutions.
+            See how Scolect stacks up against commercial screen time apps and built-in OS solutions.
           </p>
           
           {/* Stats */}
@@ -400,19 +403,19 @@ export default function ComparisonPage() {
           
           <div className="overflow-x-auto bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-zinc-900/50">
             <div className="min-w-[900px]">
-              <ComparisonRow feature="" timemark="" rescue="" os="" cold="" focusme="" isHeader />
+              <ComparisonRow feature="" scolect="" rescue="" os="" cold="" focusme="" isHeader />
               
-              <ComparisonRow feature="Price" timemark="Free" rescue="$12/mo" os="Free" cold="$39" focusme="$60" index={1} />
-              <ComparisonRow feature="Privacy" timemark="100% Local" rescue="Cloud" os="Mixed" cold="Local" focusme="Local" index={2} />
-              <ComparisonRow feature="Open Source" timemark="yes" rescue="no" os="no" cold="no" focusme="no" index={3} />
-              <ComparisonRow feature="Auto Tracking" timemark="yes" rescue="yes" os="partial" cold="yes" focusme="yes" index={4} />
-              <ComparisonRow feature="Productivity Score" timemark="yes" rescue="yes" os="no" cold="no" focusme="partial" index={5} />
-              <ComparisonRow feature="Focus/Pomodoro" timemark="yes" rescue="partial" os="no" cold="yes" focusme="yes" index={6} />
-              <ComparisonRow feature="Detailed Analytics" timemark="yes" rescue="yes" os="partial" cold="partial" focusme="partial" index={7} />
-              <ComparisonRow feature="Distraction Blocking" timemark="dev" rescue="yes" os="partial" cold="yes" focusme="yes" index={8} />
-              <ComparisonRow feature="Historical Data" timemark="Unlimited" rescue="Limited (Free)" os="30 Days" cold="Unlimited" focusme="Unlimited" index={9} />
-              <ComparisonRow feature="No Account Req." timemark="yes" rescue="no" os="partial" cold="yes" focusme="yes" index={10} />
-              <ComparisonRow feature="Multi-Platform" timemark="Windows" rescue="All" os="Built-in" cold="Win/Mac" focusme="Win/Mac" index={11} />
+              <ComparisonRow feature="Price" scolect="Free" rescue="\$12/mo" os="Free" cold="\$39" focusme="\$60" index={1} />
+              <ComparisonRow feature="Privacy" scolect="100% Local" rescue="Cloud" os="Mixed" cold="Local" focusme="Local" index={2} />
+              <ComparisonRow feature="Open Source" scolect="yes" rescue="no" os="no" cold="no" focusme="no" index={3} />
+              <ComparisonRow feature="Auto Tracking" scolect="yes" rescue="yes" os="partial" cold="yes" focusme="yes" index={4} />
+              <ComparisonRow feature="Productivity Score" scolect="yes" rescue="yes" os="no" cold="no" focusme="partial" index={5} />
+              <ComparisonRow feature="Focus/Pomodoro" scolect="yes" rescue="partial" os="no" cold="yes" focusme="yes" index={6} />
+              <ComparisonRow feature="Detailed Analytics" scolect="yes" rescue="yes" os="partial" cold="partial" focusme="partial" index={7} />
+              <ComparisonRow feature="Distraction Blocking" scolect="dev" rescue="yes" os="partial" cold="yes" focusme="yes" index={8} />
+              <ComparisonRow feature="Historical Data" scolect="Unlimited" rescue="Limited (Free)" os="30 Days" cold="Unlimited" focusme="Unlimited" index={9} />
+              <ComparisonRow feature="No Account Req." scolect="yes" rescue="no" os="partial" cold="yes" focusme="yes" index={10} />
+              <ComparisonRow feature="Multi-Platform" scolect="Win/Mac" rescue="All" os="Built-in" cold="Win/Mac" focusme="Win/Mac" index={11} />
             </div>
           </div>
           
@@ -457,7 +460,7 @@ export default function ComparisonPage() {
             title="RescueTime"
             icon={CloudOff}
             advantages={[
-              "Completely Free (vs $78/year)",
+              "Completely Free (vs \$78/year)",
               "Privacy-First: Local storage only",
               "No Account Required",
               "Built-in Pomodoro Timer",
@@ -466,11 +469,11 @@ export default function ComparisonPage() {
             disadvantages={[
               "No mobile app (yet)",
               "No automatic AI classification",
-              "Windows only (currently)"
+              "Limited platform support (currently)"
             ]}
             summary={
               <p>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">The Verdict:</strong> Choose TimeMark if privacy and cost are your main concerns, or if you want Pomodoro integration without a subscription. Choose RescueTime if you need mobile tracking or cross-device syncing and are comfortable with cloud data storage.
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">The Verdict:</strong> Choose Scolect if privacy and cost are your main concerns, or if you want Pomodoro integration without a subscription. Choose RescueTime if you need mobile tracking or cross-device syncing and are comfortable with cloud data storage.
               </p>
             }
             index={0}
@@ -493,7 +496,7 @@ export default function ComparisonPage() {
             ]}
             summary={
               <p>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">The Verdict:</strong> OS tools are great for basic awareness ("I used my laptop for 4 hours"). TimeMark is for <em className="text-[#7C3AED]">optimization</em> ("I was 75% productive and my peak hours were 9-11 AM").
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">The Verdict:</strong> OS tools are great for basic awareness ("I used my laptop for 4 hours"). Scolect is for <em className="text-[#7C3AED]">optimization</em> ("I was 75% productive and my peak hours were 9-11 AM").
               </p>
             }
             index={1}
@@ -503,7 +506,7 @@ export default function ComparisonPage() {
             title="Cold Turkey / FocusMe"
             icon={Lock}
             advantages={[
-              "Completely Free (vs $39-60)",
+              "Completely Free (vs \$39-60)",
               "Respectful Approach: Awareness over strict locks",
               "Better Analytics & Insights",
               "Open Source Transparency",
@@ -516,7 +519,7 @@ export default function ComparisonPage() {
             ]}
             summary={
               <p>
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">The Verdict:</strong> Cold Turkey is a blocking tool; TimeMark is an awareness tool. If you have zero self-control, use a blocker. If you want to understand your habits and build self-regulation, use TimeMark.
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">The Verdict:</strong> Cold Turkey is a blocking tool; Scolect is an awareness tool. If you have zero self-control, use a blocker. If you want to understand your habits and build self-regulation, use Scolect.
               </p>
             }
             index={2}
@@ -524,7 +527,7 @@ export default function ComparisonPage() {
         </div>
       </section>
 
-      {/* WHY CHOOSE TIMEMARK */}
+      {/* WHY CHOOSE SCOLECT */}
       <section className="relative py-24 px-6 bg-gradient-to-b from-[#FAFAFA] to-white dark:from-[#09090B] dark:to-zinc-950 overflow-hidden">
         <FloatingOrb className="w-[400px] h-[400px] bg-violet-400 top-1/2 -right-32 animate-pulse" />
         
@@ -532,9 +535,9 @@ export default function ComparisonPage() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#7C3AED]/10 to-[#14B8A6]/10 border border-[#7C3AED]/20 mb-4">
               <Heart size={14} className="text-[#7C3AED] animate-pulse" />
-              <span className="text-xs font-semibold text-[#7C3AED] uppercase tracking-wider">Why TimeMark</span>
+              <span className="text-xs font-semibold text-[#7C3AED] uppercase tracking-wider">Why Scolect</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">Why Choose <span className="shimmer-text">TimeMark</span>?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">Why Choose <span className="shimmer-text">Scolect</span>?</h2>
             <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto">Six reasons we believe this is the best tool for digital autonomy.</p>
           </div>
 
@@ -592,7 +595,7 @@ export default function ComparisonPage() {
                 <div className="p-2 rounded-xl bg-[#14B8A6]/20">
                   <CheckCircle2 size={24} />
                 </div>
-                Choose TimeMark if...
+                Choose Scolect if...
               </h3>
               <ul className="space-y-4 text-sm text-[#52525B] dark:text-[#A1A1AA]">
                 {[
@@ -634,7 +637,7 @@ export default function ComparisonPage() {
           
           <div className="mt-10 text-center p-8 rounded-2xl bg-gradient-to-br from-[#7C3AED]/5 to-[#14B8A6]/5 border border-[#7C3AED]/10 shadow-inner">
             <p className="text-sm font-medium text-[#18181B] dark:text-[#FAFAFA]">
-              <strong className="text-[#7C3AED]">Pro Tip:</strong> TimeMark plays well with others. Use it for Windows desktop tracking and combine it with RescueTime for mobile or Cold Turkey for blocking.
+              <strong className="text-[#7C3AED]">Pro Tip:</strong> Scolect plays well with others. Use it for desktop tracking and combine it with RescueTime for mobile or Cold Turkey for blocking.
             </p>
           </div>
         </div>
@@ -658,15 +661,18 @@ export default function ComparisonPage() {
           </div>
           
           <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-zinc-900 via-[#7C3AED] to-zinc-900 dark:from-white dark:via-[#8B5CF6] dark:to-white bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
-            Ready to Try TimeMark?
+            Ready to Try Scolect?
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
-            Download for free from Microsoft Store and see the difference for yourself.
+            Download for free and see the difference for yourself.
           </p>
-          <button className="group relative flex items-center justify-center gap-3 mx-auto bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-5 px-10 rounded-2xl shadow-2xl shadow-violet-500/30 dark:shadow-violet-900/40 transition-all duration-300 overflow-hidden">
+          <button 
+            onClick={() => router.push('/download')}
+            className="group relative flex items-center justify-center gap-3 mx-auto bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-5 px-10 rounded-2xl shadow-2xl shadow-violet-500/30 dark:shadow-violet-900/40 transition-all duration-300 overflow-hidden"
+          >
             <span className="relative z-10 flex items-center gap-3">
               <Download size={22} />
-              Get TimeMark Free
+              Get Scolect Free
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </span>
             <div className="absolute inset-0 animate-shimmer-bg" />

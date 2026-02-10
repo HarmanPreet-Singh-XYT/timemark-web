@@ -209,7 +209,7 @@ const TechCard = ({ icon: Icon, title, description, index }: { icon: any, title:
   </div>
 );
 
-const ContactCard = ({ icon: Icon, title, subtitle, index,link="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" }: { icon: any, title: string, subtitle: string, index: number,link?:string }) => (
+const ContactCard = ({ icon: Icon, title, subtitle, index, link="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" }: { icon: any, title: string, subtitle: string, index: number, link?: string }) => (
   <a 
     href={link} 
     className="group p-6 text-center rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 hover:border-violet-300 dark:hover:border-violet-700 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-2"
@@ -327,7 +327,7 @@ export default function AboutPage() {
             className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
           >
-            About <span className="shimmer-text">TimeMark</span>
+            About <span className="shimmer-text">Scolect</span>
           </h1>
           
           <p 
@@ -357,7 +357,7 @@ export default function AboutPage() {
             <div className="space-y-4 text-[#52525B] dark:text-[#A1A1AA] leading-relaxed">
               <p>We live in an age of engineered distraction. Every app is designed to capture and monetize your attention.</p>
               <p className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                <strong className="text-[#18181B] dark:text-[#FAFAFA]">TimeMark exists as an alternative.</strong>
+                <strong className="text-[#18181B] dark:text-[#FAFAFA]">Scolect exists as an alternative.</strong>
               </p>
               <p>We believe that understanding your digital habits is a fundamental right, not a premium feature. That awareness should empower, not shame.</p>
               <p className="p-4 rounded-xl bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-950/50 dark:to-purple-950/50 border border-violet-200 dark:border-violet-800">
@@ -376,7 +376,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6">Born from Frustration</h2>
             <div className="space-y-4 text-[#52525B] dark:text-[#A1A1AA] leading-relaxed">
-              <p>TimeMark began as a personal project. I tried commercial screen time apps, but they were either too expensive, privacy-invasive, or treated me like a child to be controlled.</p>
+              <p>Scolect began as a personal project. I tried commercial screen time apps, but they were either too expensive, privacy-invasive, or treated me like a child to be controlled.</p>
               <ul className="space-y-3 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
                 {[
                   { text: "Free", desc: "so anyone could use it" },
@@ -392,7 +392,7 @@ export default function AboutPage() {
                   </li>
                 ))}
               </ul>
-              <p>What started as a personal tool has grown into a full-featured productivity suite. TimeMark proves that powerful tools can be built without surveillance.</p>
+              <p>What started as a personal tool has grown into a full-featured productivity suite. Scolect proves that powerful tools can be built without surveillance.</p>
             </div>
           </div>
         </div>
@@ -413,7 +413,7 @@ export default function AboutPage() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ValueCard icon={Shield} title="Privacy is Non-Negotiable" index={0}>
-              <p>Your usage data reveals intimate details about your life. That's why TimeMark stores everything locally on your device.</p>
+              <p>Your usage data reveals intimate details about your life. That's why Scolect stores everything locally on your device.</p>
               <ul className="text-sm space-y-2 mt-4">
                 {["No cloud servers", "No data collection", "No telemetry"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50">
@@ -426,7 +426,7 @@ export default function AboutPage() {
             </ValueCard>
 
             <ValueCard icon={Code2} title="Open Source Builds Trust" index={1}>
-              <p>Closed-source productivity apps are black boxes. TimeMark is fully open-source.</p>
+              <p>Closed-source productivity apps are black boxes. Scolect is fully open-source.</p>
               <ul className="text-sm space-y-2 mt-4">
                 {["Anyone can audit the code", "Community owned"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-2 rounded-lg bg-teal-50 dark:bg-teal-900/20 border border-teal-100 dark:border-teal-900/50">
@@ -439,7 +439,7 @@ export default function AboutPage() {
             </ValueCard>
 
             <ValueCard icon={Globe2} title="Accessibility for All" index={2}>
-              <p>Productivity tools shouldn't be gatekept behind paywalls. TimeMark will always be 100% free.</p>
+              <p>Productivity tools shouldn't be gatekept behind paywalls. Scolect will always be 100% free.</p>
               <ul className="text-sm space-y-2 mt-4">
                 {["No premium tiers", "No feature restrictions"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50">
@@ -452,7 +452,7 @@ export default function AboutPage() {
             </ValueCard>
 
             <ValueCard icon={BrainCircuit} title="User Autonomy" index={3}>
-              <p>You're an adult. You don't need an app to parent you. TimeMark provides information and reminders—not restrictions.</p>
+              <p>You're an adult. You don't need an app to parent you. Scolect provides information and reminders—not restrictions.</p>
               <div className="p-4 mt-4 rounded-xl bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 italic text-sm">
                 "You've reached your limit. You can continue if needed."
               </div>
@@ -460,7 +460,7 @@ export default function AboutPage() {
             </ValueCard>
 
             <ValueCard icon={Users2} title="Community-Driven" index={4}>
-              <p>TimeMark isn't built by a corporation optimizing for profits. It's built by users, for users.</p>
+              <p>Scolect isn't built by a corporation optimizing for profits. It's built by users, for users.</p>
               <p className="mt-4">The roadmap reflects what users actually need, not what investors want to see.</p>
               <div className="flex items-center gap-2 mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700">
                 <Star className="text-amber-500" size={18} />
@@ -500,8 +500,8 @@ export default function AboutPage() {
           />
           <TechCard 
             icon={Monitor} 
-            title="Windows API" 
-            description="Direct integration for accurate, low-impact foreground tracking."
+            title="Native APIs" 
+            description="Direct platform integration for accurate, low-impact foreground tracking."
             index={3}
           />
         </div>
@@ -515,7 +515,7 @@ export default function AboutPage() {
         <div className="relative z-10">
           <SectionHeader 
             title="Development Roadmap" 
-            subtitle="TimeMark is actively developed. Here's where we're going."
+            subtitle="Scolect is actively developed. Here's where we're going."
             badge="What's Next"
             center 
           />
@@ -539,7 +539,7 @@ export default function AboutPage() {
               title="Planned" 
               statusColor="border-[#F59E0B]"
               icon={Star}
-              items={["Weekday vs. Weekend Limits", "Application Tags", "macOS Support (Alpha)", "Goal System"]}
+              items={["Weekday vs. Weekend Limits", "Application Tags", "Linux Support (Alpha)", "Goal System"]}
               index={2}
             />
             <RoadmapColumn 
@@ -550,15 +550,6 @@ export default function AboutPage() {
               index={3}
             />
           </div>
-          
-          {/* <div className="mt-16 text-center">
-            <div className="inline-block p-6 rounded-2xl bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-950/50 dark:to-purple-950/50 border border-violet-200 dark:border-violet-800">
-              <p className="text-[#52525B] dark:text-[#A1A1AA] mb-4">Have an idea? We prioritize based on community demand.</p>
-              <a href="#" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-medium hover:shadow-lg hover:shadow-violet-500/30 transition-all duration-300 hover:-translate-y-1">
-                Vote on Features <ArrowRight size={16} />
-              </a>
-            </div>
-          </div> */}
         </div>
       </SectionWrapper>
 
@@ -573,7 +564,7 @@ export default function AboutPage() {
           
           <div className="mt-12">
             <TimelineItem year="Early 2025" title="The Beginning" index={0}>
-              Started building TimeMark to solve a personal problem: understanding how I spent my computer time without compromising privacy.
+              Started building Scolect to solve a personal problem: understanding how I spent my computer time without compromising privacy.
             </TimelineItem>
             <TimelineItem year="Mar 2025" title="Initial Release" index={1}>
               v1.0.0 launched with real-time tracking, daily analytics, productive score, and custom categories. The foundation was set.
@@ -585,7 +576,7 @@ export default function AboutPage() {
               v1.1.0 introduced flexible date range reporting, giving users more control over their analytics.
             </TimelineItem>
             <TimelineItem year="Dec 2025" title="Going Global" index={4}>
-              v1.2.0 brought multi-language support for 11 languages and data import/export, making TimeMark accessible worldwide.
+              v1.2.0 brought multi-language support for 11 languages and data import/export, making Scolect accessible worldwide.
             </TimelineItem>
             <TimelineItem year="Today" title="Continuous Evolution" index={5}>
               Actively maintained and improved. 100% free. Privacy-first. Used by people around the world to reclaim their time.
@@ -693,7 +684,7 @@ export default function AboutPage() {
               ))}
             </ul>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-              All data is stored locally in your <code className="px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-700 text-xs">Documents/</code> folder. You can verify this by auditing our open-source code.
+              All data is stored locally in your app data folder. You can verify this by auditing our open-source code.
             </p>
           </div>
 
@@ -706,7 +697,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-2xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">Support the Project</h2>
             <p className="text-[#52525B] dark:text-[#A1A1AA] mb-6">
-              TimeMark is free and always will be. We don't offer premium features because financial status shouldn't dictate digital wellness.
+              Scolect is free and always will be. We don't offer premium features because financial status shouldn't dictate digital wellness.
             </p>
             <div className="space-y-4">
               <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Ways to help:</h4>
@@ -733,7 +724,7 @@ export default function AboutPage() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
           <ContactCard icon={Github} title="GitHub" subtitle="Bug Reports & Code" index={0} />
           <ContactCard icon={MessageSquare} title="Discussions" subtitle="Feature Requests" index={1} />
-          <ContactCard link='mailto:general.timemark@harmanita.com' icon={Mail} title="Email" subtitle="General Inquiries" index={2} />
+          <ContactCard link='mailto:general@scolect.com' icon={Mail} title="Email" subtitle="General Inquiries" index={2} />
           <ContactCard link='https://x.com/harmanpreet277' icon={Twitter} title="Social" subtitle="Updates & News" index={3} />
         </div>
       </SectionWrapper>
@@ -766,9 +757,9 @@ export default function AboutPage() {
             style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
           >
             <button onClick={()=>router.push("/download")} className="group flex items-center justify-center gap-3 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/40 transition-all duration-300 hover:-translate-y-1">
-              <Download size={20} className="group-hover:animate-bounce" /> Download TimeMark
+              <Download size={20} className="group-hover:animate-bounce" /> Download Scolect
             </button>
-            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp")} className="group flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] text-[#18181B] dark:text-[#FAFAFA] font-bold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
+            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp")} className="group flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] text-[#18181B] dark:text-[#FAFAFA] font-bold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
               <Github size={20} /> View on GitHub
             </button>
           </div>
@@ -798,7 +789,7 @@ export default function AboutPage() {
             <p className="text-lg italic text-[#52525B] dark:text-[#A1A1AA]">
               "Let's build a better digital future—<span className="text-[#7C3AED] dark:text-[#8B5CF6] font-semibold">together</span>."
             </p>
-            <p className="text-sm mt-2 text-[#7C3AED] dark:text-[#8B5CF6] font-medium">— The TimeMark Team</p>
+            <p className="text-sm mt-2 text-[#7C3AED] dark:text-[#8B5CF6] font-medium">— The Scolect Team</p>
           </div>
         </div>
       </div>

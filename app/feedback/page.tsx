@@ -169,7 +169,7 @@ const FeedbackFormModal = ({ isOpen, onClose }: FeedbackFormProps) => {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA]">Submit Feedback</h2>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Help us improve TimeMark</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Help us improve Scolect</p>
               </div>
             </div>
             <button
@@ -618,7 +618,7 @@ export default function FeedbackPage() {
             </span>
           </h1>
           <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-8">
-            Your voice shapes TimeMark's future. Share your ideas, suggestions, and experiences to help us build a better productivity tool.
+            Your voice shapes Scolect's future. Share your ideas, suggestions, and experiences to help us build a better productivity tool.
           </p>
 
           <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-[#52525B] dark:text-[#A1A1AA]">
@@ -662,7 +662,7 @@ export default function FeedbackPage() {
               icon={Zap}
               title="Performance"
               description="Reports about speed, responsiveness, or resource usage."
-              examples={["App feels slow with many apps", "Startup time optimization"]}
+              examples={["App feels slow with many applications", "Startup time optimization"]}
               index={3}
             />
             <FeedbackTypeCard 
@@ -736,7 +736,7 @@ Why It Matters:
 New users might think the score is random/broken.
 
 Suggestion:
-Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
+Add a tooltip or quick tutorial on first launch explaining how to categorize applications.`}
                 index={1}
               />
             </div>
@@ -807,7 +807,7 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6 relative z-10">
                 For private feedback or detailed suggestions without GitHub.
               </p>
-              <a href="mailto:feedback.timemark@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link relative z-10">
+              <a href="mailto:feedback@scolect.com" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link relative z-10">
                 Email Feedback <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -876,7 +876,7 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
             <RoadmapItem 
               title="Backup & Restore Functionality"
               status="done"
-              desc="Allow users to export/import data when switching computers."
+              desc="Allow users to export/import data when switching devices."
               date="Released Dec 2023 (v1.2.0)"
               index={0}
             />
@@ -890,7 +890,7 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
             <RoadmapItem 
               title="Distraction Blocking"
               status="wip"
-              desc="Block distracting apps during Focus Mode sessions."
+              desc="Block distracting applications during Focus Mode sessions."
               date="Expected Feb 2024 (v1.3.0)"
               index={2}
             />
@@ -953,7 +953,7 @@ Add a tooltip or quick tutorial on first launch explaining how to mark apps.`}
               GitHub
             </a>
             <a 
-              href="mailto:feedback.timemark@harmanita.com" 
+              href="mailto:feedback@scolect.com" 
               className="px-8 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group backdrop-blur-sm"
             >
               <Mail size={20} />

@@ -106,13 +106,13 @@ export default function Navbar() {
             <Link href="/" className="flex items-center gap-2 group relative">
               <Image
                 src="/logo.svg"
-                alt="TimeMark Logo"
+                alt="Scolect Logo"
                 width={30}
                 height={30}
                 priority
               />
               <span className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] tracking-tight group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300">
-                TimeMark
+                Scolect
               </span>
             </Link>
 
@@ -141,7 +141,7 @@ export default function Navbar() {
               ))}
               
               <a 
-                href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp" 
+                href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp" 
                 target="_blank" 
                 rel="noreferrer"
                 className="ml-2 p-2 rounded-lg text-[#52525B] dark:text-[#A1A1AA] hover:text-[#18181B] dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-300 hover:scale-110 group"
@@ -216,7 +216,7 @@ export default function Navbar() {
                   ))}
                   
                   <a 
-                    href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp"
+                    href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-3 font-medium text-lg px-4 py-3 rounded-xl text-[#18181B] dark:text-[#FAFAFA] hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-300 border-l-4 border-transparent animate-slideDown"
@@ -242,7 +242,7 @@ export default function Navbar() {
                     style={{ animationDelay: `${(navLinks.length + 2) * 0.05}s` }}
                   >
                     <Download size={20} />
-                    Get TimeMark Free
+                    Get Scolect Free
                   </Link>
                 </div>
               </div>

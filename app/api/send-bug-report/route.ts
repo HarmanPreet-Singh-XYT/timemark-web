@@ -146,7 +146,7 @@ export async function POST(request: Request) {
           <div class="container">
             <div class="header ${formData.type === 'security' ? 'security' : ''}">
               <h1>${formData.type === 'security' ? '🔒 Security Issue Report' : '🐛 Bug Report'}</h1>
-              <p>New ${formData.type === 'security' ? 'security issue' : 'bug'} submitted from TimeMark</p>
+              <p>New ${formData.type === 'security' ? 'security issue' : 'bug'} submitted from Scolect</p>
             </div>
 
             <span class="severity-badge" style="background-color: ${getSeverityColor(formData.severity)}">
@@ -196,8 +196,8 @@ export async function POST(request: Request) {
                   <div class="info-value">${formData.windowsVersion}</div>
                 </div>
                 <div class="info-item">
-                  <div class="info-label">TimeMark Version</div>
-                  <div class="info-value">${formData.timemarkVersion}</div>
+                  <div class="info-label">Scolect Version</div>
+                  <div class="info-value">${formData.ScolectVersion}</div>
                 </div>
                 ${formData.ram ? `
                 <div class="info-item">
@@ -216,7 +216,7 @@ export async function POST(request: Request) {
             </div>
 
             <div class="footer">
-              <p>This bug report was submitted via the TimeMark bug report form.</p>
+              <p>This bug report was submitted via the Scolect bug report form.</p>
               <p>Submitted on ${new Date().toLocaleString()}</p>
             </div>
           </div>
@@ -248,7 +248,7 @@ ${formData.actual}
 
 SYSTEM INFORMATION
 - Windows Version: ${formData.windowsVersion}
-- TimeMark Version: ${formData.timemarkVersion}
+- Scolect Version: ${formData.ScolectVersion}
 ${formData.ram ? `- RAM: ${formData.ram}` : ''}
 
 REPORTER CONTACT
@@ -260,7 +260,7 @@ Submitted on ${new Date().toLocaleString()}
 
     // Email options
     const mailOptions = {
-      from: `"TimeMark Bug Reports" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"Scolect Bug Reports" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
       to: process.env.BUG_REPORT_EMAIL_TO,
       subject: `[${formData.type === 'security' ? 'SECURITY' : formData.severity.toUpperCase()}] ${formData.title}`,
       text: textContent,
@@ -275,7 +275,7 @@ Submitted on ${new Date().toLocaleString()}
 
     // Send confirmation email to reporter
     const confirmationMailOptions = {
-      from: `"TimeMark Support" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"Scolect Support" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
       to: formData.email,
       subject: `Bug Report Received: ${formData.title}`,
       html: `
@@ -298,14 +298,14 @@ Submitted on ${new Date().toLocaleString()}
               </div>
               <div class="content">
                 <p>Hi there,</p>
-                <p>Thank you for submitting a bug report for <strong>TimeMark</strong>. We've received your report about:</p>
+                <p>Thank you for submitting a bug report for <strong>Scolect</strong>. We've received your report about:</p>
                 <p style="background: #f9fafb; padding: 16px; border-radius: 8px; border-left: 4px solid #7C3AED;">
                   <strong>${formData.title}</strong>
                 </p>
                 <p>Our team will review your report within 24-48 hours and get back to you if we need any additional information.</p>
                 <p>In the meantime, you can track this issue or submit additional information by replying to this email.</p>
-                <p>Thank you for helping us make TimeMark better!</p>
-                <p>Best regards,<br><strong>The TimeMark Team</strong></p>
+                <p>Thank you for helping us make Scolect better!</p>
+                <p>Best regards,<br><strong>The Scolect Team</strong></p>
               </div>
               <div class="footer">
                 <p>This is an automated confirmation. Please do not reply to this email unless you have additional information to provide.</p>
@@ -317,16 +317,16 @@ Submitted on ${new Date().toLocaleString()}
       text: `
 Hi there,
 
-Thank you for submitting a bug report for TimeMark. We've received your report about:
+Thank you for submitting a bug report for Scolect. We've received your report about:
 
 "${formData.title}"
 
 Our team will review your report within 24-48 hours and get back to you if we need any additional information.
 
-Thank you for helping us make TimeMark better!
+Thank you for helping us make Scolect better!
 
 Best regards,
-The TimeMark Team
+The Scolect Team
       `
     };
 

@@ -119,8 +119,8 @@ const TemplateBlock = () => {
 [What actually happens]
 
 ### System Information
-- **Windows Version**: [e.g., Windows 11 Pro 22H2]
-- **TimeMark Version**: [Settings → Version]
+- **Operating System**: [e.g., macOS 14.2, Windows 11 Pro 22H2]
+- **Scolect Version**: [Settings → Version]
 - **RAM**: [e.g., 16 GB]
 
 ### Screenshots
@@ -171,8 +171,8 @@ const BugReportForm = () => {
     steps: '',
     expected: '',
     actual: '',
-    windowsVersion: '',
-    timemarkVersion: '',
+    operatingSystem: '',
+    scolectVersion: '',
     ram: '',
     email: ''
   });
@@ -226,8 +226,8 @@ const BugReportForm = () => {
             steps: '',
             expected: '',
             actual: '',
-            windowsVersion: '',
-            timemarkVersion: '',
+            operatingSystem: '',
+            scolectVersion: '',
             ram: '',
             email: ''
           });
@@ -438,30 +438,30 @@ const BugReportForm = () => {
           {/* System Information */}
           <div className="grid md:grid-cols-3 gap-4">
             <div>
-              <label htmlFor="windowsVersion" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
-                Windows Version *
+              <label htmlFor="operatingSystem" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Operating System *
               </label>
               <input
                 type="text"
-                id="windowsVersion"
-                name="windowsVersion"
+                id="operatingSystem"
+                name="operatingSystem"
                 required
-                value={formData.windowsVersion}
+                value={formData.operatingSystem}
                 onChange={handleInputChange}
-                placeholder="e.g., Win 11 Pro 22H2"
+                placeholder="e.g., macOS 14.2, Windows 11"
                 className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
               />
             </div>
             <div>
-              <label htmlFor="timemarkVersion" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
-                TimeMark Version *
+              <label htmlFor="scolectVersion" className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
+                Scolect Version *
               </label>
               <input
                 type="text"
-                id="timemarkVersion"
-                name="timemarkVersion"
+                id="scolectVersion"
+                name="scolectVersion"
                 required
-                value={formData.timemarkVersion}
+                value={formData.scolectVersion}
                 onChange={handleInputChange}
                 placeholder="e.g., 1.2.5"
                 className="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all text-[#18181B] dark:text-[#FAFAFA] placeholder:text-zinc-400"
@@ -500,52 +500,6 @@ const BugReportForm = () => {
             />
           </div>
 
-          {/* File Upload */}
-          {/* <div>
-            <label className="block text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">
-              Screenshots / Attachments
-            </label>
-            <div className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-xl p-6 text-center hover:border-[#7C3AED] transition-colors">
-              <input
-                type="file"
-                id="fileUpload"
-                multiple
-                accept="image/*,.pdf,.txt,.log"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <label htmlFor="fileUpload" className="cursor-pointer">
-                <Upload className="mx-auto mb-2 text-zinc-400" size={32} />
-                <p className="text-sm font-medium text-[#18181B] dark:text-[#FAFAFA]">
-                  Click to upload or drag and drop
-                </p>
-                <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1">
-                  PNG, JPG, PDF, TXT, LOG (max 10MB each)
-                </p>
-              </label>
-            </div> */}
-            
-            {/* File List */}
-            {/* {files.length > 0 && (
-              <div className="mt-3 space-y-2">
-                {files.map((file, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg">
-                    <span className="text-sm text-[#18181B] dark:text-[#FAFAFA] truncate flex-1">
-                      {file.name}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeFile(index)}
-                      className="ml-2 text-red-500 hover:text-red-700 transition-colors"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div> */}
-
           {/* Submit Button */}
           <button
             type="submit"
@@ -572,7 +526,7 @@ const BugReportForm = () => {
           </button>
 
           <p className="text-xs text-center text-[#52525B] dark:text-[#A1A1AA]">
-            By submitting, you agree that we may contact you about this report and use the information to improve TimeMark.
+            By submitting, you agree that we may contact you about this report and use the information to improve Scolect.
           </p>
         </form>
       </div>
@@ -712,7 +666,7 @@ export default function ReportBugPage() {
             </span>
           </h1>
           <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-8">
-            Found something that's not working right? Help us fix it! Your bug reports make TimeMark better for everyone.
+            Found something that's not working right? Help us fix it! Your bug reports make Scolect better for everyone.
           </p>
 
           {/* Quick Action Box */}
@@ -761,7 +715,7 @@ export default function ReportBugPage() {
             {[
               "Is it actually a bug? (Not a feature request)",
               "Can you reproduce it consistently?",
-              "Is your TimeMark version up to date?",
+              "Is your Scolect version up to date?",
               "Have you tried restarting the app?",
               "Have you checked Existing Issues?",
               "Do you have error messages or screenshots?"
@@ -875,7 +829,7 @@ export default function ReportBugPage() {
                   Screenshots & Info
                 </h3>
                 <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                  Include screenshots of errors. Note your Windows version and TimeMark version.
+                  Include screenshots of errors. Note your operating system and Scolect version.
                 </p>
               </div>
             </div>
@@ -949,7 +903,7 @@ export default function ReportBugPage() {
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
                 Public tracking, community support, and transparent resolution.
               </p>
-              <a href="https://github.com/timemark/issues" className="inline-flex items-center gap-2 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:gap-4 transition-all duration-300 group/link">
+              <a href="https://github.com/scolect/issues" className="inline-flex items-center gap-2 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:gap-4 transition-all duration-300 group/link">
                 Report on GitHub <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -962,7 +916,7 @@ export default function ReportBugPage() {
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
                 For bugs containing personal data or if you prefer email.
               </p>
-              <a href="mailto:bugs.timemark@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link">
+              <a href="mailto:bugs.scolect@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#7C3AED] hover:gap-4 transition-all duration-300 group/link">
                 Email Bug Report <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -975,7 +929,7 @@ export default function ReportBugPage() {
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
                 For sensitive vulnerabilities. Use form above or email directly.
               </p>
-              <a href="mailto:security.timemark@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#F43F5E] hover:gap-4 transition-all duration-300 group/link">
+              <a href="mailto:security.scolect@harmanita.com" className="inline-flex items-center gap-2 font-bold text-[#F43F5E] hover:gap-4 transition-all duration-300 group/link">
                 Email Security Team <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -1035,7 +989,7 @@ export default function ReportBugPage() {
               {
                 status: "Investigating",
                 statusColor: "#71717A",
-                title: "App opens on startup (Win 10)",
+                title: "App opens on startup (certain systems)",
                 workaround: "Workaround: Enable \"Launch as Minimized\".",
                 issueNum: "#87"
               }
@@ -1060,9 +1014,6 @@ export default function ReportBugPage() {
                   </div>
                   <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">{issue.workaround}</p>
                 </div>
-                {/* <a href="#" className="text-sm font-medium text-[#7C3AED] hover:underline whitespace-nowrap flex items-center gap-1 group/link">
-                  View Issue {issue.issueNum} <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                </a> */}
               </div>
             ))}
           </div>
@@ -1096,7 +1047,7 @@ export default function ReportBugPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
-              href="https://github.com/timemark/issues" 
+              href="https://github.com/scolect/issues" 
               className="px-8 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-xl font-bold transition-all duration-300 shadow-lg shadow-violet-900/30 hover:shadow-xl hover:shadow-violet-900/40 hover:-translate-y-1 flex items-center justify-center gap-2 group"
             >
               <Github size={20} />
@@ -1104,7 +1055,7 @@ export default function ReportBugPage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a 
-              href="mailto:bugs.timemark@harmanita.com" 
+              href="mailto:bugs.scolect@harmanita.com" 
               className="px-8 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group backdrop-blur-sm"
             >
               <Mail size={20} />

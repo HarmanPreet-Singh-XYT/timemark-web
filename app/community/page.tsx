@@ -315,35 +315,15 @@ export default function CommunityPage() {
             className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
           >
-            Join the <span className="shimmer-text">TimeMark</span> Community
+            Join the <span className="shimmer-text">Scolect</span> Community
           </h1>
           
           <p 
             className="text-xl md:text-2xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
           >
-            TimeMark is built by people like you. Whether you code, design, write, or simply have ideas, there's a way to contribute.
+            Scolect is built by people like you. Whether you code, design, write, or simply have ideas, there's a way to contribute.
           </p>
-          
-          {/* Stats */}
-          {/* <div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mb-12"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.3s forwards', opacity: 0 }}
-          >
-            {[
-              { value: 50, suffix: "+", label: "Contributors" },
-              { value: 200, suffix: "+", label: "Pull Requests" },
-              { value: 15, suffix: "+", label: "Countries" },
-              { value: 100, suffix: "%", label: "Open Source" }
-            ].map((stat, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/40 transition-colors">
-                <div className="text-3xl font-bold text-[#7C3AED] dark:text-[#8B5CF6]">
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="text-sm text-[#52525B] dark:text-[#A1A1AA]">{stat.label}</div>
-              </div>
-            ))}
-          </div> */}
 
           {/* CTA Buttons */}
           <div 
@@ -357,7 +337,7 @@ export default function CommunityPage() {
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] opacity-0 group-hover:opacity-100 transition-opacity" />
             </a>
-            <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp" target="_blank" className="group px-8 py-4 bg-white dark:bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-200 dark:border-zinc-800 text-[#18181B] dark:text-[#FAFAFA] rounded-2xl font-bold hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-300 flex items-center gap-3 shadow-lg">
+            <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp" target="_blank" className="group px-8 py-4 bg-white dark:bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-200 dark:border-zinc-800 text-[#18181B] dark:text-[#FAFAFA] rounded-2xl font-bold hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-300 flex items-center gap-3 shadow-lg">
               <Github size={20} className="group-hover:rotate-12 transition-transform" />
               GitHub Repo
             </a>
@@ -370,7 +350,7 @@ export default function CommunityPage() {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#7C3AED]/30 to-transparent" />
         
         <div className="max-w-7xl mx-auto">
-          <SectionHeader title="What's in It for You?" subtitle="Contributing to open-source projects like TimeMark offers benefits beyond altruism." />
+          <SectionHeader title="What's in It for You?" subtitle="Contributing to open-source projects like Scolect offers benefits beyond altruism." />
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <BenefitCard 
@@ -518,7 +498,7 @@ export default function CommunityPage() {
               "Write tutorials and how-to guides",
               "Improve existing documentation",
               "Create video walkthroughs",
-              "Write blog posts about using TimeMark",
+              "Write blog posts about using Scolect",
               "Document undocumented features"
             ]}
             gettingStarted={
@@ -535,7 +515,7 @@ export default function CommunityPage() {
           <ContributionSection
             icon={Globe}
             title="4. Translation"
-            headline="Make TimeMark Accessible Worldwide"
+            headline="Make Scolect Accessible Worldwide"
             whatToDo={[
               "Translate the app into new languages",
               "Improve existing AI-generated translations",
@@ -559,10 +539,10 @@ export default function CommunityPage() {
             title="5. Testing & Bug Reports"
             headline="Find Bugs, Test Features, Ensure Quality"
             whatToDo={[
-              "Use TimeMark daily and report bugs",
+              "Use Scolect daily and report bugs",
               "Test new features in beta releases",
               "Reproduce issues others have reported",
-              "Test on different Windows versions",
+              "Test on different operating systems",
               "Stress-test with large datasets"
             ]}
             gettingStarted={
@@ -607,12 +587,12 @@ export default function CommunityPage() {
           <ContributionSection
             icon={Megaphone}
             title="7. Spread the Word"
-            headline="Share TimeMark, Help Others Discover It"
+            headline="Share Scolect, Help Others Discover It"
             whatToDo={[
-              "Share TimeMark on social media",
+              "Share Scolect on social media",
               "Write blog posts about your experience",
               "Create video reviews or tutorials",
-              "Rate and review on the Microsoft Store"
+              "Rate and review on app stores"
             ]}
             gettingStarted={
               <div className="text-sm">
@@ -647,7 +627,7 @@ export default function CommunityPage() {
           </div>
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#18181B] via-[#F59E0B] to-[#18181B] dark:from-[#FAFAFA] dark:via-[#F59E0B] dark:to-[#FAFAFA] bg-clip-text text-transparent mb-8 bg-[length:200%_auto] animate-gradient">We Appreciate Every Contribution</h2>
           <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-12 max-w-2xl mx-auto">
-            All contributors are recognized in our <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg text-[#7C3AED]">CONTRIBUTORS.md</code> file on GitHub. Your contributions—no matter how small—make TimeMark better for everyone.
+            All contributors are recognized in our <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg text-[#7C3AED]">CONTRIBUTORS.md</code> file on GitHub. Your contributions—no matter how small—make Scolect better for everyone.
           </p>
           
           <div className="bg-white dark:bg-zinc-900/80 backdrop-blur-sm p-10 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-zinc-900/50">
@@ -683,7 +663,7 @@ export default function CommunityPage() {
           
           <div className="prose dark:prose-invert max-w-none text-[#52525B] dark:text-[#A1A1AA]">
             <p className="mb-8 text-lg leading-relaxed">
-              TimeMark is committed to providing a welcoming and inclusive environment for everyone, regardless of experience level, gender identity, sexual orientation, disability, physical appearance, race, age, religion, or nationality.
+              Scolect is committed to providing a welcoming and inclusive environment for everyone, regardless of experience level, gender identity, sexual orientation, disability, physical appearance, race, age, religion, or nationality.
             </p>
             
             <div className="grid md:grid-cols-2 gap-8 my-10">
@@ -738,7 +718,7 @@ export default function CommunityPage() {
               </div>
             </div>
             <p className="text-sm italic bg-zinc-100 dark:bg-zinc-800/50 px-6 py-4 rounded-xl border border-zinc-200 dark:border-zinc-700">
-              Violations can be reported to support.timemark@harmanita.com. We take all reports seriously.
+              Violations can be reported to support@scolect.com. We take all reports seriously.
             </p>
           </div>
         </div>
@@ -782,10 +762,8 @@ export default function CommunityPage() {
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                // { title: "Contributing Guide", external: false, link:"#" },
-                // { title: "Code Style Guide", external: false,link:"#" },
-                { title: "Flutter Docs", external: true,link:"https://docs.flutter.dev/" },
-                { title: "Dart Language Tour", external: true,link:"https://dart.dev/overview" },
+                { title: "Flutter Docs", external: true, link:"https://docs.flutter.dev/" },
+                { title: "Dart Language Tour", external: true, link:"https://dart.dev/overview" },
               ].map((item, idx) => (
                 <a key={idx} href={item.link} className="group p-5 bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 flex items-center justify-between">
                   <span className="text-[#18181B] dark:text-[#FAFAFA] font-medium group-hover:text-[#7C3AED] transition-colors">{item.title}</span>
@@ -822,20 +800,16 @@ export default function CommunityPage() {
             Ready to Make an Impact?
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
-            Whether you contribute code, fix a typo, or report a bug—every contribution matters. Start small, learn as you go, and become part of the TimeMark community.
+            Whether you contribute code, fix a typo, or report a bug—every contribution matters. Start small, learn as you go, and become part of the Scolect community.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-5">
-            <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" target='_blank' className="group relative px-10 py-5 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl shadow-violet-500/20 dark:shadow-violet-900/40 overflow-hidden">
+            <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" target='_blank' className="group relative px-10 py-5 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl shadow-violet-500/20 dark:shadow-violet-900/40 overflow-hidden">
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Browse Open Issues
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 animate-shimmer" />
             </a>
-            {/* <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" target='_blank' className="group px-10 py-5 bg-zinc-900/5 dark:bg-white/5 backdrop-blur-sm border border-zinc-300 dark:border-zinc-700 hover:border-[#7C3AED]/50 hover:bg-[#7C3AED]/10 rounded-2xl font-bold text-zinc-900 dark:text-white transition-all duration-300 flex items-center justify-center gap-2">
-              <MessageCircle size={18} className="group-hover:scale-110 transition-transform" />
-              Join the Discussion
-            </a> */}
           </div>
         </div>
       </section>

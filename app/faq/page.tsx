@@ -116,15 +116,15 @@ export default function FAQPage() {
     // General Questions
     {
       category: 'general',
-      question: 'Q1: How does TimeMark track screen time?',
+      question: 'Q1: How does Scolect track screen time?',
       content: (
         <>
-          <p>TimeMark monitors your device's usage in real-time by detecting which application window is currently in the foreground (active). It records timestamps and application names to build a complete picture of your computer usage.</p>
-          <p>The tracking is system-level using Windows APIs, capturing foreground time with minimal battery impact. TimeMark checks which app is active every few seconds and logs that information to a local database.</p>
+          <p>Scolect monitors your device's usage in real-time by detecting which application window is currently in the foreground (active). It records timestamps and application names to build a complete picture of your computer usage.</p>
+          <p>The tracking is system-level using native OS APIs, capturing foreground time with minimal battery impact. Scolect checks which app is active every few seconds and logs that information to a local database.</p>
           <div className="bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800/50 p-5 rounded-xl border border-zinc-200 dark:border-zinc-700 my-4 shadow-inner">
             <strong className="block text-[#18181B] dark:text-[#FAFAFA] mb-3 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Importantly, TimeMark does NOT record:
+              Importantly, Scolect does NOT record:
             </strong>
             <ul className="list-disc pl-5 space-y-2 text-sm">
               <li>Keystrokes or what you type</li>
@@ -172,22 +172,22 @@ export default function FAQPage() {
           <div className="space-y-3 mt-4">
             <div className="flex items-center gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
               <span className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm">✓</span>
-              <span>Accurate when TimeMark is running in the background</span>
+              <span>Accurate when Scolect is running in the background</span>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
               <span className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm">✓</span>
-              <span>Accurate when You're actively using your computer</span>
+              <span>Accurate when you're actively using your computer</span>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
               <span className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center text-sm">✗</span>
-              <span>Not tracking when TimeMark is closed/not running</span>
+              <span>Not tracking when Scolect is closed/not running</span>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
               <span className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center text-sm">✗</span>
-              <span>Not tracking when Computer is locked or in sleep mode</span>
+              <span>Not tracking when computer is locked or in sleep mode</span>
             </div>
           </div>
-          <p className="mt-4">The margin of error is minimal (less than 1% of total usage). One important note: TimeMark tracks <strong className="text-violet-600 dark:text-violet-400">active</strong> application time, not just time with the app open.</p>
+          <p className="mt-4">The margin of error is minimal (less than 1% of total usage). One important note: Scolect tracks <strong className="text-violet-600 dark:text-violet-400">active</strong> application time, not just time with the app open.</p>
         </>
       )
     },
@@ -196,7 +196,7 @@ export default function FAQPage() {
       question: 'Q4: Can I customize my app categorization?',
       content: (
         <>
-          <p>Absolutely! TimeMark gives you complete control over categories.</p>
+          <p>Absolutely! Scolect gives you complete control over categories.</p>
           <p className="mt-2">You can use the <strong className="text-violet-600 dark:text-violet-400">10 pre-built categories</strong> (Productivity, Development, Social Media, etc.) or create your own.</p>
           <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3 flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 text-xs">⚙</span>
@@ -218,7 +218,7 @@ export default function FAQPage() {
       question: 'Q5: What insights can I gain from this app?',
       content: (
         <>
-          <p>TimeMark provides comprehensive insights that help you understand and improve your digital habits:</p>
+          <p>Scolect provides comprehensive insights that help you understand and improve your digital habits:</p>
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <div className="group bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-800/50 p-5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-violet-300 dark:hover:border-violet-700 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/10 hover:-translate-y-1">
               <strong className="block mb-3 text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
@@ -345,7 +345,7 @@ export default function FAQPage() {
       question: 'Q4: How are application categories determined?',
       content: (
         <>
-          <p>Initial categories are system-suggested based on common application types. TimeMark uses intelligent defaults to automatically categorize apps when they're first detected:</p>
+          <p>Initial categories are system-suggested based on common application types. Scolect uses intelligent defaults to automatically categorize apps when they're first detected:</p>
           <div className="mt-4 space-y-3">
             <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
               <strong className="text-green-700 dark:text-green-300">✓ Common apps are categorized automatically</strong>
@@ -408,7 +408,7 @@ export default function FAQPage() {
       question: 'Q3: Can I analyze my usage trends over time?',
       content: (
         <>
-          <p>Yes! TimeMark provides powerful trend analysis:</p>
+          <p>Yes! Scolect provides powerful trend analysis:</p>
           <ul className="mt-4 space-y-3">
             <li className="flex items-start gap-3">
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">📈</span>
@@ -484,7 +484,7 @@ export default function FAQPage() {
       question: 'Q1: How granular are the screen time limits?',
       content: (
         <>
-          <p>TimeMark provides flexible limit settings for comprehensive time management:</p>
+          <p>Scolect provides flexible limit settings for comprehensive time management:</p>
           <div className="space-y-3 mt-4">
             <div className="p-4 rounded-xl bg-gradient-to-r from-blue-50 to-transparent dark:from-blue-950/30 dark:to-transparent border-l-4 border-blue-500">
               <strong className="text-[#18181B] dark:text-[#FAFAFA]">Overall Daily Limits:</strong>
@@ -508,7 +508,7 @@ export default function FAQPage() {
       question: 'Q2: What notification options are available?',
       content: (
         <>
-          <p>TimeMark offers comprehensive notification settings to keep you informed:</p>
+          <p>Scolect offers comprehensive notification settings to keep you informed:</p>
           <ul className="mt-4 space-y-3">
             <li className="flex items-start gap-3">
               <span className="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-red-600 dark:text-red-400 flex-shrink-0">🔔</span>
@@ -554,7 +554,7 @@ export default function FAQPage() {
       question: 'Q3: Can I customize limit alerts?',
       content: (
         <>
-          <p>Yes! TimeMark provides extensive customization for all alert types:</p>
+          <p>Yes! Scolect provides extensive customization for all alert types:</p>
           <div className="mt-4 space-y-3">
             <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700">
               <strong className="text-[#18181B] dark:text-[#FAFAFA]">Alert Frequency Control:</strong>
@@ -578,7 +578,7 @@ export default function FAQPage() {
       question: 'Q1: What types of Focus Modes are available?',
       content: (
         <>
-          <p>TimeMark offers multiple focus modes to match different work styles:</p>
+          <p>Scolect offers multiple focus modes to match different work styles:</p>
           <div className="grid md:grid-cols-3 gap-4 mt-4">
             <div className="p-5 rounded-xl bg-gradient-to-br from-red-50 to-white dark:from-red-950/30 dark:to-zinc-900 border border-red-200 dark:border-red-800 hover:shadow-lg transition-all duration-300">
               <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
@@ -688,7 +688,7 @@ export default function FAQPage() {
       question: 'Q4: Can I track my focus session progress?',
       content: (
         <>
-          <p>Yes! TimeMark features an intuitive interface for managing and tracking focus sessions:</p>
+          <p>Yes! Scolect features an intuitive interface for managing and tracking focus sessions:</p>
           <div className="mt-4 p-5 bg-gradient-to-br from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl">
             <strong className="text-[#18181B] dark:text-[#FAFAFA] block mb-3">Circular Timer UI Features:</strong>
             <ul className="space-y-2 text-sm">
@@ -720,7 +720,7 @@ export default function FAQPage() {
       question: 'Q1: What customization options are available?',
       content: (
         <>
-          <p>TimeMark provides extensive customization to personalize your experience:</p>
+          <p>Scolect provides extensive customization to personalize your experience:</p>
           <ul className="mt-4 space-y-3">
             <li className="flex items-start gap-3">
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🎨</span>
@@ -740,7 +740,7 @@ export default function FAQPage() {
               <span className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-violet-600 dark:text-violet-400 flex-shrink-0">🚀</span>
               <div>
                 <strong className="text-[#18181B] dark:text-[#FAFAFA]">Startup Behavior:</strong>
-                <p className="text-sm">Configure how TimeMark launches on system start</p>
+                <p className="text-sm">Configure how Scolect launches on system start</p>
               </div>
             </li>
             <li className="flex items-start gap-3">
@@ -766,7 +766,7 @@ export default function FAQPage() {
       question: 'Q2: How do I provide feedback or report issues?',
       content: (
         <>
-          <p>TimeMark makes it easy to get in touch with support or provide feedback:</p>
+          <p>Scolect makes it easy to get in touch with support or provide feedback:</p>
           <div className="mt-4 space-y-3">
             <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-800 hover:shadow-lg transition-all duration-300">
               <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
@@ -796,7 +796,7 @@ export default function FAQPage() {
       question: 'Q3: What happens when I clear my data?',
       content: (
         <>
-          <p>Clearing data is a significant action that affects all your TimeMark information:</p>
+          <p>Clearing data is a significant action that affects all your Scolect information:</p>
           <div className="mt-4 p-5 bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-xl">
             <strong className="text-amber-800 dark:text-amber-200 flex items-center gap-2 mb-3">
               <span className="text-2xl">⚠️</span> What Gets Cleared:
@@ -844,16 +844,16 @@ export default function FAQPage() {
       question: 'Q4: How can I restore or export my data?',
       content: (
         <>
-          <p>TimeMark provides robust backup and restore functionality to protect your data:</p>
+          <p>Scolect provides robust backup and restore functionality to protect your data:</p>
           <div className="mt-4 space-y-4">
             <div className="p-5 bg-gradient-to-r from-blue-50 to-transparent dark:from-blue-950/30 dark:to-transparent border-l-4 border-blue-500 rounded-r-xl">
               <strong className="text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-2">
                 <span className="text-xl">💾</span> Export Data
               </strong>
-              <p className="text-sm mb-2">Navigate to Settings → Backup & Restore section to export your complete TimeMark data.</p>
+              <p className="text-sm mb-2">Navigate to Settings → Backup & Restore section to export your complete Scolect data.</p>
               <div className="bg-white dark:bg-zinc-900 p-3 rounded-lg border border-blue-200 dark:border-blue-800 text-sm">
                 <strong>Export Location:</strong>
-                <code className="block mt-1 text-xs bg-zinc-100 dark:bg-zinc-800 p-2 rounded">Documents/TimeMark-Backups/</code>
+                <code className="block mt-1 text-xs bg-zinc-100 dark:bg-zinc-800 p-2 rounded">Documents/Scolect-Backups/</code>
               </div>
             </div>
             
@@ -864,7 +864,7 @@ export default function FAQPage() {
               <p className="text-sm mb-2">Use the same Backup & Restore section to import previously exported data.</p>
               <div className="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg border border-amber-200 dark:border-amber-800 text-sm">
                 <strong className="text-amber-700 dark:text-amber-300">⚠️ Important:</strong>
-                <p className="mt-1">Only files exported from TimeMark can be used for restoration. Custom or modified files will not work.</p>
+                <p className="mt-1">Only files exported from Scolect can be used for restoration. Custom or modified files will not work.</p>
               </div>
             </div>
           </div>
@@ -897,7 +897,7 @@ export default function FAQPage() {
           
           <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3">Solution 1: Clear Data Through Settings</h4>
           <ol className="list-decimal pl-5 space-y-2">
-            <li className="pl-2">Open TimeMark Settings</li>
+            <li className="pl-2">Open Scolect Settings</li>
             <li className="pl-2">Navigate to Data Management</li>
             <li className="pl-2">Click "Clear Data"</li>
             <li className="pl-2">Restart the application</li>
@@ -914,7 +914,7 @@ export default function FAQPage() {
                   <li><code className="text-xs bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">harman_screentime_app_usage.lock</code></li>
                 </ul>
               </li>
-              <li className="pl-2">Restart TimeMark</li>
+              <li className="pl-2">Restart Scolect</li>
             </ol>
           </div>
 
@@ -922,7 +922,7 @@ export default function FAQPage() {
             <strong className="text-blue-700 dark:text-blue-300 flex items-center gap-2">
               <span className="text-xl">🔄</span> Additional Recommendation:
             </strong>
-            <p className="text-sm mt-1">Update TimeMark to the latest version, as this issue may be resolved in newer releases.</p>
+            <p className="text-sm mt-1">Update Scolect to the latest version, as this issue may be resolved in newer releases.</p>
           </div>
         </>
       )
@@ -934,16 +934,16 @@ export default function FAQPage() {
         <>
           <div className="p-5 bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-xl mb-4">
             <strong className="text-amber-800 dark:text-amber-200 flex items-center gap-2 mb-2">
-              <span className="text-xl">⚠️</span> Windows 10 Known Issue
+              <span className="text-xl">⚠️</span> Known Behavior on Some Systems
             </strong>
-            <p className="text-sm">This is a known behavior that specifically occurs on Windows 10 systems.</p>
+            <p className="text-sm">This can occur on certain operating systems or configurations.</p>
           </div>
 
-          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3">Temporary Fix:</h4>
+          <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mt-4 mb-3">Recommended Fix:</h4>
           <div className="bg-gradient-to-r from-green-50 to-transparent dark:from-green-950/30 dark:to-transparent border-l-4 border-green-500 rounded-r-xl p-5">
             <strong className="text-[#18181B] dark:text-[#FAFAFA] block mb-3">Enable "Launch as Minimized"</strong>
             <ol className="list-decimal pl-5 space-y-2 text-sm">
-              <li className="pl-2">Open TimeMark Settings</li>
+              <li className="pl-2">Open Scolect Settings</li>
               <li className="pl-2">Go to General or Startup section</li>
               <li className="pl-2">Find the "Launch as Minimized" option</li>
               <li className="pl-2">Enable this setting</li>
@@ -953,12 +953,12 @@ export default function FAQPage() {
 
           <div className="mt-4 p-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl">
             <strong className="text-violet-700 dark:text-violet-300">ℹ️ What This Does:</strong>
-            <p className="text-sm mt-1">When enabled, TimeMark will launch minimized to the system tray on startup instead of opening a full window. The app continues tracking in the background, but won't interrupt your workflow.</p>
+            <p className="text-sm mt-1">When enabled, Scolect will launch minimized to the system tray on startup instead of opening a full window. The app continues tracking in the background, but won't interrupt your workflow.</p>
           </div>
 
           <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
             <strong className="text-blue-700 dark:text-blue-300">💡 Alternative Solution:</strong>
-            <p className="text-sm mt-1">If you don't want TimeMark to start automatically at all, you can disable it from Windows Startup settings (Task Manager → Startup tab → Disable TimeMark).</p>
+            <p className="text-sm mt-1">If you don't want Scolect to start automatically at all, you can disable it from your system's startup settings (e.g., Task Manager → Startup tab on Windows, System Preferences → Users & Groups → Login Items on macOS).</p>
           </div>
         </>
       )
@@ -1118,7 +1118,7 @@ export default function FAQPage() {
             className="text-xl text-[#52525B] dark:text-[#A1A1AA] mb-12 max-w-2xl mx-auto"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
           >
-            Find answers to common questions about TimeMark's features, usage, and troubleshooting.
+            Find answers to common questions about Scolect's features, usage, and troubleshooting.
           </p>
           
           {/* Search Bar */}
@@ -1224,7 +1224,7 @@ export default function FAQPage() {
             Still need help?
           </h2>
           <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-10 max-w-lg mx-auto">
-            Can't find the answer you're looking for? We're here to help you get the most out of TimeMark.
+            Can't find the answer you're looking for? We're here to help you get the most out of Scolect.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button onClick={()=>router.push("/community")} className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
@@ -1233,7 +1233,7 @@ export default function FAQPage() {
               </span>
               Community Discussions
             </button>
-            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues")} className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
+            <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect")} className="group flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-2xl hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-300 font-medium text-[#18181B] dark:text-[#FAFAFA] shadow-lg shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
               <span className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-violet-100 dark:group-hover:bg-violet-900/50 transition-colors duration-300">
                 <Github size={20} className="group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300" />
               </span>

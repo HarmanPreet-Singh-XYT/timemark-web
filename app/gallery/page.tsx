@@ -65,7 +65,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     id: 2, 
     category: "Overview", 
     title: "Applications", 
-    description: "Track your most-used apps and categories.", 
+    description: "Track your most-used applications and categories.", 
     src: "/images/applications.png", 
     icon: LayoutDashboard 
   },
@@ -109,7 +109,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     id: 7, 
     category: "Apps", 
     title: "Application Settings", 
-    description: "Search and filter through hundreds of apps instantly.", 
+    description: "Search and filter through hundreds of applications instantly.", 
     src: "/images/app setting.png", 
     icon: Layers 
   },
@@ -155,7 +155,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     id: 12, 
     category: "Settings", 
     title: "App Settings", 
-    description: "Extensive options to make TimeMark yours.", 
+    description: "Extensive options to make Scolect yours.", 
     src: "/images/settings.png", 
     icon: Settings 
   },
@@ -235,7 +235,7 @@ export default function GalleryPage() {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `timemark-${item.title.toLowerCase().replace(/\s+/g, '-')}.png`;
+      link.download = `scolect-${item.title.toLowerCase().replace(/\s+/g, '-')}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -437,7 +437,7 @@ export default function GalleryPage() {
               Visual Tour
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-6 bg-clip-text text-transparent bg-gradient-to-b from-[#18181B] to-[#52525B] dark:from-[#FAFAFA] dark:to-[#A1A1AA]">
-              See TimeMark in Action
+              See Scolect in Action
             </h1>
             <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
               Explore the interface with high-quality screenshots showcasing every feature.
@@ -536,7 +536,7 @@ export default function GalleryPage() {
               Video Walkthrough
             </h2>
             <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-12 max-w-2xl mx-auto leading-relaxed">
-              Watch TimeMark in action. See how easy it is to set up tracking, use focus mode, and analyze your productivity in this 1 minute 50 second video.
+              Watch Scolect in action. See how easy it is to set up tracking, use focus mode, and analyze your productivity in this 1 minute 50 second video.
             </p>
             
             {/* Custom Video Player */}
@@ -708,7 +708,7 @@ export default function GalleryPage() {
               <div className={`absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black/80 via-black/40 to-transparent text-white transition-all duration-300 ${
                 showControls || !isPlaying ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
               }`}>
-                <div className="font-bold text-lg">Getting Started with TimeMark</div>
+                <div className="font-bold text-lg">Getting Started with Scolect</div>
                 <div className="text-sm text-zinc-300">Product Walkthrough</div>
               </div>
             </div>
@@ -802,7 +802,7 @@ export default function GalleryPage() {
               Experience It Yourself
             </h2>
             <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] mb-12 leading-relaxed">
-              Screenshots only tell part of the story. Download TimeMark and explore every feature firsthand.
+              Screenshots only tell part of the story. Download Scolect and explore every feature firsthand.
             </p>
             <button onClick={()=>router.push("/download")} className="relative bg-gradient-to-r from-[#7C3AED] to-violet-600 hover:from-[#6D28D9] hover:to-violet-700 text-white font-bold py-5 px-10 rounded-xl shadow-[0_20px_40px_-12px_rgba(124,58,237,0.4)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_25px_50px_-12px_rgba(124,58,237,0.6)] group overflow-hidden">
               {/* Shimmer effect */}

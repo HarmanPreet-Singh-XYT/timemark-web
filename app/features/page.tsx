@@ -321,7 +321,7 @@ export default function FeaturesPage() {
             className="text-l md:text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
           >
-            TimeMark isn't just feature-rich—it's thoughtfully designed. Every capability serves a purpose: 
+            Scolect isn't just feature-rich—it's thoughtfully designed. Every capability serves a purpose: 
             helping you understand your habits, optimize your time, and achieve your goals.
           </p>
         </div>
@@ -333,7 +333,7 @@ export default function FeaturesPage() {
         icon={BarChart3}
         title="Comprehensive Screen Time Analytics"
         subtitle="Automatic tracking with zero setup. Detailed insights that actually matter."
-        intro="The foundation of any behavior change is awareness. You can't improve what you don't measure. TimeMark's analytics engine automatically tracks every second you spend on your computer, organizing the data into actionable insights that help you understand—and improve—your digital habits."
+        intro="The foundation of any behavior change is awareness. You can't improve what you don't measure. Scolect's analytics engine automatically tracks every second you spend on your device, organizing the data into actionable insights that help you understand—and improve—your digital habits."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card title="Core Tracking Capabilities" className="lg:col-span-3 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900/50 dark:to-zinc-900/30 overflow-hidden relative">
@@ -344,7 +344,7 @@ export default function FeaturesPage() {
                   Real-Time Monitoring
                   <div className="w-2 h-2 bg-[#14B8A6] rounded-full animate-pulse" />
                 </h4>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">TimeMark monitors your device usage continuously, capturing which application window is currently in the foreground (active). Unlike screen recorders or keystroke loggers, TimeMark only tracks foreground application time—giving you accurate usage data without invading your privacy.</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Scolect monitors your device usage continuously, capturing which application window is currently in the foreground (active). Unlike screen recorders or keystroke loggers, Scolect only tracks foreground application time—giving you accurate usage data without invading your privacy.</p>
               </div>
               <div className="group">
                 <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2">Automatic Categorization</h4>
@@ -352,7 +352,7 @@ export default function FeaturesPage() {
               </div>
               <div className="group">
                 <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2">Historical Data</h4>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">TimeMark preserves your usage history indefinitely (until you choose to clear it). This means you can analyze trends over weeks, months, or years. See how your habits change over time, identify seasonal patterns, and track your long-term progress toward your goals.</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Scolect preserves your usage history indefinitely (until you choose to clear it). This means you can analyze trends over weeks, months, or years. See how your habits change over time, identify seasonal patterns, and track your long-term progress toward your goals.</p>
               </div>
             </div>
           </Card>
@@ -425,8 +425,8 @@ export default function FeaturesPage() {
         id="productivity"
         icon={TrendingUp}
         title="Smart Productivity Tracking"
-        subtitle="Not all screen time is equal. TimeMark helps you distinguish between productive work and digital distractions."
-        intro="Screen time statistics are meaningless without context. Spending 8 hours on your computer sounds bad—unless 7 of those hours were in your code editor shipping a major feature. TimeMark's productivity tracking adds crucial context to your usage data, helping you focus on what really matters: are you spending your time on things that align with your goals?"
+        subtitle="Not all screen time is equal. Scolect helps you distinguish between productive work and digital distractions."
+        intro="Screen time statistics are meaningless without context. Spending 8 hours on your device sounds bad—unless 7 of those hours were in your code editor shipping a major feature. Scolect's productivity tracking adds crucial context to your usage data, helping you focus on what really matters: are you spending your time on things that align with your goals?"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: The Score */}
@@ -450,7 +450,7 @@ export default function FeaturesPage() {
 
             <Card title="Productivity Trends">
                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
-                Tracking productivity once is interesting. Tracking it over time is transformative. TimeMark shows if you are improving, regressing, or staying consistent.
+                Tracking productivity once is interesting. Tracking it over time is transformative. Scolect shows if you are improving, regressing, or staying consistent.
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between p-2 rounded bg-zinc-50 dark:bg-zinc-900 hover:bg-[#14B8A6]/5 dark:hover:bg-[#14B8A6]/10 transition-colors duration-200 cursor-default border border-transparent hover:border-[#14B8A6]/20">
@@ -473,7 +473,7 @@ export default function FeaturesPage() {
           <div className="lg:col-span-8 space-y-6">
             <Card title="Defining 'Productive'">
               <p className="text-[#52525B] dark:text-[#A1A1AA] mb-4">
-                Productivity is personal. For a developer, VS Code is productive. For a designer, Photoshop is productive. For a writer, Google Docs is productive. TimeMark gives you complete control.
+                Productivity is personal. For a developer, VS Code is productive. For a designer, Photoshop is productive. For a writer, Google Docs is productive. Scolect gives you complete control.
               </p>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900/50 border border-zinc-200 dark:border-zinc-800">
@@ -495,7 +495,7 @@ export default function FeaturesPage() {
             <Card title="Custom Categories" className="overflow-hidden relative">
               <div className="absolute -right-20 -top-20 w-40 h-40 bg-[#C026D3]/10 dark:bg-[#C026D3]/5 rounded-full blur-3xl" />
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6 relative z-10">
-                Beyond binary productive/non-productive classification, TimeMark supports unlimited custom categories. Create as many as you need. Assign apps to multiple categories if they serve different purposes.
+                Beyond binary productive/non-productive classification, Scolect supports unlimited custom categories. Create as many as you need. Assign apps to multiple categories if they serve different purposes.
               </p>
               
               <div className="grid md:grid-cols-2 gap-4 relative z-10">
@@ -532,7 +532,7 @@ export default function FeaturesPage() {
         icon={Clock}
         title="Focus Mode & Pomodoro Timer"
         subtitle="Built-in Pomodoro timer with session tracking, customizable intervals, and comprehensive analytics."
-        intro="The Pomodoro Technique has been scientifically proven to improve focus, reduce mental fatigue, and boost productivity. But most timer apps are too basic. TimeMark's Focus Mode combines a beautiful, functional Pomodoro timer with powerful analytics that help you optimize your deep work sessions."
+        intro="The Pomodoro Technique has been scientifically proven to improve focus, reduce mental fatigue, and boost productivity. But most timer apps are too basic. Scolect's Focus Mode combines a beautiful, functional Pomodoro timer with powerful analytics that help you optimize your deep work sessions."
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
@@ -643,7 +643,7 @@ export default function FeaturesPage() {
         icon={Bell}
         title="Intelligent Alerts & Limits"
         subtitle="Stay on track without feeling controlled. Set healthy boundaries with flexible time limits."
-        intro="The difference between helpful and annoying notifications is context. TimeMark's alert system is designed to inform and guide—not to judge or restrict. You set the rules, and TimeMark helps you stick to them with gentle reminders and flexible limits that adapt to your needs."
+        intro="The difference between helpful and annoying notifications is context. Scolect's alert system is designed to inform and guide—not to judge or restrict. You set the rules, and Scolect helps you stick to them with gentle reminders and flexible limits that adapt to your needs."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card title="Overall Screen Time Limits" className="relative overflow-hidden">
@@ -658,7 +658,7 @@ export default function FeaturesPage() {
               </div>
             </div>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4 relative z-10">
-              Set a daily limit (e.g., 8 hours). TimeMark tracks usage and alerts you as you approach it.
+              Set a daily limit (e.g., 8 hours). Scolect tracks usage and alerts you as you approach it.
             </p>
             <div className="space-y-2 text-sm text-[#52525B] dark:text-[#A1A1AA] relative z-10">
               <p className="p-2 rounded-lg hover:bg-[#7C3AED]/5 transition-colors"><strong className="text-[#7C3AED]">75% used:</strong> Gentle notification ("2 hours remaining")</p>
@@ -734,7 +734,7 @@ export default function FeaturesPage() {
         icon={Layers}
         title="Complete Application Control"
         subtitle="Your apps, your rules, your categories. Organize, filter, and customize."
-        intro="TimeMark tracks every application on your computer, but not every app is relevant to your goals. The Application Management system gives you complete control over what gets tracked, how it's categorized, and how it appears in your reports. This level of customization ensures your data is always meaningful."
+        intro="Scolect tracks every application on your device, but not every app is relevant to your goals. The Application Management system gives you complete control over what gets tracked, how it's categorized, and how it appears in your reports. This level of customization ensures your data is always meaningful."
       >
         <Card>
           <div className="flex flex-col md:flex-row gap-8">
@@ -742,7 +742,7 @@ export default function FeaturesPage() {
               <div>
                 <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Comprehensive Tracking & Smart Defaults</h3>
                 <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                  TimeMark automatically discovers and tracks all applications on your system. On first launch, apps are categorized using intelligent defaults. You have complete control to override these defaults.
+                  Scolect automatically discovers and tracks all applications on your system. On first launch, apps are categorized using intelligent defaults. You have complete control to override these defaults.
                 </p>
               </div>
 
@@ -820,7 +820,7 @@ export default function FeaturesPage() {
         </Card>
       </FeatureSection>
 
-      {/* --- FINAL CTA --- */}
+            {/* --- FINAL CTA --- */}
       <section className="py-24 px-6 lg:px-8 bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-center border-t border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(124,58,237,0.05)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(139,92,246,0.08)_0%,_transparent_70%)]" />
         <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-[#7C3AED]/10 dark:bg-[#8B5CF6]/5 rounded-full blur-3xl animate-float" />
@@ -828,15 +828,29 @@ export default function FeaturesPage() {
         
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-3xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] sm:text-4xl mb-6 animate-fade-in">
-            Experience the Full Power of TimeMark
+            Experience the Full Power of Scolect
           </h2>
           <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-10 animate-slide-up" style={{animationDelay: '100ms'}}>
-            Every feature works together to create a comprehensive productivity ecosystem. Download from the Microsoft Store and explore them all.
+            Every feature works together to create a comprehensive productivity ecosystem. Download Scolect for your platform and explore them all.
           </p>
-          <button onClick={()=>router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")} className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-4 px-8 rounded-xl shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.5)] transition-all transform hover:-translate-y-1 text-lg animate-slide-up group" style={{animationDelay: '200ms'}}>
-            Get it from Microsoft Store
-            <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{animationDelay: '200ms'}}>
+            <button 
+              onClick={() => router.push("/download")} 
+              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-4 px-8 rounded-xl shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.5)] transition-all transform hover:-translate-y-1 text-lg group"
+            >
+              Download Now
+              <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+            {/* <button 
+              onClick={() => router.push("/platforms")} 
+              className="bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-[#18181B] dark:text-[#FAFAFA] font-semibold py-4 px-8 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED]/50 dark:hover:border-[#8B5CF6]/50 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-1 text-lg"
+            >
+              View All Platforms
+            </button> */}
+          </div>
+          <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-6 animate-slide-up" style={{animationDelay: '300ms'}}>
+            Available for Windows, macOS, and more platforms coming soon.
+          </p>
         </div>
       </section>
       <Footer/>

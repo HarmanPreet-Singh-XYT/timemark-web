@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "TimeMark - Take Control of Your Digital Life",
+  title: "Scolect - Take Control of Your Digital Life",
   description: "Free, open-source screen time tracker for Windows.",
 };
 

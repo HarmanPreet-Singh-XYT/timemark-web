@@ -177,8 +177,8 @@ export async function POST(request: NextRequest) {
           </div>
           
           <div class="footer">
-            <p>This feedback was submitted via the TimeMark feedback form.</p>
-            <p style="margin-top: 10px;">TimeMark - Productivity Tracking Tool</p>
+            <p>This feedback was submitted via the Scolect feedback form.</p>
+            <p style="margin-top: 10px;">Scolect - Productivity Tracking Tool</p>
           </div>
         </body>
       </html>
@@ -200,7 +200,7 @@ Submitted at: ${new Date().toISOString()}
 
     // Send email
     const info = await transporter.sendMail({
-      from: `"TimeMark Feedback" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"Scolect Feedback" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
       to: process.env.FEEDBACK_EMAIL_TO,
       subject: `[${feedbackTypeLabel}] ${body.title}`,
       text: emailText,

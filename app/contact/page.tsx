@@ -117,7 +117,7 @@ const ContactPage: React.FC = () => {
         setSubmitStatus({ type: 'error', message: result.message });
       }
     } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'An unexpected error occurred. Please try emailing us directly at support.timemark@harmanita.com' });
+      setSubmitStatus({ type: 'error', message: 'An unexpected error occurred. Please try emailing us directly at support@scolect.com' });
     } finally {
       setIsSubmitting(false);
     }
@@ -237,7 +237,7 @@ const ContactPage: React.FC = () => {
             Have a question, need support, or want to connect? We're here to help.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed max-w-2xl mx-auto">
-            We're a friendly, responsive team committed to helping you get the most out of TimeMark. Whether you need technical support, have a question, or just want to say hello—we'd love to hear from you.
+            We're a friendly, responsive team committed to helping you get the most out of Scolect. Whether you need technical support, have a question, or just want to say hello—we'd love to hear from you.
           </p>
         </div>
       </section>
@@ -393,7 +393,7 @@ const ContactPage: React.FC = () => {
                 className="w-full px-4 py-3 rounded-lg bg-[var(--bg-page)] border border-[var(--border)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all duration-300 font-mono text-sm hover:border-[var(--primary)]/50 hover:shadow-lg hover:shadow-[var(--primary)]/5 resize-none" 
               />
               <p className="text-xs text-[var(--text-muted)]">
-                For technical support, please include: TimeMark version, Windows version, and steps to reproduce.
+                For technical support, please include: Scolect version, operating system (Windows/macOS/Linux), and steps to reproduce.
               </p>
             </div>
 
@@ -406,7 +406,7 @@ const ContactPage: React.FC = () => {
                 onChange={handleInputChange}
                 className="mt-1 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer" 
               />
-              <label htmlFor="newsletter" className="text-sm text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors">Keep me updated with TimeMark news and releases</label>
+              <label htmlFor="newsletter" className="text-sm text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors">Keep me updated with Scolect news and releases</label>
             </div>
 
             <div className="animate-slide-up" style={{ animationDelay: '0.45s' }}>
@@ -450,14 +450,14 @@ const ContactPage: React.FC = () => {
               <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">Primary Contacts</h3>
               <div className="space-y-3">
                 <EmailRow
-                email="support.timemark@harmanita.com"
+                email="support@scolect.com"
                 label="General Inquiries"
                 desc="Questions, help, general support"
                 index={0}
                 />
 
                 <EmailRow
-                email="bugs.timemark@harmanita.com"
+                email="bugs@scolect.com"
                 label="Bug Reports"
                 desc="Report issues, crashes, errors"
                 icon={<Bug className="w-4 h-4" />}
@@ -465,7 +465,7 @@ const ContactPage: React.FC = () => {
                 />
 
                 <EmailRow
-                email="feedback.timemark@harmanita.com"
+                email="feedback@scolect.com"
                 label="Feature Feedback"
                 desc="Suggestions, ideas, requests"
                 icon={<Lightbulb className="w-4 h-4" />}
@@ -473,7 +473,7 @@ const ContactPage: React.FC = () => {
                 />
 
                 <EmailRow
-                email="security.timemark@harmanita.com"
+                email="security@scolect.com"
                 label="Security Issues"
                 desc="Vulnerabilities, privacy (Private)"
                 icon={<Shield className="w-4 h-4" />}
@@ -486,10 +486,10 @@ const ContactPage: React.FC = () => {
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3 mt-8">Special Contacts</h3>
               <div className="grid md:grid-cols-2 gap-3">
-                <EmailRow email="press.timemark@harmanita.com" label="Press & Media" simple index={4} />
-                <EmailRow email="partners.timemark@harmanita.com" label="Partnerships" simple index={5} />
-                <EmailRow email="conduct.timemark@harmanita.com" label="Code of Conduct" simple index={6} />
-                <EmailRow email="contribute.timemark@harmanita.com" label="Contributions" simple index={7} />
+                <EmailRow email="press@scolect.com" label="Press & Media" simple index={4} />
+                <EmailRow email="partners@scolect.com" label="Partnerships" simple index={5} />
+                <EmailRow email="conduct@scolect.com" label="Code of Conduct" simple index={6} />
+                <EmailRow email="contribute@scolect.com" label="Contributions" simple index={7} />
               </div>
             </div>
           </div>
@@ -533,11 +533,11 @@ const ContactPage: React.FC = () => {
               </div>
               <div className="pt-6">
                 <span className="text-[var(--text-main)] font-bold block mb-2">Example Good Email:</span>
-                <span className="block mb-1">To: support.timemark@harmanita.com</span>
+                <span className="block mb-1">To: support@scolect.com</span>
                 <span className="block mb-3">Subject: Question: How to Export Data to CSV</span>
                 
-                <p className="mb-2">Hi TimeMark Team,</p>
-                <p className="mb-2">I'm using TimeMark v1.2.0 on Windows 11 and I love the app!</p>
+                <p className="mb-2">Hi Scolect Team,</p>
+                <p className="mb-2">I'm using Scolect v1.2.0 on macOS Sonoma and I love the app!</p>
                 <p className="mb-2">I'd like to export my usage data to CSV format for analysis. I see the Export function in Settings, but it exports JSON.</p>
                 <p className="mb-2">Is there a way to export to CSV?</p>
                 <p>Thanks,<br/>[Name]</p>
@@ -557,7 +557,7 @@ const ContactPage: React.FC = () => {
               <MessageSquare size={14} /> Join Our Community
             </div>
             <h2 className="text-3xl font-bold mb-4 animate-fade-in">Join the Community</h2>
-            <p className="text-[var(--text-muted)] animate-fade-in" style={{ animationDelay: '0.1s' }}>Connect with other TimeMark users and the development team.</p>
+            <p className="text-[var(--text-muted)] animate-fade-in" style={{ animationDelay: '0.1s' }}>Connect with other Scolect users and the development team.</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -567,7 +567,7 @@ const ContactPage: React.FC = () => {
               desc="Ask questions, share tips, and discuss feature ideas."
               linkText="Join Discussion"
               meta="Very Active"
-              btnLink='https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues'
+              btnLink='https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues'
               index={0}
             />
             <CommunityCard 
@@ -576,7 +576,7 @@ const ContactPage: React.FC = () => {
               desc="Report confirmed bugs and track feature requests."
               linkText="View Issues"
               meta="Bug Reports Only"
-              btnLink='https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues'
+              btnLink='https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues'
               index={1}
             />
             <CommunityCard 
@@ -671,7 +671,7 @@ const ContactPage: React.FC = () => {
               title="5. Update App" 
               desc="Many issues are fixed in the latest version."
               index={4}
-              link='https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA'
+              link='/download'
             />
             <CheckFirstCard 
               icon={<Newspaper className="w-6 h-6 text-[var(--warning)]"/>} 
@@ -709,16 +709,16 @@ const ContactPage: React.FC = () => {
             </div>
             <div className="font-mono text-sm leading-relaxed text-[var(--text-main)] bg-[var(--bg-page)] p-4 rounded-lg border border-[var(--border)]">
               <span className="text-[var(--text-muted)]">Subject:</span> Focus Mode Timer Not Starting (v1.2.0)<br/><br/>
-              Hi TimeMark Team,<br/><br/>
+              Hi Scolect Team,<br/><br/>
               I'm experiencing an issue with Focus Mode.<br/><br/>
               <span className="text-[var(--primary)] font-bold">PROBLEM:</span><br/>
               When I click the Play button... timer displays 00:00...<br/><br/>
               <span className="text-[var(--primary)] font-bold">MY SETUP:</span><br/>
-              - TimeMark Version: 1.2.0 (Microsoft Store)<br/>
-              - Windows: Windows 11 Pro 22H2<br/>
+              - Scolect Version: 1.2.0<br/>
+              - Operating System: macOS Sonoma 14.2 / Windows 11 Pro 22H2 / Ubuntu 22.04<br/>
               - RAM: 16 GB<br/><br/>
               <span className="text-[var(--primary)] font-bold">STEPS TO REPRODUCE:</span><br/>
-              1. Open TimeMark<br/>
+              1. Open Scolect<br/>
               2. Click "Focus Mode"<br/>
               3. ...<br/><br/>
               <span className="text-[var(--primary)] font-bold">WHAT I'VE TRIED:</span><br/>
@@ -783,7 +783,7 @@ const ContactPage: React.FC = () => {
             <FaqItem q="Do I need an account to contact you?" a="No! You can email us directly. GitHub discussions do require a free GitHub account." index={0} />
             <FaqItem q="I haven't heard back in 3 days." a="Check spam. If 5 days pass, please resend. We try to respond to everything within 3 business days." index={1} />
             <FaqItem q="Can I call you?" a="We don't offer phone support. Email or Discord is best for us to help you efficiently." index={2} />
-            <FaqItem q="Can you help with other Windows issues?" a="We only support TimeMark. For general Windows issues, please contact Microsoft support." index={3} />
+            <FaqItem q="Can you help with other system issues?" a="We only support Scolect. For general operating system issues, please contact Apple, Microsoft, or your Linux distribution's support." index={3} />
           </div>
         </div>
       </section>
@@ -818,7 +818,7 @@ const ContactPage: React.FC = () => {
             </button>
             
             <button 
-                onClick={() => router.push("mailto:support.timemark@harmanita.com")} 
+                onClick={() => router.push("mailto:support@scolect.com")} 
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 text-white hover:shadow-lg hover:shadow-[var(--primary)]/25 transition-all duration-200 group"
             >
                 <Mail className="w-4 h-4" />
@@ -944,7 +944,7 @@ const ResponseRow: React.FC<{ label: string, time: string, priority: string, col
   </div>
 );
 
-const CheckFirstCard: React.FC<{ icon: React.ReactNode, title: string, desc: string, index: number, link?:string }> = ({ icon, title, desc, index,link="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" }) => (
+const CheckFirstCard: React.FC<{ icon: React.ReactNode, title: string, desc: string, index: number, link?:string }> = ({ icon, title, desc, index,link="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" }) => (
   <a 
     href={link} 
     className="flex items-start gap-4 p-4 rounded-xl border border-[var(--border)] hover:bg-[var(--bg-page)] hover:border-[var(--primary)] transition-all duration-300 group hover:shadow-lg hover:shadow-[var(--primary)]/10 hover:-translate-y-1 animate-slide-up"

@@ -103,7 +103,7 @@ export async function sendContactEmail(data: EmailData) {
         <body>
           <div class="header">
             <h1 style="margin: 0; font-size: 24px;">📧 New Contact Form Submission</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9;">TimeMark Support</p>
+            <p style="margin: 10px 0 0 0; opacity: 0.9;">Scolect Support</p>
           </div>
           <div class="content">
             <div class="field">
@@ -139,7 +139,7 @@ export async function sendContactEmail(data: EmailData) {
             ` : ''}
             
             <div class="footer">
-              <p>This email was sent from the TimeMark contact form.</p>
+              <p>This email was sent from the Scolect contact form.</p>
               <p>Sent on ${new Date().toLocaleString('en-US', { 
                 dateStyle: 'full', 
                 timeStyle: 'long',
@@ -153,7 +153,7 @@ export async function sendContactEmail(data: EmailData) {
 
     // Send email to support team
     await transporter.sendMail({
-      from: `"TimeMark Contact Form" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"Scolect Contact Form" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL_TO,
       replyTo: data.email,
       subject: `[${data.category}] ${data.subject}`,
@@ -227,12 +227,12 @@ export async function sendContactEmail(data: EmailData) {
           <div class="header">
             <div class="checkmark">✓</div>
             <h1 style="margin: 0; font-size: 28px;">We Got Your Message!</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Thanks for reaching out to TimeMark</p>
+            <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Thanks for reaching out to Scolect</p>
           </div>
           <div class="content">
             <p>Hi <strong>${data.name}</strong>,</p>
             
-            <p>Thank you for contacting TimeMark! We've received your message and our team will review it shortly.</p>
+            <p>Thank you for contacting Scolect! We've received your message and our team will review it shortly.</p>
             
             <div class="info-box">
               <p style="margin: 0 0 10px 0;"><strong>Your Submission Details:</strong></p>
@@ -250,16 +250,16 @@ export async function sendContactEmail(data: EmailData) {
             
             <p>In the meantime, you might find these resources helpful:</p>
             <ul style="padding-left: 20px;">
-              <li><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://timemark.app'}/faq">Frequently Asked Questions</a></li>
-              <li><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://timemark.app'}/docs">Documentation</a></li>
-              <li><a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues">GitHub Issues</a></li>
+              <li><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://Scolect.com'}/faq">Frequently Asked Questions</a></li>
+              <li><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://Scolect.com'}/docs">Documentation</a></li>
+              <li><a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues">GitHub Issues</a></li>
             </ul>
             
             <div class="footer">
-              <p><strong>TimeMark Support Team</strong></p>
+              <p><strong>Scolect Support Team</strong></p>
               <p>
-                <a href="mailto:${process.env.CONTACT_EMAIL_TO || 'support.timemark@harmanita.com'}">
-                  ${process.env.CONTACT_EMAIL_TO || 'support.timemark@harmanita.com'}
+                <a href="mailto:${process.env.CONTACT_EMAIL_TO || 'support@scolect.com'}">
+                  ${process.env.CONTACT_EMAIL_TO || 'support@scolect.com'}
                 </a>
               </p>
               <p style="margin-top: 15px; font-size: 11px; color: #9ca3af;">
@@ -273,7 +273,7 @@ export async function sendContactEmail(data: EmailData) {
 
     // Send auto-reply to user
     await transporter.sendMail({
-      from: `"TimeMark Support" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"Scolect Support" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
       to: data.email,
       subject: `We received your message: ${data.subject}`,
       html: userEmailHtml,

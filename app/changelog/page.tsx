@@ -80,10 +80,10 @@ const ReleaseSection = ({
         )}
         {isLatest && (
           <div className="mt-6 space-y-3">
-            <a href="https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA" className="flex items-center justify-center md:justify-end gap-2 text-sm font-medium text-[#7C3AED] hover:underline">
-              <Download size={16} /> Microsoft Store
+            <a href="/download" className="flex items-center justify-center md:justify-end gap-2 text-sm font-medium text-[#7C3AED] hover:underline">
+              <Download size={16} /> Download Page
             </a>
-            <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/releases" className="flex items-center justify-center md:justify-end gap-2 text-sm font-medium text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
+            <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases" className="flex items-center justify-center md:justify-end gap-2 text-sm font-medium text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
               <Package size={16} /> GitHub Release
             </a>
           </div>
@@ -185,7 +185,7 @@ export default function ChangelogPage() {
             <History size={16} /> Version History
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-6">
-            TimeMark Release History
+            Scolect Release History
           </h1>
           <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
             Track every feature, improvement, and bug fix across all versions.
@@ -227,7 +227,7 @@ export default function ChangelogPage() {
               </ul>
               
               <div className="mt-6 pt-6 border-t border-zinc-100 dark:border-zinc-800">
-                <a href="https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues" className="text-[#7C3AED] font-bold text-sm hover:underline">Vote on Features in GitHub Discussions →</a>
+                <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" className="text-[#7C3AED] font-bold text-sm hover:underline">Vote on Features in GitHub Discussions →</a>
               </div>
             </div>
           </div>
@@ -250,8 +250,8 @@ export default function ChangelogPage() {
             
             <div className="mt-8">
               <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Found a bug?</h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">Your reports help us improve TimeMark for everyone.</p>
-              <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/TimeMark-ScreenTimeApp/issues")} className="px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] hover:border-[#F43F5E] hover:text-[#F43F5E] transition-colors">
+              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">Your reports help us improve Scolect for everyone.</p>
+              <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues")} className="px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] hover:border-[#F43F5E] hover:text-[#F43F5E] transition-colors">
                 Report Issue on GitHub
               </button>
             </div>
