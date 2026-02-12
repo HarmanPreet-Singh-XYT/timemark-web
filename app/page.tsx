@@ -681,7 +681,7 @@ export default function ScolectLanding() {
               </thead>
               <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
                 {[
-                  ["Price", "Free Forever", "\\$5-15/month", "Free"],
+                  ["Price", "Free Forever", "$5-15/month", "Free"],
                   ["Privacy", "100% Local", "Cloud-based", "Mixed"],
                   ["Open Source", true, false, false],
                   ["Application Tracking", "All Apps", "Limited", "Basic"],
