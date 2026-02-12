@@ -798,7 +798,7 @@ export default function ScolectLanding() {
                   <div className="text-xs text-zinc-400 uppercase">Hours Saved</div>
                 </div>
                 <div className="group hover:scale-110 transition-transform duration-300 cursor-default">
-                  <div className="text-2xl font-bold text-white"><AnimatedCounter end={50} suffix="+" /></div>
+                  <div className="text-2xl font-bold text-white"><AnimatedCounter end={100} suffix="+" /></div>
                   <div className="text-xs text-zinc-400 uppercase">Commits</div>
                 </div>
                 <div className="group hover:scale-110 transition-transform duration-300 cursor-default">
