@@ -25,14 +25,80 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useRouter } from 'next/navigation';
 
-// --- Visual Identity Constants (for reference/consistency) ---
-// Primary: #7C3AED (Light) / #8B5CF6 (Dark)
-// Bg: #FAFAFA (Light) / #09090B (Dark)
-// Card: #FFFFFF (Light) / #18181B (Dark)
-// Text: #18181B (Light) / #FAFAFA (Dark)
+// --- Scroll-triggered animation hook ---
+const useInView = (threshold = 0.1) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
 
-const FloatingOrb = ({ className }: { className?: string }) => (
-  <div className={`absolute rounded-full blur-3xl opacity-30 dark:opacity-20 ${className}`} />
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (ref.current) observer.unobserve(ref.current);
+        }
+      },
+      { threshold, rootMargin: '0px 0px -60px 0px' }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+};
+
+// --- Animated wrapper ---
+const AnimateIn: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: 'up' | 'left' | 'right' | 'none';
+}> = ({ children, className = '', delay = 0, direction = 'up' }) => {
+  const { ref, isInView } = useInView(0.1);
+
+  const directionStyles = {
+    up: 'translate-y-6',
+    left: 'translate-x-6',
+    right: '-translate-x-6',
+    none: '',
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${className}`}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? 'translate(0, 0)' : undefined,
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      <div
+        className={`transition-all duration-700 ease-out ${
+          isInView ? 'opacity-100 translate-y-0 translate-x-0' : `opacity-0 ${directionStyles[direction]}`
+        }`}
+        style={{ transitionDelay: `${delay}ms` }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+// --- Staggered children wrapper ---
+const StaggeredGroup: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => {
+  const { ref, isInView } = useInView(0.05);
+
+  return (
+    <div ref={ref} className={`stagger-group ${isInView ? 'in-view' : ''} ${className}`}>
+      {children}
+    </div>
+  );
+};
+
+const FloatingOrb = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
+  <div className={`absolute rounded-full blur-3xl opacity-30 dark:opacity-20 ${className}`} style={style} />
 );
 
 const FeatureSection = ({ 
@@ -53,49 +119,50 @@ const FeatureSection = ({
   reverse?: boolean 
 }) => (
   <section id={id} className="py-24 relative overflow-hidden border-b border-zinc-200 dark:border-zinc-800 last:border-0">
-    {/* Subtle background gradient */}
     <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/[0.02] via-transparent to-[#C026D3]/[0.02] dark:from-[#8B5CF6]/[0.03] dark:to-[#C026D3]/[0.03] pointer-events-none" />
     
     <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
-      <div className="max-w-3xl mb-12 animate-fade-in">
+      <AnimateIn className="max-w-3xl mb-12">
         <div className="flex items-center gap-3 mb-4 group">
-          <div className="p-3 rounded-xl bg-[#7C3AED]/10 dark:bg-[#8B5CF6]/10 text-[#7C3AED] dark:text-[#8B5CF6] transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-[#7C3AED]/20">
+          <div className="p-3 rounded-xl bg-[#7C3AED]/10 dark:bg-[#8B5CF6]/10 text-[#7C3AED] dark:text-[#8B5CF6] transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
             <Icon size={24} />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] sm:text-4xl">
             {title}
           </h2>
         </div>
-        <p className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4 animate-slide-up" style={{animationDelay: '100ms'}}>
+        <p className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4">
           {subtitle}
         </p>
-        <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] leading-relaxed animate-slide-up" style={{animationDelay: '200ms'}}>
+        <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] leading-relaxed">
           {intro}
         </p>
-      </div>
+      </AnimateIn>
       {children}
     </div>
   </section>
 );
 
-const Card = ({ title, children, className = "" }: { title?: string; children: React.ReactNode; className?: string }) => (
-  <div className={`
-    bg-[#FFFFFF] dark:bg-[#18181B] 
-    rounded-2xl border border-zinc-200 dark:border-zinc-800 
-    shadow-[0_10px_15px_-3px_rgba(124,58,237,0.05)] dark:shadow-none 
-    hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.1)] dark:hover:shadow-[0_20px_25px_-5px_rgba(139,92,246,0.15)]
-    hover:border-[#7C3AED]/30 dark:hover:border-[#8B5CF6]/30
-    transition-all duration-300 hover:-translate-y-1
-    p-6 ${className}
-  `}>
-    {title && <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">{title}</h3>}
-    {children}
-  </div>
+const Card = ({ title, children, className = "", delay = 0 }: { title?: string; children: React.ReactNode; className?: string; delay?: number }) => (
+  <AnimateIn delay={delay}>
+    <div className={`
+      bg-[#FFFFFF] dark:bg-[#18181B] 
+      rounded-2xl border border-zinc-200 dark:border-zinc-800 
+      shadow-[0_10px_15px_-3px_rgba(124,58,237,0.05)] dark:shadow-none 
+      hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.1)] dark:hover:shadow-[0_20px_25px_-5px_rgba(139,92,246,0.15)]
+      hover:border-[#7C3AED]/30 dark:hover:border-[#8B5CF6]/30
+      transition-all duration-300 hover:-translate-y-0.5
+      p-6 h-full ${className}
+    `}>
+      {title && <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">{title}</h3>}
+      {children}
+    </div>
+  </AnimateIn>
 );
 
 const InsightBox = ({ text }: { text: string }) => (
-  <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 dark:hover:border-[#8B5CF6]/30 transition-all duration-300 hover:shadow-md group">
-    <Zap className="w-5 h-5 text-[#7C3AED] dark:text-[#8B5CF6] mt-0.5 shrink-0 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+  <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 dark:hover:border-[#8B5CF6]/30 transition-all duration-200 hover:shadow-md group">
+    <Zap className="w-5 h-5 text-[#7C3AED] dark:text-[#8B5CF6] mt-0.5 shrink-0 group-hover:scale-110 transition-transform duration-200" />
     <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] italic">"{text}"</p>
   </div>
 );
@@ -116,154 +183,58 @@ const BulletList = ({ items, title }: { items: string[]; title?: string }) => (
 
 export default function FeaturesPage() {
   const router = useRouter();
+  const [heroVisible, setHeroVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
       <style jsx global>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(3deg);
-          }
-        }
-        
         @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-        
-        @keyframes pulse-glow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
-          }
-          50% {
-            box-shadow: 0 0 40px rgba(124, 58, 237, 0.6);
-          }
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
         }
         
         @keyframes gradient-shift {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        
+        @keyframes float-delayed {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          50% { transform: translateY(-12px) translateX(8px); }
+        }
+        
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
+        }
+        
+        @keyframes spin-slow {
+          from { transform: rotate(-45deg); }
+          to { transform: rotate(315deg); }
+        }
+        
+        @keyframes gradient-x {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
         }
 
         .shimmer-text {
-          background: linear-gradient(
-            90deg,
-            #7C3AED 0%,
-            #A78BFA 25%,
-            #7C3AED 50%,
-            #A78BFA 75%,
-            #7C3AED 100%
-          );
+          background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 25%, #7C3AED 50%, #A78BFA 75%, #7C3AED 100%);
           background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: shimmer 3s linear infinite;
-        }
-        
-        .gradient-bg {
-          background: linear-gradient(-45deg, #7C3AED, #8B5CF6, #6D28D9, #7C3AED);
-          background-size: 400% 400%;
-          animation: gradient-shift 8s ease infinite;
-        }
-        
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        @keyframes slide-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes gradient {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        
-        @keyframes gradient-x {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        
-        @keyframes pulse-slow {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.6;
-          }
-        }
-        
-        @keyframes spin-slow {
-          from {
-            transform: rotate(-45deg);
-          }
-          to {
-            transform: rotate(315deg);
-          }
-        }
-        
-        @keyframes float-delayed {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          50% {
-            transform: translateY(-15px) translateX(10px);
-          }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.6s ease-out forwards;
-        }
-        
-        .animate-slide-up {
-          animation: slide-up 0.6s ease-out forwards;
-        }
-        
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
+          animation: shimmer 4s linear infinite;
         }
         
         .animate-gradient-x {
@@ -276,50 +247,66 @@ export default function FeaturesPage() {
         }
         
         .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
+          animation: spin-slow 4s linear infinite;
         }
         
         .animate-float {
-          animation: float 6s ease-in-out infinite;
+          animation: float 8s ease-in-out infinite;
         }
         
         .animate-float-delayed {
-          animation: float-delayed 8s ease-in-out infinite;
+          animation: float-delayed 10s ease-in-out infinite;
         }
+        
+        /* Stagger children */
+        .stagger-group > * {
+          opacity: 0;
+          transform: translateY(16px);
+          transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .stagger-group.in-view > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+        .stagger-group.in-view > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
+        .stagger-group.in-view > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
+        .stagger-group.in-view > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+        .stagger-group.in-view > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
+        .stagger-group.in-view > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
+        .stagger-group.in-view > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
+        .stagger-group.in-view > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 560ms; }
       `}</style>
       
       <Navbar/>
       
-      {/* HERO SECTION - Adapted from About Page */}
+      {/* HERO SECTION */}
       <div className="relative pt-32 pb-12 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
-        {/* Background Effects */}
-        <FloatingOrb className="w-[600px] h-[600px] bg-violet-400 -top-64 -right-64 animate-pulse" />
-        <FloatingOrb className="w-[400px] h-[400px] bg-indigo-400 -bottom-32 -left-32 animate-pulse" />
+        <FloatingOrb className="w-[600px] h-[600px] bg-violet-400 -top-64 -right-64 animate-pulse" style={{ animationDuration: '4s' } as any} />
+        <FloatingOrb className="w-[400px] h-[400px] bg-indigo-400 -bottom-32 -left-32 animate-pulse" style={{ animationDuration: '4s', animationDelay: '2s' } as any} />
         <FloatingOrb className="w-[300px] h-[300px] bg-purple-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         
-        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
         
         <div className="max-w-4xl mx-auto relative z-10">
           <div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8"
-            style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8 transition-all duration-700 ease-out ${
+              heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
           >
             <Sparkles size={14} className="animate-pulse" />
             Powerful features, thoughtfully designed
           </div>
           
           <h1 
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
+            className={`text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8 transition-all duration-700 ease-out delay-150 ${
+              heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
           >
             Every Feature You Need to <br/>
             <span className="shimmer-text">Master Your Digital Life</span>
           </h1>
           
           <p 
-            className="text-l md:text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
+            className={`text-l md:text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12 transition-all duration-700 ease-out delay-300 ${
+              heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
           >
             Scolect isn't just feature-rich—it's thoughtfully designed. Every capability serves a purpose: 
             helping you understand your habits, optimize your time, and achieve your goals.
@@ -335,29 +322,31 @@ export default function FeaturesPage() {
         subtitle="Automatic tracking with zero setup. Detailed insights that actually matter."
         intro="The foundation of any behavior change is awareness. You can't improve what you don't measure. Scolect's analytics engine automatically tracks every second you spend on your device, organizing the data into actionable insights that help you understand—and improve—your digital habits."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card title="Core Tracking Capabilities" className="lg:col-span-3 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900/50 dark:to-zinc-900/30 overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#7C3AED]/5 dark:bg-[#8B5CF6]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="grid md:grid-cols-3 gap-8 relative z-10">
-              <div className="group">
-                <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2">
-                  Real-Time Monitoring
-                  <div className="w-2 h-2 bg-[#14B8A6] rounded-full animate-pulse" />
-                </h4>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Scolect monitors your device usage continuously, capturing which application window is currently in the foreground (active). Unlike screen recorders or keystroke loggers, Scolect only tracks foreground application time—giving you accurate usage data without invading your privacy.</p>
+        <StaggeredGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-3">
+            <Card title="Core Tracking Capabilities" className="bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900/50 dark:to-zinc-900/30 overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#7C3AED]/5 dark:bg-[#8B5CF6]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+              <div className="grid md:grid-cols-3 gap-8 relative z-10">
+                <div className="group">
+                  <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2">
+                    Real-Time Monitoring
+                    <div className="w-2 h-2 bg-[#14B8A6] rounded-full animate-pulse" />
+                  </h4>
+                  <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Scolect monitors your device usage continuously, capturing which application window is currently in the foreground (active). Unlike screen recorders or keystroke loggers, Scolect only tracks foreground application time—giving you accurate usage data without invading your privacy.</p>
+                </div>
+                <div className="group">
+                  <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2">Automatic Categorization</h4>
+                  <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Every application is automatically assigned to a category: Productivity, Development, Social Media, Entertainment, Gaming, Communication, Web Browsing, Creative, Education, or Utility. These categories help you understand not just which apps you use, but what types of activities dominate your day.</p>
+                </div>
+                <div className="group">
+                  <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2">Historical Data</h4>
+                  <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Scolect preserves your usage history indefinitely (until you choose to clear it). This means you can analyze trends over weeks, months, or years. See how your habits change over time, identify seasonal patterns, and track your long-term progress toward your goals.</p>
+                </div>
               </div>
-              <div className="group">
-                <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2">Automatic Categorization</h4>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Every application is automatically assigned to a category: Productivity, Development, Social Media, Entertainment, Gaming, Communication, Web Browsing, Creative, Education, or Utility. These categories help you understand not just which apps you use, but what types of activities dominate your day.</p>
-              </div>
-              <div className="group">
-                <h4 className="font-semibold text-[#18181B] dark:text-[#FAFAFA] mb-2">Historical Data</h4>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">Scolect preserves your usage history indefinitely (until you choose to clear it). This means you can analyze trends over weeks, months, or years. See how your habits change over time, identify seasonal patterns, and track your long-term progress toward your goals.</p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
 
-          <Card title="Daily Screen Time Graph">
+          <Card title="Daily Screen Time Graph" delay={80}>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
               The daily screen time graph visualizes your usage hour-by-hour, showing peaks and valleys in your activity. This helps you identify your most active hours, spot irregular patterns, and understand your natural productivity rhythms.
             </p>
@@ -370,7 +359,7 @@ export default function FeaturesPage() {
             ]} />
           </Card>
 
-          <Card title="Category Breakdown">
+          <Card title="Category Breakdown" delay={160}>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
               The category pie chart gives you a bird's-eye view of how you split your time across different types of activities. This high-level view is incredibly valuable for identifying imbalances.
             </p>
@@ -382,7 +371,7 @@ export default function FeaturesPage() {
             ]} />
           </Card>
 
-          <Card title="Usage Pattern by Time of Day">
+          <Card title="Usage Pattern by Time of Day" delay={240}>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
               Ever wonder when you're most productive? The time-of-day breakdown divides your screen time into Morning (6-12), Afternoon (12-5), Evening (5-9), and Night (9-6), showing you when you're most active.
             </p>
@@ -392,32 +381,34 @@ export default function FeaturesPage() {
             </div>
           </Card>
 
-          <Card title="Detailed App Table" className="md:col-span-2">
-            <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
-              For granular analysis, the application usage table lists every tracked app with precise time measurements. Sort by usage time to find your biggest time consumers, search for specific apps, or filter by category.
-            </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <BulletList items={[
-                "Search functionality for quick lookups",
-                "Sort by name, category, or usage time",
-                "Click any app for deep-dive analytics"
-              ]} />
-              <BulletList items={[
-                "Mark apps as productive/non-productive directly from the table",
-                "Set limits without navigating to a different screen"
-              ]} />
-            </div>
-          </Card>
+          <div className="md:col-span-2">
+            <Card title="Detailed App Table" delay={100}>
+              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
+                For granular analysis, the application usage table lists every tracked app with precise time measurements. Sort by usage time to find your biggest time consumers, search for specific apps, or filter by category.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <BulletList items={[
+                  "Search functionality for quick lookups",
+                  "Sort by name, category, or usage time",
+                  "Click any app for deep-dive analytics"
+                ]} />
+                <BulletList items={[
+                  "Mark apps as productive/non-productive directly from the table",
+                  "Set limits without navigating to a different screen"
+                ]} />
+              </div>
+            </Card>
+          </div>
 
-          <Card title="Export & Custom Ranges">
+          <Card title="Export & Custom Ranges" delay={180}>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
               Your data is yours. Export your usage history at any time in standard formats for deeper analysis. Analyze any custom date range.
             </p>
-            <button className="w-full mt-2 py-2 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 text-[#52525B] dark:text-[#A1A1AA] hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] hover:bg-[#7C3AED]/5 dark:hover:bg-[#8B5CF6]/5 transition-all duration-300 text-sm font-medium flex items-center justify-center gap-2 group">
-              <Download size={16} className="group-hover:animate-bounce" /> Export Data
+            <button className="w-full mt-2 py-2 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 text-[#52525B] dark:text-[#A1A1AA] hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] hover:bg-[#7C3AED]/5 dark:hover:bg-[#8B5CF6]/5 transition-all duration-200 text-sm font-medium flex items-center justify-center gap-2 group">
+              <Download size={16} /> Export Data
             </button>
           </Card>
-        </div>
+        </StaggeredGroup>
       </FeatureSection>
 
       {/* --- FEATURE 2: PRODUCTIVITY TRACKING --- */}
@@ -448,7 +439,7 @@ export default function FeaturesPage() {
               </div>
             </Card>
 
-            <Card title="Productivity Trends">
+            <Card title="Productivity Trends" delay={100}>
                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
                 Tracking productivity once is interesting. Tracking it over time is transformative. Scolect shows if you are improving, regressing, or staying consistent.
               </p>
@@ -471,7 +462,7 @@ export default function FeaturesPage() {
 
           {/* Right Column: Definition & Categories */}
           <div className="lg:col-span-8 space-y-6">
-            <Card title="Defining 'Productive'">
+            <Card title="Defining 'Productive'" delay={50}>
               <p className="text-[#52525B] dark:text-[#A1A1AA] mb-4">
                 Productivity is personal. For a developer, VS Code is productive. For a designer, Photoshop is productive. For a writer, Google Docs is productive. Scolect gives you complete control.
               </p>
@@ -492,14 +483,14 @@ export default function FeaturesPage() {
               </div>
             </Card>
 
-            <Card title="Custom Categories" className="overflow-hidden relative">
+            <Card title="Custom Categories" className="overflow-hidden relative" delay={100}>
               <div className="absolute -right-20 -top-20 w-40 h-40 bg-[#C026D3]/10 dark:bg-[#C026D3]/5 rounded-full blur-3xl" />
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6 relative z-10">
                 Beyond binary productive/non-productive classification, Scolect supports unlimited custom categories. Create as many as you need. Assign apps to multiple categories if they serve different purposes.
               </p>
               
               <div className="grid md:grid-cols-2 gap-4 relative z-10">
-                <div className="p-4 rounded-xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:border-[#7C3AED]/30 dark:hover:border-[#8B5CF6]/30 transition-all duration-300">
+                <div className="p-4 rounded-xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:border-[#7C3AED]/30 dark:hover:border-[#8B5CF6]/30 transition-all duration-200">
                   <span className="text-xs font-bold text-[#7C3AED] uppercase tracking-wider">Pre-built</span>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {['Productivity', 'Development', 'Social Media', 'Entertainment', 'Gaming', 'Communication', 'Creative', 'Education'].map(tag => (
@@ -507,7 +498,7 @@ export default function FeaturesPage() {
                     ))}
                   </div>
                 </div>
-                <div className="p-4 rounded-xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:border-[#C026D3]/30 transition-all duration-300">
+                <div className="p-4 rounded-xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:border-[#C026D3]/30 transition-all duration-200">
                   <span className="text-xs font-bold text-[#C026D3] uppercase tracking-wider">Custom Ideas</span>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {['Client Work', 'Side Hustle', 'Internal Projects', 'Personal Finance', 'Learning'].map(tag => (
@@ -518,10 +509,12 @@ export default function FeaturesPage() {
               </div>
             </Card>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <InsightBox text="You primarily use VS Code during Morning (6-12)" />
-              <InsightBox text="Communication apps are consuming 40% of your screen time" />
-            </div>
+            <AnimateIn delay={150}>
+              <div className="grid md:grid-cols-2 gap-4">
+                <InsightBox text="You primarily use VS Code during Morning (6-12)" />
+                <InsightBox text="Communication apps are consuming 40% of your screen time" />
+              </div>
+            </AnimateIn>
           </div>
         </div>
       </FeatureSection>
@@ -540,7 +533,7 @@ export default function FeaturesPage() {
               <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
                 Focus Mode implements the classic Pomodoro Technique: work in focused intervals (traditionally 25 minutes), followed by short breaks (5 minutes). After completing 4 work sessions, take a longer break.
               </p>
-              <div className="p-4 rounded-xl bg-gradient-to-br from-[#7C3AED]/5 to-[#C026D3]/5 border border-[#7C3AED]/10 mb-4 hover:border-[#7C3AED]/30 transition-colors duration-300">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-[#7C3AED]/5 to-[#C026D3]/5 border border-[#7C3AED]/10 mb-4 hover:border-[#7C3AED]/30 transition-colors duration-200">
                 <h4 className="text-sm font-bold text-[#7C3AED] mb-2 flex items-center gap-2">
                   The Science
                   <div className="w-2 h-2 bg-[#7C3AED] rounded-full animate-pulse" />
@@ -549,30 +542,32 @@ export default function FeaturesPage() {
               </div>
             </Card>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 cursor-default transform hover:-translate-y-1">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Deep Work</h4>
-                <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">60m Work • 10m Break</p>
-                <p className="text-xs text-zinc-400">Complex projects, coding, writing.</p>
-              </div>
-              <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 cursor-default transform hover:-translate-y-1">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Quick Tasks</h4>
-                <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">25m Work • 5m Break</p>
-                <p className="text-xs text-zinc-400">Email, routine tasks.</p>
-              </div>
-              <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 cursor-default transform hover:-translate-y-1">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Reading</h4>
-                <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">45m Work • 10m Break</p>
-                <p className="text-xs text-zinc-400">Research, learning skills.</p>
-              </div>
-              <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 cursor-default transform hover:-translate-y-1">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Custom</h4>
-                <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">Any Duration</p>
-                <p className="text-xs text-zinc-400">Fit your unique rhythm.</p>
-              </div>
-            </div>
+            <AnimateIn delay={80}>
+              <StaggeredGroup className="grid grid-cols-2 gap-4">
+                <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-200 cursor-default hover:-translate-y-0.5">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Deep Work</h4>
+                  <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">60m Work • 10m Break</p>
+                  <p className="text-xs text-zinc-400">Complex projects, coding, writing.</p>
+                </div>
+                <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-200 cursor-default hover:-translate-y-0.5">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Quick Tasks</h4>
+                  <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">25m Work • 5m Break</p>
+                  <p className="text-xs text-zinc-400">Email, routine tasks.</p>
+                </div>
+                <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-200 cursor-default hover:-translate-y-0.5">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Reading</h4>
+                  <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">45m Work • 10m Break</p>
+                  <p className="text-xs text-zinc-400">Research, learning skills.</p>
+                </div>
+                <div className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-200 cursor-default hover:-translate-y-0.5">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Custom</h4>
+                  <p className="text-xs text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">Any Duration</p>
+                  <p className="text-xs text-zinc-400">Fit your unique rhythm.</p>
+                </div>
+              </StaggeredGroup>
+            </AnimateIn>
 
-            <Card title="Focus Analytics">
+            <Card title="Focus Analytics" delay={120}>
                <BulletList items={[
                  "Session Count Trends: Track daily sessions",
                  "Time Distribution: Work vs. Break balance",
@@ -584,13 +579,11 @@ export default function FeaturesPage() {
 
           <div className="space-y-6">
             {/* Visual Timer Mockup */}
-            <Card className="flex flex-col items-center justify-center py-12 bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 relative overflow-hidden">
+            <Card className="flex flex-col items-center justify-center py-12 bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 relative overflow-hidden" delay={60}>
                <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/5 via-transparent to-[#C026D3]/5 pointer-events-none" />
                
                <div className="relative w-64 h-64 group">
-                 {/* Outer Ring */}
                  <div className="absolute inset-0 rounded-full border-[6px] border-zinc-200 dark:border-zinc-800 transition-all duration-300 group-hover:border-zinc-300 dark:group-hover:border-zinc-700"></div>
-                 {/* Progress Ring (Partial) with glow */}
                  <div className="absolute inset-0 rounded-full border-[6px] border-[#7C3AED] border-r-transparent border-b-transparent -rotate-45 shadow-[0_0_20px_rgba(124,58,237,0.3)] dark:shadow-[0_0_30px_rgba(139,92,246,0.4)] animate-pulse-slow"></div>
                  
                  <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -600,15 +593,15 @@ export default function FeaturesPage() {
                </div>
                
                <div className="flex items-center gap-6 mt-8 relative z-10">
-                 <button className="p-3 rounded-full bg-zinc-200 dark:bg-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:scale-110 transition-all duration-200 hover:rotate-45"><RotateCcw size={20} /></button>
-                 <button className="p-4 rounded-full bg-[#7C3AED] text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-110 transition-all duration-200 group">
-                   <Play size={24} fill="currentColor" className="group-hover:scale-110 transition-transform" />
+                 <button className="p-3 rounded-full bg-zinc-200 dark:bg-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:scale-105 transition-all duration-200"><RotateCcw size={20} /></button>
+                 <button className="p-4 rounded-full bg-[#7C3AED] text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-105 transition-all duration-200 group">
+                   <Play size={24} fill="currentColor" />
                  </button>
-                 <button className="p-3 rounded-full bg-zinc-200 dark:bg-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:scale-110 transition-all duration-200 hover:rotate-90"><Settings size={20} /></button>
+                 <button className="p-3 rounded-full bg-zinc-200 dark:bg-zinc-800 text-[#52525B] dark:text-[#A1A1AA] hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:scale-105 transition-all duration-200"><Settings size={20} /></button>
                </div>
             </Card>
 
-            <Card title="Advanced Features">
+            <Card title="Advanced Features" delay={120}>
               <div className="space-y-4">
                 <div className="p-3 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors duration-200">
                   <h4 className="text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
@@ -661,16 +654,16 @@ export default function FeaturesPage() {
               Set a daily limit (e.g., 8 hours). Scolect tracks usage and alerts you as you approach it.
             </p>
             <div className="space-y-2 text-sm text-[#52525B] dark:text-[#A1A1AA] relative z-10">
-              <p className="p-2 rounded-lg hover:bg-[#7C3AED]/5 transition-colors"><strong className="text-[#7C3AED]">75% used:</strong> Gentle notification ("2 hours remaining")</p>
-              <p className="p-2 rounded-lg hover:bg-[#F59E0B]/5 transition-colors"><strong className="text-[#F59E0B]">90% used:</strong> Warning notification ("48 mins remaining")</p>
-              <p className="p-2 rounded-lg hover:bg-[#F43F5E]/5 transition-colors"><strong className="text-[#F43F5E]">100% used:</strong> Limit reached</p>
+              <p className="p-2 rounded-lg hover:bg-[#7C3AED]/5 transition-colors duration-200"><strong className="text-[#7C3AED]">75% used:</strong> Gentle notification ("2 hours remaining")</p>
+              <p className="p-2 rounded-lg hover:bg-[#F59E0B]/5 transition-colors duration-200"><strong className="text-[#F59E0B]">90% used:</strong> Warning notification ("48 mins remaining")</p>
+              <p className="p-2 rounded-lg hover:bg-[#F43F5E]/5 transition-colors duration-200"><strong className="text-[#F43F5E]">100% used:</strong> Limit reached</p>
             </div>
             <div className="mt-4 p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg text-sm border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 transition-colors duration-200 relative z-10">
               <strong>Philosophy:</strong> These are limits, not locks. If you need to exceed a limit for a deadline, you can. The goal is intentionality.
             </div>
           </Card>
 
-          <Card title="Application-Specific Limits">
+          <Card title="Application-Specific Limits" delay={80}>
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">
               Set individual daily limits for specific applications. Powerful for managing time-sink apps.
             </p>
@@ -696,35 +689,37 @@ export default function FeaturesPage() {
             <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">The Alerts page shows live stats: Current usage, Time remaining, and Status indicators (Active, Near Limit, Exceeded).</p>
           </Card>
 
-          <Card title="Notification Customization" className="md:col-span-2 overflow-hidden relative">
-            <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#7C3AED]/5 dark:bg-[#8B5CF6]/5 rounded-full blur-3xl" />
-            <div className="grid md:grid-cols-3 gap-6 relative z-10">
-              <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-300 border border-transparent hover:border-[#7C3AED]/20">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2"><Bell size={16} className="text-[#7C3AED]" /> Types</h4>
-                <ul className="text-sm space-y-2 text-[#52525B] dark:text-[#A1A1AA]">
-                  <li><strong>Pop-up Alerts:</strong> Small, non-intrusive windows.</li>
-                  <li><strong>Frequent Alerts:</strong> Periodic reminders (every 15/30 mins) to prevent time blindness.</li>
-                  <li><strong>Sound Alerts:</strong> Audio cues for noisy environments.</li>
-                </ul>
-              </div>
-              <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-300 border border-transparent hover:border-[#F59E0B]/20">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2"><ShieldAlert size={16} className="text-[#F59E0B]" /> Categories</h4>
-                <ul className="text-sm space-y-2 text-[#52525B] dark:text-[#A1A1AA]">
-                  <li><strong>Focus Mode:</strong> Session ends, streak milestones.</li>
-                  <li><strong>Screen Time:</strong> Approaching/Exceeding limits.</li>
-                  <li><strong>High Usage:</strong> Warnings for unproductive apps.</li>
-                </ul>
-              </div>
-              <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-300 border border-transparent hover:border-[#14B8A6]/20">
-                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2"><Settings size={16} className="text-[#14B8A6]" /> Smart Timing</h4>
-                <ul className="text-sm space-y-2 text-[#52525B] dark:text-[#A1A1AA]">
-                  <li><strong>Master Toggle:</strong> Silence all for presentations.</li>
-                  <li><strong>Focus Integration:</strong> Suppress alerts during deep work.</li>
-                  <li><strong>Do Not Disturb:</strong> Set quiet hours (e.g., 9 PM - 7 AM).</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
+          <div className="md:col-span-2">
+            <Card title="Notification Customization" className="overflow-hidden relative" delay={100}>
+              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#7C3AED]/5 dark:bg-[#8B5CF6]/5 rounded-full blur-3xl" />
+              <StaggeredGroup className="grid md:grid-cols-3 gap-6 relative z-10">
+                <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-200 border border-transparent hover:border-[#7C3AED]/20">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2"><Bell size={16} className="text-[#7C3AED]" /> Types</h4>
+                  <ul className="text-sm space-y-2 text-[#52525B] dark:text-[#A1A1AA]">
+                    <li><strong>Pop-up Alerts:</strong> Small, non-intrusive windows.</li>
+                    <li><strong>Frequent Alerts:</strong> Periodic reminders (every 15/30 mins) to prevent time blindness.</li>
+                    <li><strong>Sound Alerts:</strong> Audio cues for noisy environments.</li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-200 border border-transparent hover:border-[#F59E0B]/20">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2"><ShieldAlert size={16} className="text-[#F59E0B]" /> Categories</h4>
+                  <ul className="text-sm space-y-2 text-[#52525B] dark:text-[#A1A1AA]">
+                    <li><strong>Focus Mode:</strong> Session ends, streak milestones.</li>
+                    <li><strong>Screen Time:</strong> Approaching/Exceeding limits.</li>
+                    <li><strong>High Usage:</strong> Warnings for unproductive apps.</li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 transition-all duration-200 border border-transparent hover:border-[#14B8A6]/20">
+                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2 flex items-center gap-2"><Settings size={16} className="text-[#14B8A6]" /> Smart Timing</h4>
+                  <ul className="text-sm space-y-2 text-[#52525B] dark:text-[#A1A1AA]">
+                    <li><strong>Master Toggle:</strong> Silence all for presentations.</li>
+                    <li><strong>Focus Integration:</strong> Suppress alerts during deep work.</li>
+                    <li><strong>Do Not Disturb:</strong> Set quiet hours (e.g., 9 PM - 7 AM).</li>
+                  </ul>
+                </div>
+              </StaggeredGroup>
+            </Card>
+          </div>
         </div>
       </FeatureSection>
 
@@ -739,54 +734,60 @@ export default function FeaturesPage() {
         <Card>
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-1 space-y-6">
-              <div>
-                <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Comprehensive Tracking & Smart Defaults</h3>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                  Scolect automatically discovers and tracks all applications on your system. On first launch, apps are categorized using intelligent defaults. You have complete control to override these defaults.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Search & Filter</h3>
-                <div className="flex gap-2 mb-2 flex-wrap">
-                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 gap-1 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-all duration-200 cursor-default"><Search size={12}/> Instant Search</span>
-                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 gap-1 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-all duration-200 cursor-default"><Filter size={12}/> By Category</span>
-                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 gap-1 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-all duration-200 cursor-default"><Filter size={12}/> By Productivity</span>
+              <AnimateIn>
+                <div>
+                  <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Comprehensive Tracking & Smart Defaults</h3>
+                  <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                    Scolect automatically discovers and tracks all applications on your system. On first launch, apps are categorized using intelligent defaults. You have complete control to override these defaults.
+                  </p>
                 </div>
-                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                  With hundreds of applications potentially in your list, finding specific apps is easy. Filter by Category, Productivity Status, Tracking Status (tracked vs ignored), or Visibility (hidden from reports).
-                </p>
-              </div>
+              </AnimateIn>
 
-              <div>
-                <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Detailed Application Editing</h3>
-                <ul className="space-y-3 text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                  <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
-                    <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">1. Category Assignment</strong>
-                    Select from pre-built categories or create Custom ones (e.g., "Client Work", "Health & Fitness").
-                  </li>
-                  <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
-                    <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">2. Productivity Status</strong>
-                    Toggle "Is Productive". Directly impacts your Productive Score.
-                  </li>
-                  <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
-                    <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">3. Visibility & Tracking</strong>
-                    Disable tracking for background processes. Hide apps from reports without stopping tracking.
-                  </li>
-                  <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
-                    <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">4. Time Limits</strong>
-                    Enable daily time limits directly from the app properties.
-                  </li>
-                </ul>
-              </div>
+              <AnimateIn delay={60}>
+                <div>
+                  <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Search & Filter</h3>
+                  <div className="flex gap-2 mb-2 flex-wrap">
+                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 gap-1 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-all duration-200 cursor-default"><Search size={12}/> Instant Search</span>
+                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 gap-1 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-all duration-200 cursor-default"><Filter size={12}/> By Category</span>
+                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 gap-1 hover:bg-[#7C3AED]/10 hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-all duration-200 cursor-default"><Filter size={12}/> By Productivity</span>
+                  </div>
+                  <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                    With hundreds of applications potentially in your list, finding specific apps is easy. Filter by Category, Productivity Status, Tracking Status (tracked vs ignored), or Visibility (hidden from reports).
+                  </p>
+                </div>
+              </AnimateIn>
+
+              <AnimateIn delay={120}>
+                <div>
+                  <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Detailed Application Editing</h3>
+                  <ul className="space-y-3 text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                    <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
+                      <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">1. Category Assignment</strong>
+                      Select from pre-built categories or create Custom ones (e.g., "Client Work", "Health & Fitness").
+                    </li>
+                    <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
+                      <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">2. Productivity Status</strong>
+                      Toggle "Is Productive". Directly impacts your Productive Score.
+                    </li>
+                    <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
+                      <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">3. Visibility & Tracking</strong>
+                      Disable tracking for background processes. Hide apps from reports without stopping tracking.
+                    </li>
+                    <li className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-[#7C3AED]/30 hover:shadow-md transition-all duration-200 group">
+                      <strong className="block text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">4. Time Limits</strong>
+                      Enable daily time limits directly from the app properties.
+                    </li>
+                  </ul>
+                </div>
+              </AnimateIn>
             </div>
 
-            <div className="w-full md:w-1/3">
+            <AnimateIn delay={80} direction="left" className="w-full md:w-1/3">
               <div className="sticky top-24">
                 <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4">App Statistics Modal</h3>
                 <div className="bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-4 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
                   <div>
-                    <div className="text-xs text-zinc-500 uppercase">Usage Summary</div>
+                                        <div className="text-xs text-zinc-500 uppercase">Usage Summary</div>
                     <div className="font-bold dark:text-white text-lg">Chrome</div>
                     <div className="text-sm text-[#14B8A6] font-medium flex items-center gap-1">
                       <CheckCircle2 size={14} />
@@ -803,11 +804,11 @@ export default function FeaturesPage() {
                     </p>
                   </div>
                   <div className="pt-2">
-                    <button className="w-full py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-lg hover:bg-[#6D28D9] transition-all duration-200 hover:shadow-lg hover:shadow-[#7C3AED]/30 transform hover:-translate-y-0.5">View Full Details</button>
+                    <button className="w-full py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-lg hover:bg-[#6D28D9] transition-all duration-200 hover:shadow-lg hover:shadow-[#7C3AED]/30 hover:-translate-y-0.5">View Full Details</button>
                   </div>
                 </div>
                 
-                <div className="mt-6 p-4 rounded-xl bg-gradient-to-br from-[#7C3AED]/5 to-[#C026D3]/5 border border-[#7C3AED]/20 hover:border-[#7C3AED]/40 transition-colors duration-300">
+                <div className="mt-6 p-4 rounded-xl bg-gradient-to-br from-[#7C3AED]/5 to-[#C026D3]/5 border border-[#7C3AED]/20 hover:border-[#7C3AED]/40 transition-colors duration-200">
                   <h4 className="text-sm font-bold text-[#7C3AED] mb-1 flex items-center gap-2">
                     Bulk Actions (Coming Soon)
                     <div className="w-2 h-2 bg-[#7C3AED] rounded-full animate-pulse" />
@@ -815,155 +816,40 @@ export default function FeaturesPage() {
                   <p className="text-xs text-[#52525B] dark:text-[#A1A1AA]">Select multiple apps to categorize, hide, or limit them all at once.</p>
                 </div>
               </div>
-            </div>
+            </AnimateIn>
           </div>
         </Card>
       </FeatureSection>
 
-            {/* --- FINAL CTA --- */}
+      {/* --- FINAL CTA --- */}
       <section className="py-24 px-6 lg:px-8 bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-center border-t border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(124,58,237,0.05)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(139,92,246,0.08)_0%,_transparent_70%)]" />
         <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-[#7C3AED]/10 dark:bg-[#8B5CF6]/5 rounded-full blur-3xl animate-float" />
         <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-[#C026D3]/10 dark:bg-[#C026D3]/5 rounded-full blur-3xl animate-float-delayed" />
         
-        <div className="max-w-3xl mx-auto relative z-10">
-          <h2 className="text-3xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] sm:text-4xl mb-6 animate-fade-in">
+        <AnimateIn className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-3xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] sm:text-4xl mb-6">
             Experience the Full Power of Scolect
           </h2>
-          <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-10 animate-slide-up" style={{animationDelay: '100ms'}}>
+          <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-10">
             Every feature works together to create a comprehensive productivity ecosystem. Download Scolect for your platform and explore them all.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{animationDelay: '200ms'}}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => router.push("/download")} 
-              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-4 px-8 rounded-xl shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.5)] transition-all transform hover:-translate-y-1 text-lg group"
+              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-4 px-8 rounded-xl shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.5)] transition-all duration-200 hover:-translate-y-0.5 text-lg group"
             >
               Download Now
-              <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
+              <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform duration-200">→</span>
             </button>
-            {/* <button 
-              onClick={() => router.push("/platforms")} 
-              className="bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-[#18181B] dark:text-[#FAFAFA] font-semibold py-4 px-8 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED]/50 dark:hover:border-[#8B5CF6]/50 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-1 text-lg"
-            >
-              View All Platforms
-            </button> */}
           </div>
-          <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-6 animate-slide-up" style={{animationDelay: '300ms'}}>
+          <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-6">
             Available for Windows, macOS, and more platforms coming soon.
           </p>
-        </div>
+        </AnimateIn>
       </section>
-      <Footer/>
       
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        @keyframes slide-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes gradient {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        
-        @keyframes gradient-x {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        
-        @keyframes pulse-slow {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.6;
-          }
-        }
-        
-        @keyframes spin-slow {
-          from {
-            transform: rotate(-45deg);
-          }
-          to {
-            transform: rotate(315deg);
-          }
-        }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-        
-        @keyframes float-delayed {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          50% {
-            transform: translateY(-15px) translateX(10px);
-          }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.6s ease-out forwards;
-        }
-        
-        .animate-slide-up {
-          animation: slide-up 0.6s ease-out forwards;
-        }
-        
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
-        
-        .animate-gradient-x {
-          background-size: 200% 100%;
-          animation: gradient-x 3s ease infinite;
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 3s ease-in-out infinite;
-        }
-        
-        .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-float-delayed {
-          animation: float-delayed 8s ease-in-out infinite;
-        }
-      `}</style>
+      <Footer/>
     </div>
   );
 }

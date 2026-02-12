@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import { 
   GitCommit, 
   Package, 
@@ -19,10 +19,60 @@ import Footer from '@/components/layout/Footer';
 import { releases, upcomingFeatures, releasePhilosophy, Release } from '../changelog-data';
 import { useRouter } from 'next/navigation';
 
-// --- Visual Identity Constants ---
-// Primary: #7C3AED (Violet 600)
-// Background: #FAFAFA (Zinc 50) / #09090B (Zinc 950)
-// Text: #18181B (Zinc 900) / #FAFAFA (Zinc 50)
+// --- Scroll-triggered animation hook ---
+const useInView = (options?: IntersectionObserverInit) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1, ...options });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
+const Reveal = ({ 
+  children, 
+  className = "", 
+  delay = 0, 
+  direction = "up" 
+}: { 
+  children: ReactNode, 
+  className?: string, 
+  delay?: number, 
+  direction?: "up" | "left" | "right" | "none" 
+}) => {
+  const { ref, isInView } = useInView();
+
+  const translateMap = {
+    up: "translateY(24px)",
+    left: "translateX(-24px)",
+    right: "translateX(24px)",
+    none: "translateY(0)",
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translate(0)" : translateMap[direction],
+        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 const ReleaseBadge = ({ type }: { type: 'feature' | 'improvement' | 'fix' | 'tech' }) => {
   const styles = {
@@ -48,6 +98,7 @@ const ReleaseBadge = ({ type }: { type: 'feature' | 'improvement' | 'fix' | 'tec
 
 interface ReleaseSectionProps extends Release {
   size?: number;
+  index: number;
 }
 
 const ReleaseSection = ({ 
@@ -59,9 +110,10 @@ const ReleaseSection = ({
   fixes = [], 
   tech = [],
   note = "",
-  size
+  size,
+  index
 }: ReleaseSectionProps) => (
-  <div className={`relative pl-8 md:pl-0 md:grid md:grid-cols-12 gap-8 pb-16 last:pb-0`}>
+  <Reveal delay={Math.min(index * 60, 300)} className={`relative pl-8 md:pl-0 md:grid md:grid-cols-12 gap-8 pb-16 last:pb-0`}>
     {/* Timeline Line */}
     <div className="hidden md:block absolute left-[25%] top-0 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800"></div>
     <div className={`hidden md:block absolute left-[calc(25%-5px)] top-2 w-2.5 h-2.5 rounded-full ring-4 ring-[#FAFAFA] dark:ring-[#09090B] ${isLatest ? 'bg-[#7C3AED]' : 'bg-zinc-300 dark:bg-zinc-700'}`}></div>
@@ -168,7 +220,7 @@ const ReleaseSection = ({
         </div>
       )}
     </div>
-  </div>
+  </Reveal>
 );
 
 export default function ChangelogPage() {
@@ -181,21 +233,27 @@ export default function ChangelogPage() {
       {/* HERO */}
       <div className="pt-32 pb-20 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] text-sm font-medium mb-6">
-            <History size={16} /> Version History
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-6">
-            Scolect Release History
-          </h1>
-          <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
-            Track every feature, improvement, and bug fix across all versions.
-          </p>
+          <Reveal>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] text-sm font-medium mb-6">
+              <History size={16} /> Version History
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-6">
+              Scolect Release History
+            </h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
+              Track every feature, improvement, and bug fix across all versions.
+            </p>
+          </Reveal>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-20">
         {releases.map((release, index) => (
-          <ReleaseSection key={release.version} {...release} />
+          <ReleaseSection key={release.version} {...release} index={index} />
         ))}
       </div>
 
@@ -203,59 +261,63 @@ export default function ChangelogPage() {
       <section className="bg-zinc-50 dark:bg-zinc-950 py-20 px-6 border-t border-zinc-200 dark:border-zinc-800">
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
           
-          <div>
-            <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-2">
-              <GitCommit size={20} className="text-[#7C3AED]" /> Upcoming Releases
-            </h3>
-            <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-              <h4 className="font-bold text-sm uppercase tracking-wider text-[#14B8A6] mb-4">In Development</h4>
-              <ul className="space-y-3 mb-6 text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                {developmentFeatures.map((feature, idx) => (
-                  <li key={idx} className="flex gap-2">
-                    <ArrowUpRight size={16} /> {feature.title}
-                  </li>
-                ))}
-              </ul>
-              
-              <h4 className="font-bold text-sm uppercase tracking-wider text-[#F59E0B] mb-4">Under Consideration</h4>
-              <ul className="space-y-3 text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                {considerationFeatures.map((feature, idx) => (
-                  <li key={idx} className="flex gap-2">
-                    <Info size={16} /> {feature.title}
-                  </li>
-                ))}
-              </ul>
-              
-              <div className="mt-6 pt-6 border-t border-zinc-100 dark:border-zinc-800">
-                <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" className="text-[#7C3AED] font-bold text-sm hover:underline">Vote on Features in GitHub Discussions →</a>
+          <Reveal direction="left">
+            <div>
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-2">
+                <GitCommit size={20} className="text-[#7C3AED]" /> Upcoming Releases
+              </h3>
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+                <h4 className="font-bold text-sm uppercase tracking-wider text-[#14B8A6] mb-4">In Development</h4>
+                <ul className="space-y-3 mb-6 text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                  {developmentFeatures.map((feature, idx) => (
+                    <li key={idx} className="flex gap-2">
+                      <ArrowUpRight size={16} /> {feature.title}
+                    </li>
+                  ))}
+                </ul>
+                
+                <h4 className="font-bold text-sm uppercase tracking-wider text-[#F59E0B] mb-4">Under Consideration</h4>
+                <ul className="space-y-3 text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                  {considerationFeatures.map((feature, idx) => (
+                    <li key={idx} className="flex gap-2">
+                      <Info size={16} /> {feature.title}
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="mt-6 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                  <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" className="text-[#7C3AED] font-bold text-sm hover:underline">Vote on Features in GitHub Discussions →</a>
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          <div>
-            <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-2">
-              <Info size={20} className="text-[#7C3AED]" /> Release Philosophy
-            </h3>
-            <div className="prose dark:prose-invert text-sm text-[#52525B] dark:text-[#A1A1AA]">
-              <p className="mb-4">{releasePhilosophy.description}</p>
-              <ul className="space-y-2 list-disc pl-5 mb-6">
-                {releasePhilosophy.versioningRules.map((rule, idx) => (
-                  <li key={idx}>
-                    <strong>{rule.type}:</strong> {rule.description}
-                  </li>
-                ))}
-              </ul>
-              <p>{releasePhilosophy.additionalInfo}</p>
+          <Reveal direction="right" delay={150}>
+            <div>
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-2">
+                <Info size={20} className="text-[#7C3AED]" /> Release Philosophy
+              </h3>
+              <div className="prose dark:prose-invert text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                <p className="mb-4">{releasePhilosophy.description}</p>
+                <ul className="space-y-2 list-disc pl-5 mb-6">
+                  {releasePhilosophy.versioningRules.map((rule, idx) => (
+                    <li key={idx}>
+                      <strong>{rule.type}:</strong> {rule.description}
+                    </li>
+                  ))}
+                </ul>
+                <p>{releasePhilosophy.additionalInfo}</p>
+              </div>
+              
+              <div className="mt-8">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Found a bug?</h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">Your reports help us improve Scolect for everyone.</p>
+                <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues")} className="px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] hover:border-[#F43F5E] hover:text-[#F43F5E] transition-colors">
+                  Report Issue on GitHub
+                </button>
+              </div>
             </div>
-            
-            <div className="mt-8">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Found a bug?</h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-4">Your reports help us improve Scolect for everyone.</p>
-              <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues")} className="px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm font-bold text-[#18181B] dark:text-[#FAFAFA] hover:border-[#F43F5E] hover:text-[#F43F5E] transition-colors">
-                Report Issue on GitHub
-              </button>
-            </div>
-          </div>
+          </Reveal>
 
         </div>
       </section>

@@ -11,6 +11,11 @@ export interface Release {
   tech?: string[];
   note?: string;
   size?:number;
+  // Platform download links
+  macLink?: string;
+  appleStore?:string;
+  windowsLink?: string;
+  linuxLink?: string;
 }
 
 export const releases: Release[] = [
@@ -34,6 +39,7 @@ export const releases: Release[] = [
       "Scalable theming architecture",
       "Cross-platform Flutter architecture for Windows and macOS"
     ],
+    macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.1/Scolect.-.Track.Screen.Time.App.Usage.dmg",
     note: "This is a major architectural release introducing Scolect as the new identity of TimeMark. Significant internal systems were redesigned to support cross-platform accuracy, performance, and extensibility."
   },
   {

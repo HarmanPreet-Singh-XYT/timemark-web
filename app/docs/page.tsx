@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import { 
   Book, 
   ChevronRight, 
@@ -20,22 +20,64 @@ import {
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-// --- Visual Identity Constants ---
-// Using specific Hex codes from the "Deep Focus & Flow" theme
-// Primary: #7C3AED (Violet 600)
-// Background: #FAFAFA (Zinc 50) / #09090B (Zinc 950)
-// Text Main: #18181B (Zinc 900) / #FAFAFA (Zinc 50)
+// --- Minimal scroll-triggered fade for docs ---
+const useInView = (options?: IntersectionObserverInit) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.05, ...options });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
+const Reveal = ({ 
+  children, 
+  className = "", 
+  delay = 0
+}: { 
+  children: ReactNode, 
+  className?: string, 
+  delay?: number
+}) => {
+  const { ref, isInView } = useInView();
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translateY(0)" : "translateY(12px)",
+        transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 const SectionHeading = ({ children, id }: { children: React.ReactNode; id: string }) => (
-  <h2 
-    id={id} 
-    className="scroll-mt-24 text-2xl md:text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mt-12 mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-2 relative group"
-  >
-    <span className="relative">
-      {children}
-      <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] group-hover:w-full transition-all duration-500 ease-out"></span>
-    </span>
-  </h2>
+  <Reveal>
+    <h2 
+      id={id} 
+      className="scroll-mt-24 text-2xl md:text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mt-12 mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-2 relative group"
+    >
+      <span className="relative">
+        {children}
+        <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] group-hover:w-full transition-all duration-500 ease-out"></span>
+      </span>
+    </h2>
+  </Reveal>
 );
 
 const SubHeading = ({ children, id }: { children: React.ReactNode; id?: string }) => (
@@ -106,7 +148,6 @@ export default function DocumentationPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
-  // Track active section for navigation highlighting
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -126,7 +167,6 @@ export default function DocumentationPage() {
     return () => observer.disconnect();
   }, []);
 
-  // Smooth scroll handler
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
@@ -165,7 +205,7 @@ export default function DocumentationPage() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-[#8B5CF6]/5 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }}></div>
       </div>
 
-      {/* Mobile Header - Docs Navigation Toggle */}
+      {/* Mobile Header */}
       <div className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-[#FAFAFA]/95 dark:bg-[#09090B]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 p-4 flex items-center justify-between shadow-lg">
         <span className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2">
           <Book size={18} className="text-[#7C3AED]" />
@@ -176,7 +216,7 @@ export default function DocumentationPage() {
           className="p-2 text-[#52525B] dark:text-[#A1A1AA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6] transition-colors duration-200 hover:bg-[#7C3AED]/5 rounded-lg"
           aria-label="Toggle documentation navigation"
         >
-          {mobileMenuOpen ? <X size={20} className="transition-transform duration-200" /> : <Menu size={20} className="transition-transform duration-200" />}
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
@@ -240,7 +280,7 @@ export default function DocumentationPage() {
           </nav>
         </aside>
 
-        {/* Overlay for mobile when sidebar is open */}
+        {/* Overlay for mobile */}
         {mobileMenuOpen && (
           <div 
             className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-20 top-32"
@@ -252,14 +292,14 @@ export default function DocumentationPage() {
         <main className="flex-1 min-w-0 py-12 px-6 lg:px-12">
           
           {/* HERO */}
-          <div className="mb-16 border-b border-zinc-200 dark:border-zinc-800 pb-10 animate-fadeIn">
+          <Reveal className="mb-16 border-b border-zinc-200 dark:border-zinc-800 pb-10">
             <h1 className="text-4xl sm:text-5xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 bg-gradient-to-r from-[#18181B] to-[#52525B] dark:from-[#FAFAFA] dark:to-[#A1A1AA] bg-clip-text text-transparent hover:scale-105 transition-transform duration-300 inline-block">
               Scolect Documentation
             </h1>
             <p className="text-xl text-[#52525B] dark:text-[#A1A1AA] leading-relaxed max-w-3xl">
               Everything you need to know about using Scolect to master your screen time and boost productivity.
             </p>
-          </div>
+          </Reveal>
 
           {/* SECTION 1: GETTING STARTED */}
           <SectionHeading id="getting-started">1. Getting Started</SectionHeading>
@@ -271,7 +311,7 @@ export default function DocumentationPage() {
 
           <SubHeading id="first-launch">1.2 First Launch</SubHeading>
           <Paragraph>
-            When you first open Scolect, you'll see the Overview dashboard. Don't worry if it's mostly empty—Scolect needs a few hours of usage to generate meaningful insights.
+            When you first open Scolect, you&apos;ll see the Overview dashboard. Don&apos;t worry if it&apos;s mostly empty—Scolect needs a few hours of usage to generate meaningful insights.
           </Paragraph>
           <Callout type="tip" title="Initial Steps">
             <ul className="list-disc pl-5 space-y-1">
@@ -282,38 +322,40 @@ export default function DocumentationPage() {
           </Callout>
 
           <SubHeading id="interface">1.3 Understanding the Interface</SubHeading>
-          <div className="grid md:grid-cols-2 gap-8 mb-6">
-            <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:-translate-y-1 hover:border-[#7C3AED]/30">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] animate-pulse"></span>
-                Navigation Bar (Left Side)
-              </h4>
-              <List items={[
-                <span><strong>Overview:</strong> Your daily dashboard</span>,
-                <span><strong>Applications:</strong> Manage app tracking and categories</span>,
-                <span><strong>Alerts & Limits:</strong> Set time limits and configure notifications</span>,
-                <span><strong>Reports:</strong> Detailed analytics and insights</span>,
-                <span><strong>Focus Mode:</strong> Pomodoro timer and focus session tracking</span>,
-                <span><strong>Settings:</strong> Customize Scolect</span>,
-                <span><strong>Help:</strong> Access documentation and support</span>
-              ]} />
+          <Reveal>
+            <div className="grid md:grid-cols-2 gap-8 mb-6">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:-translate-y-1 hover:border-[#7C3AED]/30">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] animate-pulse"></span>
+                  Navigation Bar (Left Side)
+                </h4>
+                <List items={[
+                  <span key="overview"><strong>Overview:</strong> Your daily dashboard</span>,
+                  <span key="applications"><strong>Applications:</strong> Manage app tracking and categories</span>,
+                  <span key="alerts"><strong>Alerts & Limits:</strong> Set time limits and configure notifications</span>,
+                  <span key="reports"><strong>Reports:</strong> Detailed analytics and insights</span>,
+                  <span key="focus"><strong>Focus Mode:</strong> Pomodoro timer and focus session tracking</span>,
+                  <span key="settings"><strong>Settings:</strong> Customize Scolect</span>,
+                  <span key="help"><strong>Help:</strong> Access documentation and support</span>
+                ]} />
+              </div>
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 h-fit hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:-translate-y-1 hover:border-[#7C3AED]/30">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] animate-pulse"></span>
+                  Status Bar (Top)
+                </h4>
+                <List items={[
+                  "Current date and time",
+                  "Theme toggle (sun/moon icon)",
+                  "Real-time screen time counter (visible when tracking)"
+                ]} />
+              </div>
             </div>
-            <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 h-fit hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:-translate-y-1 hover:border-[#7C3AED]/30">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] animate-pulse"></span>
-                Status Bar (Top)
-              </h4>
-              <List items={[
-                "Current date and time",
-                "Theme toggle (sun/moon icon)",
-                "Real-time screen time counter (visible when tracking)"
-              ]} />
-            </div>
-          </div>
+          </Reveal>
 
           <SubHeading id="tracking">1.4 Letting Scolect Track</SubHeading>
           <Paragraph>
-            Scolect works automatically. Once installed, it tracks which application is in the foreground (active) at all times. You don't need to start or stop tracking manually—it's always running in the background.
+            Scolect works automatically. Once installed, it tracks which application is in the foreground (active) at all times. You don&apos;t need to start or stop tracking manually—it&apos;s always running in the background.
           </Paragraph>
           <Callout type="info" title="Privacy Note">
             <div className="flex items-start gap-2">
@@ -324,7 +366,7 @@ export default function DocumentationPage() {
               <li>Keystrokes</li>
               <li>Screenshots</li>
               <li>Specific files or documents</li>
-              <li>Web URLs (only that you're using a browser)</li>
+              <li>Web URLs (only that you&apos;re using a browser)</li>
               <li>Window titles or content within applications</li>
             </ul>
           </Callout>
@@ -346,16 +388,18 @@ export default function DocumentationPage() {
           <Paragraph>Analyze your screen time over different periods: Today, Last 7 Days, Last Month, Last 3 Months, Lifetime, or Custom date ranges.</Paragraph>
 
           <SubHeading id="feature-productivity">2.2 Productivity Tracking</SubHeading>
-          <Paragraph><strong>Marking Apps as Productive:</strong> Navigate to Applications → Click any app → Toggle 'Is Productive'.</Paragraph>
-          <div className="bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 my-4 hover:shadow-xl transition-all duration-500 hover:border-[#7C3AED]/30">
-            <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Your Productive Score</h4>
-            <p className="text-sm font-mono text-[#52525B] dark:text-[#A1A1AA] mb-4 bg-zinc-100 dark:bg-zinc-950 p-2 rounded w-fit border border-zinc-200 dark:border-zinc-800">
-              (Productive Time ÷ Total Screen Time) × 100
-            </p>
-            <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Example:</strong> Spent 8 hours on computer. 6 hours in productive apps (VS Code, Figma), 2 hours in non-productive (YouTube). <strong>Score: 75%</strong>.</p>
-          </div>
+          <Paragraph><strong>Marking Apps as Productive:</strong> Navigate to Applications → Click any app → Toggle &apos;Is Productive&apos;.</Paragraph>
+          <Reveal>
+            <div className="bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 my-4 hover:shadow-xl transition-all duration-500 hover:border-[#7C3AED]/30">
+              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Your Productive Score</h4>
+              <p className="text-sm font-mono text-[#52525B] dark:text-[#A1A1AA] mb-4 bg-zinc-100 dark:bg-zinc-950 p-2 rounded w-fit border border-zinc-200 dark:border-zinc-800">
+                (Productive Time ÷ Total Screen Time) × 100
+              </p>
+              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Example:</strong> Spent 8 hours on computer. 6 hours in productive apps (VS Code, Figma), 2 hours in non-productive (YouTube). <strong>Score: 75%</strong>.</p>
+            </div>
+          </Reveal>
           <Callout type="tip" title="Strategy Tip">
-            Don't aim for 100%. A healthy Productive Score is 60-80%, leaving room for breaks, communication, and mental rest. Scoring too high might indicate you're not taking enough breaks!
+            Don&apos;t aim for 100%. A healthy Productive Score is 60-80%, leaving room for breaks, communication, and mental rest. Scoring too high might indicate you&apos;re not taking enough breaks!
           </Callout>
 
           <SubHeading id="feature-categories">2.3 Categories</SubHeading>
@@ -371,28 +415,30 @@ export default function DocumentationPage() {
           ]} />
 
           <SubHeading id="feature-focus">2.4 Focus Mode</SubHeading>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex-1">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Starting a Session</h4>
-              <List items={[
-                "Navigate to Focus Mode",
-                "Choose a preset mode (Deep Work, Quick Tasks, Reading) or use Custom",
-                "Click the Play button",
-                "Work until the timer alerts you",
-                "Take your break, then repeat!"
-              ]} />
+          <Reveal>
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex-1">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Starting a Session</h4>
+                <List items={[
+                  "Navigate to Focus Mode",
+                  "Choose a preset mode (Deep Work, Quick Tasks, Reading) or use Custom",
+                  "Click the Play button",
+                  "Work until the timer alerts you",
+                  "Take your break, then repeat!"
+                ]} />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Customizing Durations</h4>
+                <Paragraph>Click the Settings icon in Focus Mode to adjust:</Paragraph>
+                <List items={[
+                  "Work duration (1-90 minutes)",
+                  "Short break length (1-20 minutes)",
+                  "Long break length (5-60 minutes)",
+                  "Number of sessions before long break (2-8)"
+                ]} />
+              </div>
             </div>
-            <div className="flex-1">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Customizing Durations</h4>
-              <Paragraph>Click the Settings icon in Focus Mode to adjust:</Paragraph>
-              <List items={[
-                "Work duration (1-90 minutes)",
-                "Short break length (1-20 minutes)",
-                "Long break length (5-60 minutes)",
-                "Number of sessions before long break (2-8)"
-              ]} />
-            </div>
-          </div>
+          </Reveal>
 
           <SubHeading id="feature-alerts">2.5 Alerts & Limits</SubHeading>
           <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Setting Overall Limit</h4>
@@ -401,13 +447,13 @@ export default function DocumentationPage() {
             "Under 'Overall Screen Time Limit', enter hours and minutes",
             "Enable the limit and Save"
           ]} />
-          <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] italic mb-4">You'll receive notifications at 75%, 90%, and 100% of your limit.</p>
+          <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] italic mb-4">You&apos;ll receive notifications at 75%, 90%, and 100% of your limit.</p>
           <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Setting App Limits</h4>
-          <Paragraph>Click 'Add Limit', select an app, enter duration, and save. Use the toggle switch to temporarily disable a limit without deleting it.</Paragraph>
+          <Paragraph>Click &apos;Add Limit&apos;, select an app, enter duration, and save. Use the toggle switch to temporarily disable a limit without deleting it.</Paragraph>
 
           <SubHeading id="feature-apps">2.6 Application Management</SubHeading>
-          <Paragraph><strong>Hiding Apps:</strong> Go to Applications → Find app → Toggle 'Visible in Reports' off. The app is tracked but won't clutter charts.</Paragraph>
-          <Paragraph><strong>Disabling Tracking:</strong> Toggle 'Track Usage' off. Scolect will no longer record time spent in this application.</Paragraph>
+          <Paragraph><strong>Hiding Apps:</strong> Go to Applications → Find app → Toggle &apos;Visible in Reports&apos; off. The app is tracked but won&apos;t clutter charts.</Paragraph>
+          <Paragraph><strong>Disabling Tracking:</strong> Toggle &apos;Track Usage&apos; off. Scolect will no longer record time spent in this application.</Paragraph>
 
           {/* SECTION 3: ADVANCED USAGE */}
           <SectionHeading id="advanced">3. Advanced Usage</SectionHeading>
@@ -424,16 +470,18 @@ export default function DocumentationPage() {
 
           <SubHeading id="insights">3.2 Interpreting Insights</SubHeading>
           <Paragraph>Scolect generates automatic insights in the Application Details modal.</Paragraph>
-          <div className="space-y-4">
-            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-900 dark:to-transparent rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 transition-all duration-300 hover:shadow-lg">
-              <p className="font-bold text-[#18181B] dark:text-[#FAFAFA]">"You primarily use [App] during [Time Period]"</p>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1">Tells you when you naturally reach for this app. Use this to schedule tasks appropriately.</p>
+          <Reveal>
+            <div className="space-y-4">
+              <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-900 dark:to-transparent rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 transition-all duration-300 hover:shadow-lg">
+                <p className="font-bold text-[#18181B] dark:text-[#FAFAFA]">&quot;You primarily use [App] during [Time Period]&quot;</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1">Tells you when you naturally reach for this app. Use this to schedule tasks appropriately.</p>
+              </div>
+              <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-900 dark:to-transparent rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 transition-all duration-300 hover:shadow-lg">
+                <p className="font-bold text-[#18181B] dark:text-[#FAFAFA]">&quot;Usage trending upward/downward&quot;</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1">Watch these trends over weeks to see if changes you make (like setting limits) are having the desired effect.</p>
+              </div>
             </div>
-            <div className="p-4 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-900 dark:to-transparent rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED]/30 transition-all duration-300 hover:shadow-lg">
-              <p className="font-bold text-[#18181B] dark:text-[#FAFAFA]">"Usage trending upward/downward"</p>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1">Watch these trends over weeks to see if changes you make (like setting limits) are having the desired effect.</p>
-            </div>
-          </div>
+          </Reveal>
 
           <SubHeading id="exporting">3.3 Exporting and Analyzing Data</SubHeading>
           <Paragraph>
@@ -443,161 +491,169 @@ export default function DocumentationPage() {
             The JSON backup format is easy to parse. Advanced users can use Python or Excel to build predictive models or correlate screen time with external data.
           </Paragraph>
           <Callout type="info" title="Multi-Device Usage">
-            Scolect doesn't automatically sync, but you can manually export from Device A and Import on Device B using "Merge" mode to see total screen time across devices.
+            Scolect doesn&apos;t automatically sync, but you can manually export from Device A and Import on Device B using &quot;Merge&quot; mode to see total screen time across devices.
           </Callout>
 
           {/* SECTION 4: TIPS */}
           <SectionHeading id="tips">4. Tips & Best Practices</SectionHeading>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#14B8A6]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#14B8A6]/30 group">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
-                <CheckCircle2 className="text-[#14B8A6] group-hover:scale-110 transition-transform duration-300" size={20} /> Accurate Scores
-              </h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>Be Honest:</strong> Don't mark everything as productive. If your score is always 95%, it's meaningless.</p>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Context Matters:</strong> YouTube can be educational or a time sink. Classify based on your actual habits.</p>
-            </div>
+          <Reveal>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#14B8A6]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#14B8A6]/30 group">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
+                  <CheckCircle2 className="text-[#14B8A6] group-hover:scale-110 transition-transform duration-300" size={20} /> Accurate Scores
+                </h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>Be Honest:</strong> Don&apos;t mark everything as productive. If your score is always 95%, it&apos;s meaningless.</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Context Matters:</strong> YouTube can be educational or a time sink. Classify based on your actual habits.</p>
+              </div>
 
-            <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#7C3AED]/30 group">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
-                <Clock className="text-[#7C3AED] group-hover:scale-110 transition-transform duration-300" size={20} /> Effective Focus
-              </h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>Start Small:</strong> Begin with 25-minute sessions. Build the habit before attempting 60-minute blocks.</p>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Honor Breaks:</strong> Skipping breaks defeats the purpose. Breaks allow your brain to consolidate learning.</p>
-            </div>
+              <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#7C3AED]/30 group">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
+                  <Clock className="text-[#7C3AED] group-hover:scale-110 transition-transform duration-300" size={20} /> Effective Focus
+                </h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>Start Small:</strong> Begin with 25-minute sessions. Build the habit before attempting 60-minute blocks.</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Honor Breaks:</strong> Skipping breaks defeats the purpose. Breaks allow your brain to consolidate learning.</p>
+              </div>
 
-            <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#F59E0B]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#F59E0B]/30 group">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
-                <Bell className="text-[#F59E0B] group-hover:scale-110 transition-transform duration-300" size={20} /> Realistic Limits
-              </h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>Start High:</strong> Set limits higher than current usage, then lower incrementally.</p>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Weekend Flexibility:</strong> Don't feel bad if you exceed limits on weekends—just track and observe the pattern.</p>
-            </div>
+              <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#F59E0B]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#F59E0B]/30 group">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
+                  <Bell className="text-[#F59E0B] group-hover:scale-110 transition-transform duration-300" size={20} /> Realistic Limits
+                </h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>Start High:</strong> Set limits higher than current usage, then lower incrementally.</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Weekend Flexibility:</strong> Don&apos;t feel bad if you exceed limits on weekends—just track and observe the pattern.</p>
+              </div>
 
-            <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#F43F5E]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#F43F5E]/30 group">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
-                <Zap className="text-[#F43F5E] group-hover:scale-110 transition-transform duration-300" size={20} /> Avoid Burnout
-              </h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>High Score ≠ Better:</strong> 85% with healthy breaks is better than 98% with no downtime.</p>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Digital Detox:</strong> One evening per week, aim for zero screen time. Use Scolect to verify.</p>
+              <div className="p-6 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-[#F43F5E]/10 transition-all duration-500 hover:-translate-y-2 hover:border-[#F43F5E]/30 group">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] flex items-center gap-2 mb-3">
+                  <Zap className="text-[#F43F5E] group-hover:scale-110 transition-transform duration-300" size={20} /> Avoid Burnout
+                </h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-2"><strong>High Score ≠ Better:</strong> 85% with healthy breaks is better than 98% with no downtime.</p>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]"><strong>Digital Detox:</strong> One evening per week, aim for zero screen time. Use Scolect to verify.</p>
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* SECTION 5: TROUBLESHOOTING */}
           <SectionHeading id="troubleshooting">5. Troubleshooting</SectionHeading>
 
-          <div className="space-y-6">
-            <div className="border-l-4 border-[#F43F5E] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">"Data not showing / Database not opening" Error</h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">Causes: Database corruption, permission issues, or file lock conflicts.</p>
-              <div className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                <p className="font-semibold mb-1">Solutions:</p>
-                <ol className="list-decimal pl-5 space-y-1">
-                  <li>Try <strong>Settings → Data → Clear Data</strong></li>
-                  <li>Manual File Deletion: Go to your Documents folder, locate the Scolect data folder, and delete the database files and <CodeSnippet>.lock</CodeSnippet> file.</li>
-                  <li>Restart Scolect.</li>
-                </ol>
+          <Reveal>
+            <div className="space-y-6">
+              <div className="border-l-4 border-[#F43F5E] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">&quot;Data not showing / Database not opening&quot; Error</h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1 mb-2">Causes: Database corruption, permission issues, or file lock conflicts.</p>
+                <div className="text-sm text-[#52525B] dark:text-[#A1A1AA]">
+                  <p className="font-semibold mb-1">Solutions:</p>
+                  <ol className="list-decimal pl-5 space-y-1">
+                    <li>Try <strong>Settings → Data → Clear Data</strong></li>
+                    <li>Manual File Deletion: Go to your Documents folder, locate the Scolect data folder, and delete the database files and <CodeSnippet>.lock</CodeSnippet> file.</li>
+                    <li>Restart Scolect.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div className="border-l-4 border-[#F59E0B] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">&quot;App opens on every startup&quot;</h4>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1">
+                  <strong>Workaround:</strong> Enable &quot;Launch as Minimized&quot; in Settings → General. This makes Scolect launch to the system tray instead of opening a window.
+                </p>
+              </div>
+
+              <div className="border-l-4 border-[#7C3AED] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Tracking Isn&apos;t Working</h4>
+                <div className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-2">
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li><strong>Check Permissions:</strong> Ensure your operating system hasn&apos;t revoked monitoring permissions. On macOS, check System Preferences → Security & Privacy → Privacy → Accessibility.</li>
+                    <li><strong>Restart App:</strong> Sometimes resolves hook issues.</li>
+                    <li><strong>Check Settings:</strong> Ensure specific app has &quot;Track Usage&quot; enabled.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="border-l-4 border-[#14B8A6] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Notifications Not Appearing</h4>
+                <div className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-2">
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Check <strong>Master Toggle</strong> in Settings.</li>
+                    <li>Check your <strong>System Notification Settings</strong> (Windows Settings, macOS System Preferences, or Linux notification daemon).</li>
+                    <li><strong>Focus Mode Conflict:</strong> If Focus Mode is active, screen time alerts are suppressed by design.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="border-l-4 border-[#A1A1AA] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
+                <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Installation Failing</h4>
+                <div className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-2">
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Ensure your operating system is up to date.</li>
+                    <li>Check that you have sufficient disk space.</li>
+                    <li>Disable VPN temporarily during installation.</li>
+                    <li>On macOS, you may need to allow the app in System Preferences → Security & Privacy.</li>
+                  </ul>
+                </div>
               </div>
             </div>
-
-            <div className="border-l-4 border-[#F59E0B] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">"App opens on every startup"</h4>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-1">
-                <strong>Workaround:</strong> Enable "Launch as Minimized" in Settings → General. This makes Scolect launch to the system tray instead of opening a window.
-              </p>
-            </div>
-
-            <div className="border-l-4 border-[#7C3AED] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Tracking Isn't Working</h4>
-              <div className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-2">
-                <ul className="list-disc pl-5 space-y-1">
-                  <li><strong>Check Permissions:</strong> Ensure your operating system hasn't revoked monitoring permissions. On macOS, check System Preferences → Security & Privacy → Privacy → Accessibility.</li>
-                  <li><strong>Restart App:</strong> Sometimes resolves hook issues.</li>
-                  <li><strong>Check Settings:</strong> Ensure specific app has "Track Usage" enabled.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="border-l-4 border-[#14B8A6] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Notifications Not Appearing</h4>
-              <div className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-2">
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Check <strong>Master Toggle</strong> in Settings.</li>
-                  <li>Check your <strong>System Notification Settings</strong> (Windows Settings, macOS System Preferences, or Linux notification daemon).</li>
-                  <li><strong>Focus Mode Conflict:</strong> If Focus Mode is active, screen time alerts are suppressed by design.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="border-l-4 border-[#A1A1AA] pl-4 hover:pl-6 transition-all duration-300 hover:border-l-[6px]">
-              <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA]">Installation Failing</h4>
-              <div className="text-sm text-[#52525B] dark:text-[#A1A1AA] mt-2">
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Ensure your operating system is up to date.</li>
-                  <li>Check that you have sufficient disk space.</li>
-                  <li>Disable VPN temporarily during installation.</li>
-                  <li>On macOS, you may need to allow the app in System Preferences → Security & Privacy.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          </Reveal>
 
           {/* SECTION 6: FAQ */}
           <SectionHeading id="faq">6. FAQ</SectionHeading>
-          <div className="space-y-4">
-            <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
-                <span>Does Scolect work when I'm not actively using it?</span>
-                <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
-              </summary>
-              <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
-                No. Scolect tracks only when an application is in the foreground (active). If your computer is idle or locked, tracking pauses.
-              </div>
-            </details>
+          <Reveal>
+            <div className="space-y-4">
+              <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
+                <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
+                  <span>Does Scolect work when I&apos;m not actively using it?</span>
+                  <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
+                </summary>
+                <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
+                  No. Scolect tracks only when an application is in the foreground (active). If your computer is idle or locked, tracking pauses.
+                </div>
+              </details>
 
-            <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
-                <span>Can I see screen time for a specific app on a specific day?</span>
-                <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
-              </summary>
-              <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
-                Yes! Go to Reports, set the date to that specific day, then find the app in the Detailed Application Usage table.
-              </div>
-            </details>
+              <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
+                <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
+                  <span>Can I see screen time for a specific app on a specific day?</span>
+                  <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
+                </summary>
+                <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
+                  Yes! Go to Reports, set the date to that specific day, then find the app in the Detailed Application Usage table.
+                </div>
+              </details>
 
-            <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
-                <span>What happens if I close Scolect?</span>
-                <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
-              </summary>
-              <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
-                Tracking stops. For continuous tracking, leave Scolect running in the background (it minimizes to system tray on Windows/Linux or menu bar on macOS).
-              </div>
-            </details>
+              <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
+                <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
+                  <span>What happens if I close Scolect?</span>
+                  <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
+                </summary>
+                <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
+                  Tracking stops. For continuous tracking, leave Scolect running in the background (it minimizes to system tray on Windows/Linux or menu bar on macOS).
+                </div>
+              </details>
 
-            <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
-                <span>Does Scolect drain battery on laptops?</span>
-                <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
-              </summary>
-              <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
-                No. Scolect is optimized for minimal battery impact, using less than 1% CPU on average.
-              </div>
-            </details>
-          </div>
-
-          <div className="mt-12 p-8 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 text-center shadow-xl hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:scale-[1.02]">
-            <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4 flex items-center justify-center gap-2">
-              <HelpCircle size={20} className="animate-pulse" style={{ animationDuration: '3s' }} /> Need More Help?
-            </h3>
-            <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-[#7C3AED] dark:text-[#8B5CF6]">
-              <a href="/contact" className="hover:underline hover:scale-110 transition-transform duration-200">Contact Support</a>
-              <span className="text-zinc-300 dark:text-zinc-700">•</span>
-              <a href="/report-bug" className="hover:underline hover:scale-110 transition-transform duration-200">Report a Bug</a>
-              <span className="text-zinc-300 dark:text-zinc-700">•</span>
-              <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" className="hover:underline hover:scale-110 transition-transform duration-200">GitHub Issues</a>
+              <details className="group p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-[#7C3AED]/30 transition-all duration-300">
+                <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-[#18181B] dark:text-[#FAFAFA] hover:text-[#7C3AED] dark:hover:text-[#8B5CF6]">
+                  <span>Does Scolect drain battery on laptops?</span>
+                  <span className="transition-transform group-open:rotate-90 duration-300"><ChevronRight size={16} /></span>
+                </summary>
+                <div className="text-[#52525B] dark:text-[#A1A1AA] mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 animate-fadeIn">
+                  No. Scolect is optimized for minimal battery impact, using less than 1% CPU on average.
+                </div>
+              </details>
             </div>
-          </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-12 p-8 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 text-center shadow-xl hover:shadow-2xl hover:shadow-[#7C3AED]/10 transition-all duration-500 hover:scale-[1.02]">
+              <h3 className="text-lg font-bold text-[#18181B] dark:text-[#FAFAFA] mb-4 flex items-center justify-center gap-2">
+                <HelpCircle size={20} className="animate-pulse" style={{ animationDuration: '3s' }} /> Need More Help?
+              </h3>
+              <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-[#7C3AED] dark:text-[#8B5CF6]">
+                <a href="/contact" className="hover:underline hover:scale-110 transition-transform duration-200">Contact Support</a>
+                <span className="text-zinc-300 dark:text-zinc-700">•</span>
+                <a href="/report-bug" className="hover:underline hover:scale-110 transition-transform duration-200">Report a Bug</a>
+                <span className="text-zinc-300 dark:text-zinc-700">•</span>
+                <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" className="hover:underline hover:scale-110 transition-transform duration-200">GitHub Issues</a>
+              </div>
+            </div>
+          </Reveal>
 
         </main>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ReactNode } from 'react';
 import { 
   Code2, 
   PenTool, 
@@ -24,6 +24,64 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
+
+// --- Scroll-triggered animation hook ---
+const useInView = (options?: IntersectionObserverInit) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1, ...options });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
+const Reveal = ({ 
+  children, 
+  className = "", 
+  delay = 0, 
+  direction = "up",
+  id
+}: { 
+  children: ReactNode, 
+  className?: string, 
+  delay?: number, 
+  direction?: "up" | "left" | "right" | "none",
+  id?: string 
+}) => {
+  const { ref, isInView } = useInView();
+
+  const translateMap = {
+    up: "translateY(24px)",
+    left: "translateX(-24px)",
+    right: "translateX(24px)",
+    none: "translateY(0)",
+  };
+
+  return (
+    <div
+      ref={ref}
+      id={id}
+      className={className}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translate(0)" : translateMap[direction],
+        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 // Floating Orb Component
 const FloatingOrb = ({ className }: { className?: string }) => (
@@ -71,7 +129,7 @@ const AnimatedCounter = ({ end, suffix = "" }: { end: number; suffix?: string })
 };
 
 const SectionHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-  <div className="mb-16 text-center">
+  <Reveal className="mb-16 text-center">
     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#7C3AED]/10 to-[#14B8A6]/10 border border-[#7C3AED]/20 mb-4">
       <Sparkles size={14} className="text-[#7C3AED]" />
       <span className="text-xs font-semibold text-[#7C3AED] uppercase tracking-wider">Section</span>
@@ -84,37 +142,38 @@ const SectionHeader = ({ title, subtitle }: { title: string, subtitle?: string }
         {subtitle}
       </p>
     )}
-  </div>
+  </Reveal>
 );
 
 const BenefitCard = ({ icon: Icon, title, items, index }: { icon: any, title: string, items: string[], index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (
-    <div 
-      className="group relative bg-white dark:bg-zinc-900/80 backdrop-blur-sm p-8 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 hover:border-[#7C3AED]/60 transition-all duration-500 h-full overflow-hidden"
-      style={{ animationDelay: `${index * 100}ms` }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className={`absolute inset-0 bg-gradient-to-br from-[#7C3AED]/5 via-transparent to-[#14B8A6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-      <div className={`absolute -top-20 -right-20 w-40 h-40 bg-[#7C3AED]/20 rounded-full blur-3xl transition-all duration-500 ${isHovered ? 'opacity-100 scale-150' : 'opacity-0 scale-100'}`} />
-      
-      <div className="relative z-10">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#8B5CF6] flex items-center justify-center text-white mb-6 shadow-lg shadow-[#7C3AED]/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-          <Icon size={26} />
+    <Reveal delay={index * 80}>
+      <div 
+        className="group relative bg-white dark:bg-zinc-900/80 backdrop-blur-sm p-8 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 hover:border-[#7C3AED]/60 transition-all duration-500 h-full overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className={`absolute inset-0 bg-gradient-to-br from-[#7C3AED]/5 via-transparent to-[#14B8A6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+        <div className={`absolute -top-20 -right-20 w-40 h-40 bg-[#7C3AED]/20 rounded-full blur-3xl transition-all duration-500 ${isHovered ? 'opacity-100 scale-150' : 'opacity-0 scale-100'}`} />
+        
+        <div className="relative z-10">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#8B5CF6] flex items-center justify-center text-white mb-6 shadow-lg shadow-[#7C3AED]/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+            <Icon size={26} />
+          </div>
+          <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-5 group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">{title}</h3>
+          <ul className="space-y-3">
+            {items.map((item, idx) => (
+              <li key={idx} className="flex items-start gap-3 text-sm text-[#52525B] dark:text-[#A1A1AA] group-hover:text-[#3F3F46] dark:group-hover:text-[#D4D4D8] transition-colors">
+                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#14B8A6] shrink-0 group-hover:scale-150 transition-transform" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
-        <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-5 group-hover:text-[#7C3AED] dark:group-hover:text-[#8B5CF6] transition-colors">{title}</h3>
-        <ul className="space-y-3">
-          {items.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-3 text-sm text-[#52525B] dark:text-[#A1A1AA] group-hover:text-[#3F3F46] dark:group-hover:text-[#D4D4D8] transition-colors">
-              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#14B8A6] shrink-0 group-hover:scale-150 transition-transform" />
-              {item}
-            </li>
-          ))}
-        </ul>
       </div>
-    </div>
+    </Reveal>
   );
 };
 
@@ -133,49 +192,51 @@ const ContributionSection = ({
   gettingStarted: React.ReactNode, 
   extraContent?: React.ReactNode 
 }) => (
-  <div className="group relative bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-[2rem] border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden mb-12 scroll-mt-24 hover:border-[#7C3AED]/40 transition-all duration-500 shadow-xl shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-[#7C3AED]/10" id={title.toLowerCase().replace(/\s/g, '-')}>
-    <div className="absolute inset-0 rounded-[2rem] p-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    
-    <div className="relative p-8 md:p-10 border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950/80 dark:via-zinc-900/50 dark:to-zinc-950/80">
-      <div className="flex items-center gap-5 mb-3">
-        <div className="p-3 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-          <Icon size={28} />
+  <Reveal className="mb-12 scroll-mt-24" id={title.toLowerCase().replace(/\s/g, '-')}>
+    <div className="group relative bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-[2rem] border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden hover:border-[#7C3AED]/40 transition-all duration-500 shadow-xl shadow-zinc-200/50 dark:shadow-zinc-900/50 hover:shadow-[#7C3AED]/10">
+      <div className="absolute inset-0 rounded-[2rem] p-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      <div className="relative p-8 md:p-10 border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950/80 dark:via-zinc-900/50 dark:to-zinc-950/80">
+        <div className="flex items-center gap-5 mb-3">
+          <div className="p-3 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+            <Icon size={28} />
+          </div>
+          <h3 className="text-2xl md:text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA]">{title}</h3>
         </div>
-        <h3 className="text-2xl md:text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA]">{title}</h3>
+        <p className="text-lg text-[#7C3AED] dark:text-[#8B5CF6] font-medium ml-[72px]">{headline}</p>
       </div>
-      <p className="text-lg text-[#7C3AED] dark:text-[#8B5CF6] font-medium ml-[72px]">{headline}</p>
-    </div>
-    
-    <div className="p-8 md:p-10 grid lg:grid-cols-2 gap-12">
-      <div>
-        <h4 className="text-sm font-bold uppercase tracking-wider text-[#18181B] dark:text-[#FAFAFA] mb-6 border-l-4 border-gradient-to-b from-[#14B8A6] to-[#0D9488] pl-4 flex items-center gap-2" style={{ borderColor: '#14B8A6' }}>
-          <span className="w-2 h-2 rounded-full bg-[#14B8A6] animate-pulse" />
-          What You Can Do
-        </h4>
-        <ul className="space-y-4">
-          {whatToDo.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-4 text-[#52525B] dark:text-[#A1A1AA] group/item hover:text-[#18181B] dark:hover:text-[#FAFAFA] transition-colors">
-              <div className="mt-0.5 p-1 rounded-lg bg-[#14B8A6]/10 group-hover/item:bg-[#14B8A6]/20 transition-colors">
-                <CheckCircle2 size={16} className="text-[#14B8A6]" />
-              </div>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-        {extraContent}
-      </div>
+      
+      <div className="p-8 md:p-10 grid lg:grid-cols-2 gap-12">
+        <div>
+          <h4 className="text-sm font-bold uppercase tracking-wider text-[#18181B] dark:text-[#FAFAFA] mb-6 border-l-4 border-gradient-to-b from-[#14B8A6] to-[#0D9488] pl-4 flex items-center gap-2" style={{ borderColor: '#14B8A6' }}>
+            <span className="w-2 h-2 rounded-full bg-[#14B8A6] animate-pulse" />
+            What You Can Do
+          </h4>
+          <ul className="space-y-4">
+            {whatToDo.map((item, idx) => (
+              <li key={idx} className="flex items-start gap-4 text-[#52525B] dark:text-[#A1A1AA] group/item hover:text-[#18181B] dark:hover:text-[#FAFAFA] transition-colors">
+                <div className="mt-0.5 p-1 rounded-lg bg-[#14B8A6]/10 group-hover/item:bg-[#14B8A6]/20 transition-colors">
+                  <CheckCircle2 size={16} className="text-[#14B8A6]" />
+                </div>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          {extraContent}
+        </div>
 
-      <div>
-        <h4 className="text-sm font-bold uppercase tracking-wider text-[#18181B] dark:text-[#FAFAFA] mb-6 border-l-4 pl-4 flex items-center gap-2" style={{ borderColor: '#7C3AED' }}>
-          <span className="w-2 h-2 rounded-full bg-[#7C3AED] animate-pulse" />
-          Getting Started
-        </h4>
-        <div className="text-[#52525B] dark:text-[#A1A1AA] space-y-4">
-          {gettingStarted}
+        <div>
+          <h4 className="text-sm font-bold uppercase tracking-wider text-[#18181B] dark:text-[#FAFAFA] mb-6 border-l-4 pl-4 flex items-center gap-2" style={{ borderColor: '#7C3AED' }}>
+            <span className="w-2 h-2 rounded-full bg-[#7C3AED] animate-pulse" />
+            Getting Started
+          </h4>
+          <div className="text-[#52525B] dark:text-[#A1A1AA] space-y-4">
+            {gettingStarted}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </Reveal>
 );
 
 const CodeBlock = ({ children }: { children: React.ReactNode }) => (
@@ -190,37 +251,9 @@ const CodeBlock = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function CommunityPage() {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#09090B] font-sans selection:bg-[#7C3AED]/20 selection:text-[#7C3AED] overflow-x-hidden">
       <style jsx global>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(3deg);
-          }
-        }
-        
         @keyframes shimmer {
           0% {
             background-position: -200% 0;
@@ -229,7 +262,12 @@ export default function CommunityPage() {
             background-position: 200% 0;
           }
         }
-        
+
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
         @keyframes pulse-glow {
           0%, 100% {
             box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
@@ -237,20 +275,6 @@ export default function CommunityPage() {
           50% {
             box-shadow: 0 0 40px rgba(124, 58, 237, 0.6);
           }
-        }
-        
-        @keyframes gradient-shift {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
         }
 
         .shimmer-text {
@@ -267,12 +291,6 @@ export default function CommunityPage() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           animation: shimmer 3s linear infinite;
-        }
-        
-        .gradient-bg {
-          background: linear-gradient(-45deg, #7C3AED, #8B5CF6, #6D28D9, #7C3AED);
-          background-size: 400% 400%;
-          animation: gradient-shift 8s ease infinite;
         }
 
         .animate-gradient {
@@ -292,56 +310,49 @@ export default function CommunityPage() {
       
       <Navbar/>
       
-      {/* HERO SECTION - Matching About Page Style */}
+      {/* HERO SECTION */}
       <div className="relative pt-32 pb-32 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
-        {/* Background Effects */}
         <FloatingOrb className="w-[600px] h-[600px] bg-violet-400 -top-64 -right-64 animate-pulse" />
         <FloatingOrb className="w-[400px] h-[400px] bg-indigo-400 -bottom-32 -left-32 animate-pulse" />
         <FloatingOrb className="w-[300px] h-[300px] bg-purple-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         
-        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
         
         <div className="max-w-4xl mx-auto relative z-10">
-          <div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8"
-            style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}
-          >
-            <Users size={14} className="animate-pulse" />
-            Open Source Community
-          </div>
+          <Reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8">
+              <Users size={14} className="animate-pulse" />
+              Open Source Community
+            </div>
+          </Reveal>
           
-          <h1 
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}
-          >
-            Join the <span className="shimmer-text">Scolect</span> Community
-          </h1>
+          <Reveal delay={100}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8">
+              Join the <span className="shimmer-text">Scolect</span> Community
+            </h1>
+          </Reveal>
           
-          <p 
-            className="text-xl md:text-2xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.2s forwards', opacity: 0 }}
-          >
-            Scolect is built by people like you. Whether you code, design, write, or simply have ideas, there's a way to contribute.
-          </p>
+          <Reveal delay={200}>
+            <p className="text-xl md:text-2xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12">
+              Scolect is built by people like you. Whether you code, design, write, or simply have ideas, there&apos;s a way to contribute.
+            </p>
+          </Reveal>
 
-          {/* CTA Buttons */}
-          <div 
-            className="flex flex-wrap justify-center gap-4"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.4s forwards', opacity: 0 }}
-          >
-            <a href="#1.-code-contributions" className="group relative px-8 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white rounded-2xl font-bold shadow-xl shadow-violet-500/30 hover:shadow-violet-500/50 transition-all duration-300 overflow-hidden">
-              <span className="relative z-10 flex items-center gap-2">
-                Start Contributing
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-            <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp" target="_blank" className="group px-8 py-4 bg-white dark:bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-200 dark:border-zinc-800 text-[#18181B] dark:text-[#FAFAFA] rounded-2xl font-bold hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-300 flex items-center gap-3 shadow-lg">
-              <Github size={20} className="group-hover:rotate-12 transition-transform" />
-              GitHub Repo
-            </a>
-          </div>
+          <Reveal delay={300}>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a href="#1.-code-contributions" className="group relative px-8 py-4 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white rounded-2xl font-bold shadow-xl shadow-violet-500/30 hover:shadow-violet-500/50 transition-all duration-300 overflow-hidden">
+                <span className="relative z-10 flex items-center gap-2">
+                  Start Contributing
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp" target="_blank" className="group px-8 py-4 bg-white dark:bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-200 dark:border-zinc-800 text-[#18181B] dark:text-[#FAFAFA] rounded-2xl font-bold hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-300 flex items-center gap-3 shadow-lg">
+                <Github size={20} className="group-hover:rotate-12 transition-transform" />
+                GitHub Repo
+              </a>
+            </div>
+          </Reveal>
         </div>
       </div>
 
@@ -600,15 +611,15 @@ export default function CommunityPage() {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED]" />
-                    "How I Doubled My Productive Time"
+                    &quot;How I Doubled My Productive Time&quot;
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
-                    "Privacy-Friendly Screen Time Tracking Review"
+                    &quot;Privacy-Friendly Screen Time Tracking Review&quot;
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6]" />
-                    "5 Focus Mode Tips"
+                    &quot;5 Focus Mode Tips&quot;
                   </li>
                 </ul>
               </div>
@@ -622,104 +633,125 @@ export default function CommunityPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-[#F59E0B]/10 to-[#7C3AED]/10 blur-[150px] rounded-full z-0" />
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-[#F59E0B]/20 to-[#F59E0B]/5 text-[#F59E0B] mb-8 shadow-lg shadow-[#F59E0B]/20 animate-pulse-glow">
-            <Star size={40} />
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#18181B] via-[#F59E0B] to-[#18181B] dark:from-[#FAFAFA] dark:via-[#F59E0B] dark:to-[#FAFAFA] bg-clip-text text-transparent mb-8 bg-[length:200%_auto] animate-gradient">We Appreciate Every Contribution</h2>
-          <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-12 max-w-2xl mx-auto">
-            All contributors are recognized in our <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg text-[#7C3AED]">CONTRIBUTORS.md</code> file on GitHub. Your contributions—no matter how small—make Scolect better for everyone.
-          </p>
-          
-          <div className="bg-white dark:bg-zinc-900/80 backdrop-blur-sm p-10 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-zinc-900/50">
-            <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-8 flex items-center justify-center gap-3">
-              <Sparkles size={20} className="text-[#F59E0B]" />
-              Hall of Fame
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="group flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 mb-4 ring-4 ring-white dark:ring-zinc-900 shadow-lg group-hover:scale-110 transition-transform" />
-                  <div className="h-4 w-24 bg-zinc-200 dark:bg-zinc-800 rounded-full mb-2" />
-                  <div className="h-3 w-16 bg-zinc-100 dark:bg-zinc-800/50 rounded-full" />
-                </div>
-              ))}
+          <Reveal>
+            <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-[#F59E0B]/20 to-[#F59E0B]/5 text-[#F59E0B] mb-8 shadow-lg shadow-[#F59E0B]/20 animate-pulse-glow">
+              <Star size={40} />
             </div>
-            <p className="mt-10 text-sm font-semibold bg-gradient-to-r from-[#7C3AED] to-[#F59E0B] bg-clip-text text-transparent">
-              Want to be featured? Start contributing today!
+          </Reveal>
+          
+          <Reveal delay={100}>
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#18181B] via-[#F59E0B] to-[#18181B] dark:from-[#FAFAFA] dark:via-[#F59E0B] dark:to-[#FAFAFA] bg-clip-text text-transparent mb-8 bg-[length:200%_auto] animate-gradient">We Appreciate Every Contribution</h2>
+          </Reveal>
+          
+          <Reveal delay={200}>
+            <p className="text-lg text-[#52525B] dark:text-[#A1A1AA] mb-12 max-w-2xl mx-auto">
+              All contributors are recognized in our <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg text-[#7C3AED]">CONTRIBUTORS.md</code> file on GitHub. Your contributions—no matter how small—make Scolect better for everyone.
             </p>
-          </div>
+          </Reveal>
+          
+          <Reveal delay={300}>
+            <div className="bg-white dark:bg-zinc-900/80 backdrop-blur-sm p-10 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-zinc-900/50">
+              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-8 flex items-center justify-center gap-3">
+                <Sparkles size={20} className="text-[#F59E0B]" />
+                Hall of Fame
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="group flex flex-col items-center">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 mb-4 ring-4 ring-white dark:ring-zinc-900 shadow-lg group-hover:scale-110 transition-transform" />
+                    <div className="h-4 w-24 bg-zinc-200 dark:bg-zinc-800 rounded-full mb-2" />
+                    <div className="h-3 w-16 bg-zinc-100 dark:bg-zinc-800/50 rounded-full" />
+                  </div>
+                ))}
+              </div>
+              <p className="mt-10 text-sm font-semibold bg-gradient-to-r from-[#7C3AED] to-[#F59E0B] bg-clip-text text-transparent">
+                Want to be featured? Start contributing today!
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* CODE OF CONDUCT */}
       <section className="py-24 px-6 bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-950 dark:to-zinc-900/50 border-y border-zinc-200 dark:border-zinc-800">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-5 mb-10">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-[#18181B] to-zinc-700 dark:from-[#FAFAFA] dark:to-zinc-300 shadow-lg">
-              <ShieldCheck size={32} className="text-white dark:text-zinc-900" />
+          <Reveal>
+            <div className="flex items-center gap-5 mb-10">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-[#18181B] to-zinc-700 dark:from-[#FAFAFA] dark:to-zinc-300 shadow-lg">
+                <ShieldCheck size={32} className="text-white dark:text-zinc-900" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#18181B] dark:text-[#FAFAFA]">Code of Conduct</h2>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#18181B] dark:text-[#FAFAFA]">Code of Conduct</h2>
-          </div>
+          </Reveal>
           
           <div className="prose dark:prose-invert max-w-none text-[#52525B] dark:text-[#A1A1AA]">
-            <p className="mb-8 text-lg leading-relaxed">
-              Scolect is committed to providing a welcoming and inclusive environment for everyone, regardless of experience level, gender identity, sexual orientation, disability, physical appearance, race, age, religion, or nationality.
-            </p>
+            <Reveal delay={100}>
+              <p className="mb-8 text-lg leading-relaxed">
+                Scolect is committed to providing a welcoming and inclusive environment for everyone, regardless of experience level, gender identity, sexual orientation, disability, physical appearance, race, age, religion, or nationality.
+              </p>
+            </Reveal>
             
             <div className="grid md:grid-cols-2 gap-8 my-10">
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50/50 dark:from-green-900/20 dark:to-emerald-900/10 p-8 rounded-2xl border border-green-200/80 dark:border-green-900/30 shadow-lg shadow-green-100/50 dark:shadow-green-900/20">
-                <h4 className="font-bold text-green-700 dark:text-green-400 mb-5 flex items-center gap-2">
-                  <CheckCircle2 size={20} />
-                  Expected Behavior
-                </h4>
-                <ul className="space-y-3 text-sm text-green-800 dark:text-green-300">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    Be respectful and considerate
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    Use welcoming language
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    Accept constructive criticism
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    Show empathy toward others
-                  </li>
-                </ul>
-              </div>
+              <Reveal direction="left" delay={150}>
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50/50 dark:from-green-900/20 dark:to-emerald-900/10 p-8 rounded-2xl border border-green-200/80 dark:border-green-900/30 shadow-lg shadow-green-100/50 dark:shadow-green-900/20 h-full">
+                  <h4 className="font-bold text-green-700 dark:text-green-400 mb-5 flex items-center gap-2">
+                    <CheckCircle2 size={20} />
+                    Expected Behavior
+                  </h4>
+                  <ul className="space-y-3 text-sm text-green-800 dark:text-green-300">
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      Be respectful and considerate
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      Use welcoming language
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      Accept constructive criticism
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      Show empathy toward others
+                    </li>
+                  </ul>
+                </div>
+              </Reveal>
               
-              <div className="bg-gradient-to-br from-red-50 to-rose-50/50 dark:from-red-900/20 dark:to-rose-900/10 p-8 rounded-2xl border border-red-200/80 dark:border-red-900/30 shadow-lg shadow-red-100/50 dark:shadow-red-900/20">
-                <h4 className="font-bold text-red-700 dark:text-red-400 mb-5 flex items-center gap-2">
-                  <ShieldCheck size={20} />
-                  Unacceptable Behavior
-                </h4>
-                <ul className="space-y-3 text-sm text-red-800 dark:text-red-300">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    Harassment or discrimination
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    Trolling or insulting comments
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    Personal or political attacks
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    Unwelcome sexual attention
-                  </li>
-                </ul>
-              </div>
+              <Reveal direction="right" delay={150}>
+                <div className="bg-gradient-to-br from-red-50 to-rose-50/50 dark:from-red-900/20 dark:to-rose-900/10 p-8 rounded-2xl border border-red-200/80 dark:border-red-900/30 shadow-lg shadow-red-100/50 dark:shadow-red-900/20 h-full">
+                  <h4 className="font-bold text-red-700 dark:text-red-400 mb-5 flex items-center gap-2">
+                    <ShieldCheck size={20} />
+                    Unacceptable Behavior
+                  </h4>
+                  <ul className="space-y-3 text-sm text-red-800 dark:text-red-300">
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      Harassment or discrimination
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      Trolling or insulting comments
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      Personal or political attacks
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      Unwelcome sexual attention
+                    </li>
+                  </ul>
+                </div>
+              </Reveal>
             </div>
-            <p className="text-sm italic bg-zinc-100 dark:bg-zinc-800/50 px-6 py-4 rounded-xl border border-zinc-200 dark:border-zinc-700">
-              Violations can be reported to support@scolect.com. We take all reports seriously.
-            </p>
+            
+            <Reveal delay={200}>
+              <p className="text-sm italic bg-zinc-100 dark:bg-zinc-800/50 px-6 py-4 rounded-xl border border-zinc-200 dark:border-zinc-700">
+                Violations can be reported to support@scolect.com. We take all reports seriously.
+              </p>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -728,89 +760,101 @@ export default function CommunityPage() {
       <section className="py-24 px-6 bg-gradient-to-b from-[#FAFAFA] to-white dark:from-[#09090B] dark:to-zinc-950">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20">
           {/* Quick Start Guide */}
-          <div>
-            <h2 className="text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-10 flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] text-white">
-                <ArrowRight size={24} />
-              </div>
-              Your First Contribution
-            </h2>
-            <div className="space-y-1">
-              {[
-                { step: 1, title: "Create GitHub Account", desc: "It's free and essential for open source.", active: true },
-                { step: 2, title: "Find an Issue", desc: "Look for good first issue or documentation labels." },
-                { step: 3, title: "Make Changes", desc: "Fork repo, create branch, edit code/docs." },
-                { step: 4, title: "Pull Request", desc: "Submit your work and celebrate when merged!" },
-              ].map((item, idx) => (
-                <div key={idx} className="relative pl-10 pb-8 last:pb-0">
-                  <div className={`absolute left-0 top-0 bottom-0 w-px ${idx === 3 ? '' : 'bg-gradient-to-b from-[#7C3AED] to-zinc-200 dark:to-zinc-800'}`} />
-                  <div className={`absolute -left-[10px] top-0 w-5 h-5 rounded-full ring-4 ring-[#FAFAFA] dark:ring-[#09090B] ${item.active ? 'bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] shadow-lg shadow-[#7C3AED]/30' : 'bg-zinc-300 dark:bg-zinc-700'}`} />
-                  <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Step {item.step}: {item.title}</h4>
-                  <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">{item.desc}</p>
+          <Reveal direction="left">
+            <div>
+              <h2 className="text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-10 flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] text-white">
+                  <ArrowRight size={24} />
                 </div>
-              ))}
+                Your First Contribution
+              </h2>
+              <div className="space-y-1">
+                {[
+                  { step: 1, title: "Create GitHub Account", desc: "It's free and essential for open source.", active: true },
+                  { step: 2, title: "Find an Issue", desc: "Look for good first issue or documentation labels." },
+                  { step: 3, title: "Make Changes", desc: "Fork repo, create branch, edit code/docs." },
+                  { step: 4, title: "Pull Request", desc: "Submit your work and celebrate when merged!" },
+                ].map((item, idx) => (
+                  <div key={idx} className="relative pl-10 pb-8 last:pb-0">
+                    <div className={`absolute left-0 top-0 bottom-0 w-px ${idx === 3 ? '' : 'bg-gradient-to-b from-[#7C3AED] to-zinc-200 dark:to-zinc-800'}`} />
+                    <div className={`absolute -left-[10px] top-0 w-5 h-5 rounded-full ring-4 ring-[#FAFAFA] dark:ring-[#09090B] ${item.active ? 'bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] shadow-lg shadow-[#7C3AED]/30' : 'bg-zinc-300 dark:bg-zinc-700'}`} />
+                    <h4 className="font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">Step {item.step}: {item.title}</h4>
+                    <p className="text-sm text-[#52525B] dark:text-[#A1A1AA]">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Resources */}
-          <div>
-            <h2 className="text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-10 flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] text-white">
-                <Book size={24} />
+          <Reveal direction="right" delay={150}>
+            <div>
+              <h2 className="text-3xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-10 flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] text-white">
+                  <Book size={24} />
+                </div>
+                Resources
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  { title: "Flutter Docs", external: true, link:"https://docs.flutter.dev/" },
+                  { title: "Dart Language Tour", external: true, link:"https://dart.dev/overview" },
+                ].map((item, idx) => (
+                  <a key={idx} href={item.link} className="group p-5 bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 flex items-center justify-between">
+                    <span className="text-[#18181B] dark:text-[#FAFAFA] font-medium group-hover:text-[#7C3AED] transition-colors">{item.title}</span>
+                    {item.external ? (
+                      <ExternalLink size={18} className="text-zinc-400 group-hover:text-[#7C3AED] group-hover:scale-110 transition-all" />
+                    ) : (
+                      <ArrowRight size={18} className="text-zinc-400 group-hover:text-[#7C3AED] group-hover:translate-x-1 transition-all" />
+                    )}
+                  </a>
+                ))}
               </div>
-              Resources
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                { title: "Flutter Docs", external: true, link:"https://docs.flutter.dev/" },
-                { title: "Dart Language Tour", external: true, link:"https://dart.dev/overview" },
-              ].map((item, idx) => (
-                <a key={idx} href={item.link} className="group p-5 bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-[#7C3AED] hover:shadow-lg hover:shadow-[#7C3AED]/10 transition-all duration-300 flex items-center justify-between">
-                  <span className="text-[#18181B] dark:text-[#FAFAFA] font-medium group-hover:text-[#7C3AED] transition-colors">{item.title}</span>
-                  {item.external ? (
-                    <ExternalLink size={18} className="text-zinc-400 group-hover:text-[#7C3AED] group-hover:scale-110 transition-all" />
-                  ) : (
-                    <ArrowRight size={18} className="text-zinc-400 group-hover:text-[#7C3AED] group-hover:translate-x-1 transition-all" />
-                  )}
-                </a>
-              ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* FINAL CTA */}
       <section className="relative py-32 px-6 text-center bg-gradient-to-br from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 text-zinc-900 dark:text-white overflow-hidden">
-        {/* Animated background */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#7C3AED]/20 dark:bg-[#7C3AED]/30 rounded-full blur-[150px] animate-pulse" />
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#14B8A6]/15 dark:bg-[#14B8A6]/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
         
-        {/* Grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
         
         <div className="max-w-3xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/5 dark:bg-white/5 border border-zinc-900/10 dark:border-white/10 backdrop-blur-sm mb-8">
-            <Heart size={16} className="text-[#7C3AED]" />
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">Every contribution matters</span>
-          </div>
+          <Reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/5 dark:bg-white/5 border border-zinc-900/10 dark:border-white/10 backdrop-blur-sm mb-8">
+              <Heart size={16} className="text-[#7C3AED]" />
+              <span className="text-sm text-zinc-600 dark:text-zinc-400">Every contribution matters</span>
+            </div>
+          </Reveal>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-zinc-900 via-[#8B5CF6] to-zinc-900 dark:from-white dark:via-[#8B5CF6] dark:to-white bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
-            Ready to Make an Impact?
-          </h2>
-          <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
-            Whether you contribute code, fix a typo, or report a bug—every contribution matters. Start small, learn as you go, and become part of the Scolect community.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-5">
-            <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" target='_blank' className="group relative px-10 py-5 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl shadow-violet-500/20 dark:shadow-violet-900/40 overflow-hidden">
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Browse Open Issues
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </span>
-              <div className="absolute inset-0 animate-shimmer" />
-            </a>
-          </div>
+          <Reveal delay={100}>
+            <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-zinc-900 via-[#8B5CF6] to-zinc-900 dark:from-white dark:via-[#8B5CF6] dark:to-white bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+              Ready to Make an Impact?
+            </h2>
+          </Reveal>
+          
+          <Reveal delay={200}>
+            <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+              Whether you contribute code, fix a typo, or report a bug—every contribution matters. Start small, learn as you go, and become part of the Scolect community.
+            </p>
+          </Reveal>
+          
+          <Reveal delay={300}>
+            <div className="flex flex-col sm:flex-row justify-center gap-5">
+              <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" target='_blank' className="group relative px-10 py-5 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl shadow-violet-500/20 dark:shadow-violet-900/40 overflow-hidden">
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Browse Open Issues
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 animate-shimmer" />
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
       

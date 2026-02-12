@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Download, 
   Shield, 
@@ -16,7 +16,9 @@ import {
   HelpCircle,
   Apple,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  X,
+  ExternalLink
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -25,6 +27,7 @@ import { releases } from '../changelog-data';
 
 const DownloadPage: React.FC = () => {
   const router = useRouter();
+  const [showMacDialog, setShowMacDialog] = useState(false);
   
   // Get the latest release data
   const latestRelease = releases.find(r => r.isLatest) || releases[0];
@@ -42,10 +45,128 @@ const DownloadPage: React.FC = () => {
     ...(latestRelease.fixes || []).slice(0, 2)
   ].slice(0, 3);
 
+  const handleMacDownload = () => {
+    const { macLink, appleStore } = latestRelease;
+
+    if (macLink && appleStore) {
+      // Both links present — show dialog
+      setShowMacDialog(true);
+    } else if (appleStore && !macLink) {
+      // Only Apple Store link — go directly
+      window.open(appleStore, '_blank', 'noopener,noreferrer');
+    } else if (macLink && !appleStore) {
+      // Only direct download link — go directly
+      window.open(macLink, '_blank', 'noopener,noreferrer');
+    } else {
+      // Fallback to GitHub releases
+      window.open('https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases', '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const handleWindowsDownload = () => {
+    const { windowsLink } = latestRelease;
+    if (windowsLink) {
+      window.open(windowsLink, '_blank', 'noopener,noreferrer');
+    } else {
+      window.open('https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA', '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
-    // Theme Wrapper - In a real app, these variables would be in global.css
+    // Theme Wrapper
     <div className="font-sans antialiased text-[var(--text-main)] bg-[var(--bg-page)] min-h-screen selection:bg-[var(--primary)] selection:text-white overflow-x-hidden">
         <Navbar/>
+
+      {/* macOS Download Dialog */}
+      {showMacDialog && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]"
+            onClick={() => setShowMacDialog(false)}
+          />
+          
+          {/* Dialog */}
+          <div className="relative bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-8 max-w-md w-full shadow-[0_25px_80px_rgba(0,0,0,0.4)] animate-[fadeInUp_0.3s_ease-out] z-10">
+            {/* Close button */}
+            <button 
+              onClick={() => setShowMacDialog(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-[var(--bg-page)] text-[var(--text-muted)] hover:text-[var(--text-main)] transition-all duration-300"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--primary)] to-fuchsia-500 flex items-center justify-center shadow-lg">
+                <Apple className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg text-[var(--text-main)]">Download for macOS</h3>
+                <p className="text-xs text-[var(--text-muted)]">Version {versionNumber}</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-[var(--text-muted)] mb-6 mt-4">
+              Choose your preferred download method:
+            </p>
+
+            {/* Options */}
+            <div className="space-y-3">
+              {/* App Store Option */}
+              {latestRelease.appleStore && (
+                <button
+                  onClick={() => {
+                    window.open(latestRelease.appleStore, '_blank', 'noopener,noreferrer');
+                    setShowMacDialog(false);
+                  }}
+                  className="group relative w-full flex items-center gap-4 p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)] hover:border-[var(--primary)] hover:shadow-[0_10px_40px_rgba(124,58,237,0.2)] transition-all duration-500 hover:-translate-y-0.5 overflow-hidden text-left"
+                >
+                  {/* Hover gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/0 to-fuchsia-500/0 group-hover:from-[var(--primary)]/5 group-hover:to-fuchsia-500/5 transition-all duration-500 rounded-xl" />
+                  
+                  <div className="relative z-10 w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
+                    <Apple className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="relative z-10 flex-1">
+                    <h4 className="font-semibold text-[var(--text-main)] group-hover:text-[var(--primary)] transition-colors duration-300">Mac App Store</h4>
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5">Recommended • Auto-updates included</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--primary)] relative z-10 group-hover:translate-x-1 transition-all duration-300" />
+                </button>
+              )}
+
+              {/* Direct Download Option */}
+              {latestRelease.macLink && (
+                <button
+                  onClick={() => {
+                    window.open(latestRelease.macLink, '_blank', 'noopener,noreferrer');
+                    setShowMacDialog(false);
+                  }}
+                  className="group relative w-full flex items-center gap-4 p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)] hover:border-[var(--primary)] hover:shadow-[0_10px_40px_rgba(124,58,237,0.2)] transition-all duration-500 hover:-translate-y-0.5 overflow-hidden text-left"
+                >
+                  {/* Hover gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/0 to-fuchsia-500/0 group-hover:from-[var(--primary)]/5 group-hover:to-fuchsia-500/5 transition-all duration-500 rounded-xl" />
+                  
+                  <div className="relative z-10 w-10 h-10 rounded-lg bg-gradient-to-br from-zinc-600 to-zinc-700 dark:from-zinc-500 dark:to-zinc-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
+                    <Download className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="relative z-10 flex-1">
+                    <h4 className="font-semibold text-[var(--text-main)] group-hover:text-[var(--primary)] transition-colors duration-300">Direct Download</h4>
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5">DMG installer • Manual updates</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--primary)] relative z-10 group-hover:translate-x-1 transition-all duration-300" />
+                </button>
+              )}
+            </div>
+
+            {/* Footer note */}
+            <p className="text-xs text-[var(--text-muted)] mt-5 text-center">
+              Both options provide the same version of Scolect.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="relative pt-36 pb-16 px-6 text-center max-w-5xl mx-auto">
@@ -71,7 +192,7 @@ const DownloadPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-[fadeInUp_0.6s_ease-out_0.4s_both]">
             {/* Windows Download */}
             <button 
-              onClick={() => router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")}
+              onClick={handleWindowsDownload}
               className="group relative flex items-center gap-3 bg-gradient-to-r from-[var(--primary)] via-fuchsia-600 to-[var(--primary)] bg-[length:200%_auto] hover:bg-[var(--primary-hover)] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-500 shadow-[0_10px_40px_rgba(124,58,237,0.4)] hover:shadow-[0_20px_60px_rgba(124,58,237,0.6)] hover:-translate-y-2 hover:scale-[1.05] overflow-hidden animate-[gradientShift_3s_ease-in-out_infinite]"
             >
               {/* Animated gradient overlay */}
@@ -88,7 +209,7 @@ const DownloadPage: React.FC = () => {
 
             {/* macOS Download */}
             <button 
-              onClick={() => router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases")}
+              onClick={handleMacDownload}
               className="group relative flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--text-main)] px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-500 shadow-lg hover:shadow-[0_20px_60px_rgba(124,58,237,0.3)] hover:-translate-y-2 hover:scale-[1.05] overflow-hidden"
             >
               {/* Animated gradient overlay */}
@@ -404,7 +525,7 @@ const DownloadPage: React.FC = () => {
             <p className="text-sm text-[var(--text-muted)] mb-6 relative z-10">
               Prefer manual installation? You can download release builds directly from GitHub. This requires manual updates.
             </p>
-            <button onClick={() => router.push('https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases')} className="relative flex items-center justify-center gap-2 w-full border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--bg-page)] hover:border-[var(--primary)] text-[var(--text-main)] py-3 rounded-lg font-medium transition-all duration-500 group/btn hover:scale-[1.02] hover:shadow-lg overflow-hidden z-10">
+            <button onClick={() => window.open('https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases', '_blank', 'noopener,noreferrer')} className="relative flex items-center justify-center gap-2 w-full border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--bg-page)] hover:border-[var(--primary)] text-[var(--text-main)] py-3 rounded-lg font-medium transition-all duration-500 group/btn hover:scale-[1.02] hover:shadow-lg overflow-hidden z-10">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--primary)]/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
               <Github className="w-5 h-5 group-hover/btn:rotate-12 transition-transform duration-500 relative z-10" />
               <span className="relative z-10">View GitHub Releases</span>
@@ -479,7 +600,7 @@ const DownloadPage: React.FC = () => {
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-[fadeInUp_0.6s_ease-out_0.4s_both]">
               <button 
-                onClick={() => router.push("https://apps.microsoft.com/detail/9phbzxnpvhsq?hl=en-US&gl=CA")} 
+                onClick={handleWindowsDownload} 
                 className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--primary)] via-fuchsia-600 to-cyan-600 hover:from-[var(--primary-hover)] hover:via-fuchsia-700 hover:to-cyan-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-500 hover:shadow-[0_20px_50px_rgba(124,58,237,0.4)] hover:-translate-y-1 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -490,7 +611,7 @@ const DownloadPage: React.FC = () => {
               </button>
               
               <button 
-                onClick={() => router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases")} 
+                onClick={handleMacDownload} 
                 className="group inline-flex items-center justify-center gap-2 bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--text-main)] px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-500 hover:shadow-[0_20px_50px_rgba(124,58,237,0.2)] hover:-translate-y-1 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--primary)]/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
