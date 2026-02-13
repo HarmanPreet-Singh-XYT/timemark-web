@@ -591,7 +591,7 @@ export default function AboutPage() {
                   />
                   <div className="min-w-0">
                     <Link 
-                      href={"https://www.linkedin.com/in/harman-developer/"}
+                      href={"https://harmanita.com"}
                       className="group"
                     >
                       <div className="font-bold text-[#18181B] dark:text-[#FAFAFA] group-hover:text-[#7C3AED] dark:group-hover:text-[#A78BFA] transition-colors duration-300 flex items-center gap-1">
