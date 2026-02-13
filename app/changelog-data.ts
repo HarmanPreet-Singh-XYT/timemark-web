@@ -20,9 +20,21 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "v2.0.2",
+    date: "February 12, 2026",
+    isLatest: true,
+    features: [
+      "Fixes certain issue with idle detection causing app to crash on Windows - monitoring",
+      "Option added for toggling keyboard input monitoring.",
+      "add rebranding model back for windows"
+    ],
+    macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.2/Scolect.-.Track.Screen.Time.App.Usage.dmg",
+    note: "Monitoring if crashes still occur. Report to bugs@scolect.com or through report bugs page if you face app crash and you know how to reproduce that same crash."
+  },
+  {
     version: "v2.0.0",
     date: "February 10, 2026",
-    isLatest: true,
+    isLatest: false,
     features: [
       "Rebranded and restructured the application (TimeMark → Scolect)",
       "Native macOS support with deep OS-level integration",
