@@ -20,9 +20,20 @@ export interface Release {
 
 export const releases: Release[] = [
   {
-    version: "v2.0.3",
+    version: "v2.0.4",
     date: "February 14, 2026",
     isLatest: true,
+    features: [
+      "Includes optimizations related to local database access (read/write).",
+      "algorithms are implemented to reduce memory overhead, basically not loading all the data onto the memory.",
+      "Keeping some data on the memory for instant access (5MB max)."
+    ],
+    macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.4/Scolect.-.Track.Screen.Time.App.Usage.dmg",
+  },
+  {
+    version: "v2.0.3",
+    date: "February 14, 2026",
+    isLatest: false,
     features: [
       "Fixed tracking toggle in Applications triggering tracking to be stopped.",
       "Improved UX for Applications section.",
