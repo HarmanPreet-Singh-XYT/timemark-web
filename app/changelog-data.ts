@@ -20,9 +20,24 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "v2.0.3",
+    date: "February 14, 2026",
+    isLatest: true,
+    features: [
+      "Fixed tracking toggle in Applications triggering tracking to be stopped.",
+      "Improved UX for Applications section.",
+      "Fixed large app name not being stored.",
+      "App now tracks itself too.",
+      "Optimized data storage.",
+      "App now shows latest data immediately on UI.",
+      "Fixed unnecessary UI updates in background."
+    ],
+    macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.3/Scolect.-.Track.Screen.Time.App.Usage.dmg",
+  },
+  {
     version: "v2.0.2",
     date: "February 12, 2026",
-    isLatest: true,
+    isLatest: false,
     features: [
       "Fixes certain issue with idle detection causing app to crash on Windows - monitoring",
       "Option added for toggling keyboard input monitoring.",
