@@ -1,21 +1,21 @@
 'use client';
 
 import React, { useState, useEffect, useRef, ReactNode } from 'react';
-import { 
-  Shield, 
-  Code2, 
-  Globe2, 
-  BrainCircuit, 
-  Users2, 
-  Database, 
-  Monitor, 
-  Layers, 
-  CheckCircle2, 
-  XCircle, 
-  Heart, 
-  Mail, 
-  Github, 
-  Twitter, 
+import {
+  Shield,
+  Code2,
+  Globe2,
+  BrainCircuit,
+  Users2,
+  Database,
+  Monitor,
+  Layers,
+  CheckCircle2,
+  XCircle,
+  Heart,
+  Mail,
+  Github,
+  Twitter,
   MessageSquare,
   Download,
   ArrowRight,
@@ -50,16 +50,16 @@ const useInView = (options?: IntersectionObserverInit) => {
 };
 
 // --- Animated wrapper for scroll reveal ---
-const Reveal = ({ 
-  children, 
-  className = "", 
-  delay = 0, 
-  direction = "up" 
-}: { 
-  children: ReactNode, 
-  className?: string, 
-  delay?: number, 
-  direction?: "up" | "left" | "right" | "none" 
+const Reveal = ({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up"
+}: {
+  children: ReactNode,
+  className?: string,
+  delay?: number,
+  direction?: "up" | "left" | "right" | "none"
 }) => {
   const { ref, isInView } = useInView();
 
@@ -160,11 +160,11 @@ const ValueCard = ({ icon: Icon, title, children, index }: { icon: any, title: s
   <Reveal delay={index * 80}>
     <div className="group relative h-full bg-white dark:bg-zinc-900/80 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:shadow-violet-500/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden backdrop-blur-sm">
       <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      
+
       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
         <div className="absolute inset-[-1px] rounded-2xl bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 opacity-20" />
       </div>
-      
+
       <div className="relative z-10">
         <div className="p-4 bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] w-fit rounded-2xl text-white mb-6 shadow-lg shadow-violet-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
           <Icon size={28} />
@@ -190,8 +190,8 @@ const RoadmapColumn = ({ title, items, statusColor, icon: Icon, index }: { title
     </div>
     <ul className="space-y-3">
       {items.map((item, idx) => (
-        <li 
-          key={idx} 
+        <li
+          key={idx}
           className="group bg-white dark:bg-zinc-900/80 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-sm text-[#52525B] dark:text-[#A1A1AA] hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-lg hover:shadow-violet-500/5 transition-all duration-300 hover:-translate-x-1 cursor-default"
         >
           <div className="flex items-center gap-3">
@@ -208,10 +208,10 @@ const TimelineItem = ({ year, title, children, index }: { year: string, title: s
   <Reveal delay={index * 80} className="relative pl-8 md:pl-0 md:grid md:grid-cols-5 md:gap-10 pb-16 last:pb-0 group">
     {/* Timeline Line */}
     <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-violet-500 via-purple-500 to-zinc-200 dark:to-zinc-800 md:left-[20%]"></div>
-    
+
     {/* Timeline Dot */}
     <div className="absolute left-[-6px] top-1 w-3 h-3 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] md:left-[calc(20%-6px)] ring-4 ring-white dark:ring-[#09090B] shadow-lg shadow-violet-500/50 group-hover:scale-150 transition-transform duration-300"></div>
-    
+
     <div className="md:col-span-1 md:text-right mb-2 md:mb-0">
       <span className="inline-block px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-sm font-bold text-[#7C3AED] dark:text-[#8B5CF6]">{year}</span>
     </div>
@@ -233,10 +233,10 @@ const TechCard = ({ icon: Icon, title, description, index }: { icon: any, title:
   </Reveal>
 );
 
-const ContactCard = ({ icon: Icon, title, subtitle, index, link="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" }: { icon: any, title: string, subtitle: string, index: number, link?: string }) => (
+const ContactCard = ({ icon: Icon, title, subtitle, index, link = "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues" }: { icon: any, title: string, subtitle: string, index: number, link?: string }) => (
   <Reveal delay={index * 80}>
-    <a 
-      href={link} 
+    <a
+      href={link}
       className="group block p-6 text-center rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 hover:border-violet-300 dark:hover:border-violet-700 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-2"
     >
       <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-violet-500 group-hover:to-purple-600 transition-all duration-300">
@@ -287,17 +287,17 @@ export default function AboutPage() {
           animation: shimmer 3s linear infinite;
         }
       `}</style>
-      
-      <Navbar/>
-      
+
+      <Navbar />
+
       {/* HERO SECTION */}
       <div className="relative pt-32 pb-12 px-6 text-center border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
         <FloatingOrb className="w-[600px] h-[600px] bg-violet-400 -top-64 -right-64 animate-pulse" />
         <FloatingOrb className="w-[400px] h-[400px] bg-indigo-400 -bottom-32 -left-32 animate-pulse" />
         <FloatingOrb className="w-[300px] h-[300px] bg-purple-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        
+
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
-        
+
         <div className="max-w-4xl mx-auto relative z-10">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8">
@@ -305,13 +305,13 @@ export default function AboutPage() {
               Built with passion, for the community
             </div>
           </Reveal>
-          
+
           <Reveal delay={100}>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#18181B] dark:text-[#FAFAFA] mb-8">
               About <span className="shimmer-text">Scolect</span>
             </h1>
           </Reveal>
-          
+
           <Reveal delay={200}>
             <p className="text-xl md:text-2xl text-[#52525B] dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed mb-12">
               A free, open-source productivity tool built by the community, for the community.
@@ -323,7 +323,7 @@ export default function AboutPage() {
       {/* MISSION & WHY */}
       <SectionWrapper className="bg-[#FAFAFA] dark:bg-[#09090B] relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
-        
+
         <div className="grid lg:grid-cols-2 gap-16">
           <Reveal direction="left">
             <div className="relative">
@@ -382,22 +382,22 @@ export default function AboutPage() {
       <SectionWrapper className="bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
         <FloatingOrb className="w-[500px] h-[500px] bg-violet-400/50 -top-64 -right-64" />
         <FloatingOrb className="w-[300px] h-[300px] bg-purple-400/50 -bottom-32 -left-32" />
-        
+
         <div className="relative z-10">
-          <SectionHeader 
-            title="Our Values" 
+          <SectionHeader
+            title="Our Values"
             subtitle="The principles that guide every line of code we write."
             badge="What We Stand For"
-            center 
+            center
           />
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ValueCard icon={Shield} title="Privacy is Non-Negotiable" index={0}>
               <p>Your usage data reveals intimate details about your life. That&apos;s why Scolect stores everything locally on your device.</p>
               <ul className="text-sm space-y-2 mt-4">
                 {["No cloud servers", "No data collection", "No telemetry"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50">
-                    <XCircle size={16} className="text-[#F43F5E] flex-shrink-0"/> 
+                    <XCircle size={16} className="text-[#F43F5E] flex-shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -410,7 +410,7 @@ export default function AboutPage() {
               <ul className="text-sm space-y-2 mt-4">
                 {["Anyone can audit the code", "Community owned"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-2 rounded-lg bg-teal-50 dark:bg-teal-900/20 border border-teal-100 dark:border-teal-900/50">
-                    <CheckCircle2 size={16} className="text-[#14B8A6] flex-shrink-0"/> 
+                    <CheckCircle2 size={16} className="text-[#14B8A6] flex-shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -423,7 +423,7 @@ export default function AboutPage() {
               <ul className="text-sm space-y-2 mt-4">
                 {["No premium tiers", "No feature restrictions"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50">
-                    <XCircle size={16} className="text-[#F43F5E] flex-shrink-0"/> 
+                    <XCircle size={16} className="text-[#F43F5E] flex-shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -453,34 +453,34 @@ export default function AboutPage() {
 
       {/* TECH STACK */}
       <SectionWrapper className="bg-[#FAFAFA] dark:bg-[#09090B]">
-        <SectionHeader 
-          title="Built with Modern Tech" 
+        <SectionHeader
+          title="Built with Modern Tech"
           subtitle="Carefully chosen technologies prioritizing performance and reliability."
           badge="Under the Hood"
         />
-        
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <TechCard 
-            icon={Layers} 
-            title="Flutter" 
+          <TechCard
+            icon={Layers}
+            title="Flutter"
             description="Google's UI toolkit for beautiful, native interfaces with high performance."
             index={0}
           />
-          <TechCard 
-            icon={Code2} 
-            title="Dart" 
+          <TechCard
+            icon={Code2}
+            title="Dart"
             description="Modern, type-safe language optimized for UI development and stability."
             index={1}
           />
-          <TechCard 
-            icon={Database} 
-            title="Hive DB" 
+          <TechCard
+            icon={Database}
+            title="Hive DB"
             description="Lightning-fast, local NoSQL database. No servers, complete privacy."
             index={2}
           />
-          <TechCard 
-            icon={Monitor} 
-            title="Native APIs" 
+          <TechCard
+            icon={Monitor}
+            title="Native APIs"
             description="Direct platform integration for accurate, low-impact foreground tracking."
             index={3}
           />
@@ -491,39 +491,39 @@ export default function AboutPage() {
       <SectionWrapper className="bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
         <FloatingOrb className="w-[400px] h-[400px] bg-teal-400/30 -top-32 -left-32" />
         <FloatingOrb className="w-[300px] h-[300px] bg-amber-400/30 -bottom-32 -right-32" />
-        
+
         <div className="relative z-10">
-          <SectionHeader 
-            title="Development Roadmap" 
+          <SectionHeader
+            title="Development Roadmap"
             subtitle="Scolect is actively developed. Here's where we're going."
             badge="What's Next"
-            center 
+            center
           />
-          
+
           <div className="flex flex-col lg:flex-row gap-8 mt-12">
-            <RoadmapColumn 
-              title="Recently Completed" 
+            <RoadmapColumn
+              title="Recently Completed"
               statusColor="border-[#14B8A6]"
               icon={CheckCircle2}
               items={["Backup & Restore", "Multi-language Support (10+)", "Enhanced App Details Modal", "Performance Optimizations"]}
               index={0}
             />
-            <RoadmapColumn 
-              title="In Progress" 
+            <RoadmapColumn
+              title="In Progress"
               statusColor="border-[#7C3AED]"
               icon={Zap}
               items={["Distraction Blocking (Focus Mode)", "Do Not Disturb Scheduling", "Weekly Email Reports (Local)", "CSV Export"]}
               index={1}
             />
-            <RoadmapColumn 
-              title="Planned" 
+            <RoadmapColumn
+              title="Planned"
               statusColor="border-[#F59E0B]"
               icon={Star}
               items={["Weekday vs. Weekend Limits", "Application Tags", "Linux Support (Alpha)", "Goal System"]}
               index={2}
             />
-            <RoadmapColumn 
-              title="Future Vision" 
+            <RoadmapColumn
+              title="Future Vision"
               statusColor="border-[#52525B]"
               icon={Sparkles}
               items={["Browser Extension Integration", "Mobile Companion App", "AI-Powered Insights", "Correlation Analysis"]}
@@ -536,12 +536,12 @@ export default function AboutPage() {
       {/* OUR STORY */}
       <SectionWrapper className="bg-[#FAFAFA] dark:bg-[#09090B]">
         <div className="max-w-3xl mx-auto">
-          <SectionHeader 
-            title="Our Story" 
+          <SectionHeader
+            title="Our Story"
             subtitle="From personal project to global tool."
             badge="The Journey"
           />
-          
+
           <div className="mt-12">
             <TimelineItem year="Early 2025" title="The Beginning" index={0}>
               Started building Scolect to solve a personal problem: understanding how I spent my computer time without compromising privacy.
@@ -567,11 +567,11 @@ export default function AboutPage() {
 
       {/* THE TEAM & CONTRIBUTORS */}
       <SectionWrapper className="bg-white dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800">
-        <SectionHeader 
-          title="The Team" 
+        <SectionHeader
+          title="The Team"
           subtitle="Built by developer for community."
           badge="Our People"
-          center 
+          center
         />
         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           <Reveal direction="left">
@@ -584,13 +584,13 @@ export default function AboutPage() {
               </h3>
               <div className="space-y-6">
                 <div className="flex gap-4 items-center p-4 rounded-xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-                  <img 
-                    src="https://media.licdn.com/dms/image/v2/D5603AQFKSFtNR11urQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1727085171286?e=1771459200&v=beta&t=dVwCEGly6oMPpayjIF2VqJFFqVwuB-qDOX2YsiiY_5A" 
+                  <img
+                    src="/about_logo.jpeg"
                     alt="Harmanpreet Singh"
                     className="w-14 h-14 rounded-full object-cover shadow-lg shadow-violet-500/30 flex-shrink-0"
                   />
                   <div className="min-w-0">
-                    <Link 
+                    <Link
                       href={"https://harmanita.com"}
                       className="group"
                     >
@@ -608,7 +608,7 @@ export default function AboutPage() {
               </div>
             </div>
           </Reveal>
-          
+
           <Reveal direction="right" delay={150}>
             <div className="p-8 rounded-2xl bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-zinc-900/50 border border-rose-200 dark:border-rose-900/50 h-full">
               <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-6 flex items-center gap-3">
@@ -625,7 +625,7 @@ export default function AboutPage() {
                 ].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-3 rounded-xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-violet-300 dark:hover:border-violet-700 transition-colors duration-300">
                     <div className="w-10 h-10 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center flex-shrink-0">
-                      <item.icon size={18} className="text-[#7C3AED]"/>
+                      <item.icon size={18} className="text-[#7C3AED]" />
                     </div>
                     <span className="text-[#52525B] dark:text-[#A1A1AA] text-sm">{item.text}</span>
                   </li>
@@ -654,7 +654,7 @@ export default function AboutPage() {
               <ul className="space-y-3 mb-6">
                 {["No accounts required", "No analytics tracking", "No cloud sync"].map((item, idx) => (
                   <li key={idx} className="flex gap-3 items-center p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50">
-                    <XCircle size={18} className="text-[#F43F5E]"/> 
+                    <XCircle size={18} className="text-[#F43F5E]" />
                     <span className="text-[#52525B] dark:text-[#A1A1AA]">{item}</span>
                   </li>
                 ))}
@@ -708,9 +708,9 @@ export default function AboutPage() {
       {/* FINAL CTA */}
       <section className="relative py-32 px-6 text-center bg-gradient-to-b from-[#FAFAFA] to-white dark:from-[#09090B] dark:to-zinc-900 overflow-hidden">
         <FloatingOrb className="w-[500px] h-[500px] bg-violet-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        
+
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
-        
+
         <div className="max-w-3xl mx-auto relative z-10">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-8">
@@ -718,34 +718,34 @@ export default function AboutPage() {
               Start Your Journey
             </div>
           </Reveal>
-          
+
           <Reveal delay={100}>
             <h2 className="text-4xl md:text-5xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-8">
               Ready to Take Control of Your <span className="shimmer-text">Digital Life</span>?
             </h2>
           </Reveal>
-          
+
           <Reveal delay={200}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <button onClick={()=>router.push("/download")} className="group flex items-center justify-center gap-3 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/40 transition-all duration-300 hover:-translate-y-1">
+              <button onClick={() => router.push("/download")} className="group flex items-center justify-center gap-3 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/40 transition-all duration-300 hover:-translate-y-1">
                 <Download size={20} className="group-hover:animate-bounce" /> Download Scolect
               </button>
-              <button onClick={()=>router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp")} className="group flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] text-[#18181B] dark:text-[#FAFAFA] font-bold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
+              <button onClick={() => router.push("https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp")} className="group flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 hover:border-[#7C3AED] dark:hover:border-[#8B5CF6] text-[#18181B] dark:text-[#FAFAFA] font-bold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:-translate-y-1">
                 <Github size={20} /> View on GitHub
               </button>
             </div>
           </Reveal>
-          
+
           <Reveal delay={300}>
             <div className="flex flex-wrap justify-center gap-4">
               {[
                 "100% Free",
-                "Privacy First", 
+                "Privacy First",
                 "Open Source",
                 "No Account Required"
               ].map((item, idx) => (
                 <span key={idx} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-sm text-[#52525B] dark:text-[#A1A1AA]">
-                  <CheckCircle2 size={14} className="text-[#14B8A6]"/> {item}
+                  <CheckCircle2 size={14} className="text-[#14B8A6]" /> {item}
                 </span>
               ))}
             </div>
@@ -766,8 +766,8 @@ export default function AboutPage() {
           </div>
         </Reveal>
       </div>
-      
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }

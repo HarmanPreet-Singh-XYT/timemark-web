@@ -6,8 +6,12 @@ import { Analytics } from "@vercel/analytics/next"
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://scolect.com'),
   title: "Scolect - Take Control of Your Digital Life",
   description: "Free, open-source screen time tracker for Windows.",
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function RootLayout({
