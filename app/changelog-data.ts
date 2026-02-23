@@ -20,9 +20,26 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+  version: "v2.0.6",
+  date: "February 22, 2026",
+  isLatest: true,
+  improvements: [
+    "In-depth detail dialog of app report now shows more insights with updated graph visualization.",
+    "Optimized tracking engine to account for OS states such as sleep mode, screen off, and inactive states.",
+    "Focus Mode now automatically refreshes the UI when a session completes."
+  ],
+  tech: [
+    "OS state-aware tracking optimization (sleep, screen off handling)",
+    "Enhanced analytics graph rendering pipeline",
+    "Improved Focus Mode state management and UI synchronization"
+  ],
+  size: 21.8,
+  macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.6/Scolect.-.Track.Screen.Time.App.Usage.dmg",
+},
+  {
     version: "v2.0.5",
     date: "February 15, 2026",
-    isLatest: true,
+    isLatest: false,
     improvements: [
       "Improved Windows tracking to resolve and display actual system application names.",
       "Enhanced UWP app name detection for more accurate reporting."
