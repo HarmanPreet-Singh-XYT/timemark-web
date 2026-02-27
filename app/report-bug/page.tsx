@@ -523,20 +523,22 @@ export default function ReportBugPage() {
           
           <div className="grid md:grid-cols-3 gap-6">
             {/* GitHub */}
-            <div className="p-8 bg-white dark:bg-zinc-900 rounded-2xl border-2 border-[#18181B] dark:border-zinc-700 relative overflow-hidden group hover:shadow-2xl hover:shadow-zinc-900/20 dark:hover:shadow-white/5 transition-all duration-500 hover:-translate-y-2 animate-slide-up" style={{ animationDelay: '0ms' }}>
-              <div className="absolute top-0 right-0 bg-gradient-to-l from-[#18181B] to-zinc-800 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl flex items-center gap-1">
-                <Sparkles size={12} /> Public Tracking
+            <a href="https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/issues">
+              <div className="p-8 bg-white dark:bg-zinc-900 rounded-2xl border-2 border-[#18181B] dark:border-zinc-700 relative overflow-hidden group hover:shadow-2xl hover:shadow-zinc-900/20 dark:hover:shadow-white/5 transition-all duration-500 hover:-translate-y-2 animate-slide-up" style={{ animationDelay: '0ms' }}>
+                <div className="absolute top-0 right-0 bg-gradient-to-l from-[#18181B] to-zinc-800 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl flex items-center gap-1">
+                  <Sparkles size={12} /> Public Tracking
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-zinc-100/50 dark:to-zinc-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Github size={48} className="text-[#18181B] dark:text-[#FAFAFA] mb-6 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">GitHub Issues</h3>
+                <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
+                  Public tracking, community support, and transparent resolution.
+                </p>
+                <p className="inline-flex items-center gap-2 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:gap-4 transition-all duration-300 group/link">
+                  Report on GitHub <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+                </p>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-zinc-100/50 dark:to-zinc-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Github size={48} className="text-[#18181B] dark:text-[#FAFAFA] mb-6 group-hover:scale-110 transition-transform duration-300" />
-              <h3 className="text-xl font-bold text-[#18181B] dark:text-[#FAFAFA] mb-2">GitHub Issues</h3>
-              <p className="text-sm text-[#52525B] dark:text-[#A1A1AA] mb-6">
-                Public tracking, community support, and transparent resolution.
-              </p>
-              <a href="https://github.com/scolect/issues" className="inline-flex items-center gap-2 font-bold text-[#18181B] dark:text-[#FAFAFA] hover:gap-4 transition-all duration-300 group/link">
-                Report on GitHub <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
-              </a>
-            </div>
+            </a>
 
             {/* Email */}
             <a href="mailto:bugs@scolect.com">
