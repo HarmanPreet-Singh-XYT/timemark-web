@@ -20,9 +20,54 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "v2.0.9",
+    date: "March 2, 2026",
+    isLatest: true,
+    improvements: [
+      "General optimizations for performance and UI handling.",
+      "Enabled auto update for distributions outside official stores.",
+      "Audio, Keyboard, and Mouse monitoring enabled by default.",
+      "HID and Controller monitoring disabled by default to reduce overhead."
+    ],
+    tech: [
+      "Auto-update system activation for non-store builds",
+      "Default monitoring configuration refactor",
+      "Performance and UI optimization pass"
+    ],
+    size: 22.7,
+    macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.9/Scolect.-.Track.Screen.Time.App.Usage.dmg"
+  },
+  {
+    version: "v2.0.8",
+    date: "February 27, 2026",
+    improvements: [
+      "Disabled advanced idle tracking parameters by default to prevent unnecessary resource usage.",
+      "Added migration logic for existing users."
+    ],
+    tech: [
+      "Idle detection configuration refactor",
+      "Resource optimization for background monitoring",
+      "Migration handling for tracking parameter changes"
+    ]
+  },
+  {
+    version: "v2.0.7",
+    date: "February 24, 2026",
+    improvements: [
+      "Optimized Idle Detection handling on Windows.",
+    ],
+    fixes: [
+      "Fixed Focus Mode crashes related to monitoring engine."
+    ],
+    tech: [
+      "Windows idle detection performance improvements",
+      "Monitoring engine stability fixes"
+    ]
+  },
+  {
   version: "v2.0.6",
   date: "February 22, 2026",
-  isLatest: true,
+  isLatest: false,
   improvements: [
     "In-depth detail dialog of app report now shows more insights with updated graph visualization.",
     "Optimized tracking engine to account for OS states such as sleep mode, screen off, and inactive states.",
