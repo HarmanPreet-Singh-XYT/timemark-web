@@ -20,9 +20,29 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "v2.0.10",
+    date: "March 6, 2026",
+    isLatest: true,
+    fixes: [
+      "Fixed Focus Mode sessions not accumulating correctly and incorrectly continuing previous sessions instead of creating new ones.",
+      "Fixed Session History chart showing monthly data instead of the intended weekly data."
+    ],
+    improvements: [
+      "Improved session lifecycle handling for Focus Mode timers."
+    ],
+    tech: [
+      "Focus Mode session state management fix",
+      "Session history aggregation correction",
+      "Chart data range correction (monthly → weekly)"
+    ],
+    note: "If a previous Focus Mode session was left incomplete, run the Focus Mode timer once so the pending session can be finalized. New sessions will then be created correctly going forward. Fast-forwarding the timer will also complete the pending session.",
+    size: 22.7,
+    macLink: "https://github.com/HarmanPreet-Singh-XYT/Scolect-ScreenTimeApp/releases/download/v2.0.10/Scolect.-.Track.Screen.Time.App.Usage.dmg"
+  },
+  {
     version: "v2.0.9",
     date: "March 2, 2026",
-    isLatest: true,
+    isLatest: false,
     improvements: [
       "General optimizations for performance and UI handling.",
       "Enabled auto update for distributions outside official stores.",
